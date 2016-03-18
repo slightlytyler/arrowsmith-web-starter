@@ -1,0 +1,81 @@
+.share-creator
+  position: relative
+  padding: 0 1em .5em
+  margin-top: 2em
+  color: #147fd7
+  border: 3px solid currentColor
+  border-radius: 2px
+  transition: color .05s ease-in-out, background-color .05s ease-in-out
+
+  &:not(.prompting):not(.complete)
+    cursor: pointer
+
+    &:hover
+      color: white
+      background-color: #147fd7
+
+  &.padded
+    padding: 1em
+
+  &.complete
+    padding-bottom: 0
+
+  &.disabled
+    opacity: .5
+    cursor: default
+    pointer-events: none
+
+  .content
+    &, .container
+      display: flex
+      flex-direction: column
+      justify-content: center
+      align-items: center
+
+      &.horizontal
+        flex-direction: row
+
+    .container:not(.horizontal) > *
+      display: flex
+      justify-content: center
+      align-items: center
+      margin-bottom: 1em
+
+  .link
+    color: #147fd7
+    text-decoration: none
+
+  .share-buttons
+    & > *:not(:last-child)
+      margin-right: 1em
+
+    .facebook
+      transform: translateY(-.1em)
+
+  .icon
+    width: 1em
+    font-size: 1.5em
+
+    &.fire
+      width: 1.5em
+      height: 1.5em
+      transform: translateY(.1em)
+
+    & + &
+      margin-left: .25em
+
+.bernrate
+  position: absolute
+  left: 50%
+  top: 100%
+  margin-top: 1em
+  transform: translateX(-50%)
+  border: none
+  outline: none
+
+  @media (max-width: 1024px)
+    left: -9999
+    top: -9999
+    width: 0
+    height: 0
+    opacity: 0
