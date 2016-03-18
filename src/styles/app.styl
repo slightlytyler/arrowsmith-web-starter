@@ -12,9 +12,6 @@
     background-color: $white
     font-size: .85vw
 
-    @media $mobile
-      font-size: 3vw
-
   body
     margin: 0
 
@@ -26,40 +23,3 @@
     padding: 0
     margin: 0
 
-  .pane
-    border-radius: 4px
-
-    &:not(:last-child)
-      margin-bottom: 2em
-
-    &:not(.flush) > *
-      padding-left: 2rem
-      padding-right: 2rem
-
-      &:first-child
-        padding-top: 2rem
-
-      &:last-child
-        padding-bottom: 2rem
-
-  .hide
-    display: none
-
-  .rd3-chart-title
-    margin-top: 0
-    margin-bottom: 1em
-    font-family: 'Fair Play Display', serif
-    font-weight: bold
-    font-style: italic
-    font-size: 2rem
-    text-align: center
-    color: #147fd7
-
-
-  @media $desktop
-    .mobile-only
-      display: none !important
-
-  @media $mobile
-    .desktop-only
-      display: none !important

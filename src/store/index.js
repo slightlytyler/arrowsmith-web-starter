@@ -1,7 +1,6 @@
 import { applyMiddleware, compose, createStore } from 'redux';
 import thunk from 'redux-thunk';
 import * as storage from 'redux-storage';
-import { reduxReactFirebase } from 'redux-react-firebase';
 import rootReducer from 'reducers';
 
 const reducer = storage.reducer(rootReducer);
@@ -10,49 +9,13 @@ import createEngine from 'redux-storage-engine-localstorage';
 import filter from 'redux-storage-decorator-filter';
 const engine = filter(
   createEngine('bernie-tax-viz'),
-  ['inputs'],
 );
 
-import { UPDATE_INPUTS } from 'reducers/inputs';
 const storageMiddleware = storage.createMiddleware(engine, [
-  UPDATE_INPUTS,
   '@@router/LOCATION_CHANGE',
 ]);
 
 const load = storage.createLoader(engine);
-
-import { customKey, cases, casesById } from 'constants/cases';
-import { updateUserCase } from 'reducers/userCase';
-const loadCase = store => next => action => {
-  const nextState = next(action);
-
-  if (action.type === storage.LOAD) {
-    const {
-      router: {
-        locationBeforeTransitions: {
-          pathname,
-        },
-      },
-      inputs,
-    } = store.getState();
-    const param = pathname.substr(1);
-
-    if (casesById.hasOwnProperty(param)) {
-      if (param !== customKey) {
-        store.dispatch(updateUserCase(param));
-      } else {
-        if (!inputs.custom) {
-          store.dispatch(updateUserCase(customKey));
-        }
-      }
-    } else if (pathname === '/') {
-      store.dispatch(updateUserCase(cases[0]));
-    }
-  }
-
-  return nextState;
-};
-
 
 export default function configureStore(initialState = {}, routerMiddleware) {
   // Compose final middleware and use devtools in debug environment
@@ -60,7 +23,6 @@ export default function configureStore(initialState = {}, routerMiddleware) {
     thunk,
     routerMiddleware,
     storageMiddleware,
-    loadCase,
   );
 
   if (__DEBUG__) {
@@ -78,7 +40,6 @@ export default function configureStore(initialState = {}, routerMiddleware) {
   // Create final store and subscribe router in debug env ie. for devtools
   const store = compose(
     middleware,
-    reduxReactFirebase('bernies-tax-viz.firebaseIO.com'),
   )(createStore)(reducer, initialState);
 
   if (module.hot) {
