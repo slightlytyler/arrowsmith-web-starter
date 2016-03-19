@@ -34,8 +34,19 @@ export const createTodo = text => ({
   },
 });
 
+export const toggleTodo = id => (dispatch, getState) => {
+  const record = findRecord(getState(), id);
+
+  dispatch({
+    type: UPDATE_TODO,
+    id,
+    payload: { complete: !record.complete },
+  });
+};
+
 // Reducers
 import { combineReducers } from 'redux';
+import update from 'react-addons-update';
 
 const records = (state = [], action) => {
   switch (action.type) {
@@ -54,6 +65,13 @@ const recordsById = (state = {}, action) => {
         ...state,
         [action.payload.id]: { ...action.payload },
       };
+
+    case UPDATE_TODO:
+      return update(state, {
+        [action.id]: {
+          $merge: action.payload,
+        },
+      });
 
     default:
       return state;

@@ -21,11 +21,26 @@
     .input
       display: none
 
+      &:checked + .label
+        background-color: #1EB5F9
+
+        .check
+          opacity: 1
+
     .label
       content: ''
+      position: relative
       display: inline-block
       width: 1em
       height: 1em
       border: 2px solid #1EB5F9
       border-radius: 50%
       cursor: pointer
+
+      .check
+        position: absolute
+        left: 50%
+        top: 50%
+        width: .6em
+        transform: translate(-50%, -50%)
+        opacity: 0
