@@ -19,27 +19,16 @@ const load = storage.createLoader(engine);
 
 export default function configureStore(initialState = {}, routerMiddleware) {
   // Compose final middleware and use devtools in debug environment
-  let middleware = applyMiddleware(
+  const middleware = applyMiddleware(
     thunk,
     routerMiddleware,
     storageMiddleware,
   );
 
-  if (__DEBUG__) {
-    const devTools = window.devToolsExtension
-      ? window.devToolsExtension()
-      : require('containers/DevTools').default.instrument()
-    ;
-
-    middleware = compose(
-      middleware,
-      devTools,
-    );
-  }
-
   // Create final store and subscribe router in debug env ie. for devtools
   const store = compose(
     middleware,
+    window.devToolsExtension ? window.devToolsExtension() : f => f,
   )(createStore)(reducer, initialState);
 
   if (module.hot) {

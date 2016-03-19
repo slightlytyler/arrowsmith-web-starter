@@ -10,7 +10,6 @@ export default class Root extends React.Component {
     store: PropTypes.object.isRequired,
   };
 
-  disableDevTools = false;
 
   get content() {
     return (
@@ -20,28 +19,11 @@ export default class Root extends React.Component {
     );
   }
 
-  get devTools() {
-    if (__DEBUG__) {
-      if (__DEBUG_NEW_WINDOW__) {
-        if (!window.devToolsExtension) {
-          require('store/utils/createDevToolsWindow').default(this.props.store);
-        } else {
-          window.devToolsExtension.open();
-        }
-      } else if (!window.devToolsExtension) {
-        const DevTools = require('containers/DevTools').default;
-
-        return <DevTools />;
-      }
-    }
-  }
-
   render() {
     return (
       <Provider store={this.props.store}>
         <div style={{ height: '100%', overflow: 'auto' }}>
           {this.content}
-          {!this.disableDevTools && this.devTools}
         </div>
       </Provider>
     );
