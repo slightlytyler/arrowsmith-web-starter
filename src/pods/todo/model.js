@@ -22,6 +22,12 @@ export const findRecord = createSelector(
   (recordsById, id) => recordsById[id],
 );
 
+export const remainingTodos = createSelector(
+  recordsSelector,
+  recordsByIdSelector,
+  (records, recordsById) => records.filter(id => !recordsById[id].complete),
+);
+
 // Actions
 import generateId from 'shortid';
 

@@ -4,6 +4,7 @@ import cssModules from 'react-css-modules';
 import styles from './styles.styl';
 import TodoCreator from 'pods/todo/components/Creator';
 import TodoList from 'pods/todo/components/List';
+import TodoFilters from 'pods/todo/components/Filters';
 
 @cssModules(styles)
 export default class IndexLayout extends Component {
@@ -14,6 +15,7 @@ export default class IndexLayout extends Component {
           <div styleName="background">
             <TodoCreator />
             <TodoList />
+            <TodoFilters />
           </div>
         </div>
       </div>
