@@ -5,7 +5,7 @@ import Icon from 'react-svgcon';
 import styles from './styles.styl';
 import check from 'assets/icons/check.svg';
 import remove from 'assets/icons/remove.svg';
-import Input from '../Input';
+import Input from './Input';
 
 @cssModules(styles)
 export class TodoItem extends Component {
