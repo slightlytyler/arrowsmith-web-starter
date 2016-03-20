@@ -36,7 +36,7 @@ export class TodoCreator extends Component {
     return (
       <div styleName="content">
         <section styleName="add">
-          <Icon path={plus} color="#1EB5F9" width="1.25em" />
+          <Icon path={plus} color="#1EB5F9" width="1em" />
         </section>
         <section styleName="prompt">
           {this.placeholder}
@@ -65,7 +65,7 @@ export class TodoCreator extends Component {
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { createTodo } from 'pods/todo/model';
+import { createTodo } from 'pods/goal/model';
 
 export default connect(
   undefined,

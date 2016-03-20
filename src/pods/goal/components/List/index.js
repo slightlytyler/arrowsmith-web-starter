@@ -7,19 +7,21 @@ import TodoItem from '../Item';
 @cssModules(styles)
 export class TodoList extends Component {
   static propTypes = {
-    todos: PropTypes.array.isRequired,
+    goals: PropTypes.array.isRequired,
   };
 
   render() {
     return (
       <div styleName="list">
-        {this.props.todos.map(id => <TodoItem key={id} id={id} />)}
+        {this.props.goals.map(id => <TodoItem key={id} id={id} />)}
       </div>
     );
   }
 }
 
 import { connect } from 'react-redux';
-import { recordsSelector } from 'pods/todo/model';
+import { filteredRecordsSelector } from 'pods/goal/model';
 
-export default connect(state => ({ todos: recordsSelector(state) }))(TodoList);
+export default connect(
+  (state, props) => ({ goals: filteredRecordsSelector(state, props.activeFilter) }),
+)(TodoList);

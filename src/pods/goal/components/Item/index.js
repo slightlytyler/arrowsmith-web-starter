@@ -25,7 +25,7 @@ export class TodoItem extends Component {
               styleName="input"
               type="checkbox"
               id={`${this.props.id}-checkbox`}
-              value={this.props.complete}
+              checked={this.props.complete}
               onChange={this.toggle}
             />
             <label
@@ -46,7 +46,7 @@ export class TodoItem extends Component {
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { findRecord, toggleTodo } from 'pods/todo/model';
+import { findRecord, toggleTodo } from 'pods/goal/model';
 
 export default connect(
   (state, props) => ({
