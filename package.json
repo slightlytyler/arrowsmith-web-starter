@@ -86,7 +86,7 @@
     "react-router-redux": "^4.0.0-beta",
     "react-svgcon": "^0.3.1",
     "react-tap-event-plugin": "^0.2.2",
-    "react-update-in": "^1.0.0",
+    "react-update-in": "^1.0.1",
     "redux": "^3.0.0",
     "redux-router": "^0.1.0",
     "redux-storage": "^4.0.0",

@@ -5,6 +5,7 @@ import Icon from 'react-svgcon';
 import styles from './styles.styl';
 import check from 'assets/icons/check.svg';
 import remove from 'assets/icons/remove.svg';
+import Input from '../Input';
 
 @cssModules(styles)
 export class TodoItem extends Component {
@@ -17,38 +18,70 @@ export class TodoItem extends Component {
     toggleTodo: PropTypes.func.isRequired,
   };
 
+  state = {
+    editing: false,
+  };
+
+  edit = () => this.setState({ editing: true });
+
+  save = text => {
+    if (text) {
+      this.props.updateTodo(this.props.id, { text });
+      this.setState({ editing: false });
+    } else {
+      this.props.deleteTodo(this.props.id);
+    }
+  }
+
   delete = () => this.props.deleteTodo(this.props.id);
 
   toggle = () => this.props.toggleTodo(this.props.id);
 
+  renderContent() {
+    return (
+      <div styleName="content" onDoubleClick={this.edit}>
+        <div styleName="checkbox">
+          <input
+            styleName="input"
+            type="checkbox"
+            id={`${this.props.id}-checkbox`}
+            checked={this.props.complete}
+            onChange={this.toggle}
+          />
+          <label
+            styleName="label"
+            htmlFor={`${this.props.id}-checkbox`}
+          >
+            <span styleName="check">
+              <Icon path={check} color="white" width="100%" />
+            </span>
+          </label>
+        </div>
+        <div>
+          {this.props.text}
+        </div>
+        <div styleName="remove" onClick={this.delete}>
+          <Icon path={remove} color="currentColor" width="1em" />
+        </div>
+      </div>
+    );
+  }
+
   render() {
+    if (this.state.editing) {
+      return (
+        <div styleName="item">
+          <Input
+            value={this.props.text}
+            handleSave={this.save}
+          />
+        </div>
+      );
+    }
+
     return (
       <div styleName="item">
-        <div styleName="content">
-          <div styleName="checkbox">
-            <input
-              styleName="input"
-              type="checkbox"
-              id={`${this.props.id}-checkbox`}
-              checked={this.props.complete}
-              onChange={this.toggle}
-            />
-            <label
-              styleName="label"
-              htmlFor={`${this.props.id}-checkbox`}
-            >
-              <span styleName="check">
-                <Icon path={check} color="white" width="100%" />
-              </span>
-            </label>
-          </div>
-          <div>
-            {this.props.text}
-          </div>
-          <div styleName="remove" onClick={this.delete}>
-            <Icon path={remove} color="currentColor" width="1em" />
-          </div>
-        </div>
+        {this.renderContent()}
       </div>
     );
   }
