@@ -1,6 +1,6 @@
-# Bernie Tax Viz
+# Arrowsmith Web Starter
 
-An app for visualizing the effects of Bernie Sander's tax plan
+Rapid application prototyping for the web.
 
 ## Dev
 

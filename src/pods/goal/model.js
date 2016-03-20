@@ -55,13 +55,29 @@ export const filteredRecordsSelector = createSelector(
 // Actions
 import generateId from 'shortid';
 
-export const createTodo = text => ({
-  type: CREATE_TODO,
-  payload: {
-    id: generateId(),
-    text,
-    complete: false,
-  },
+export const createTodo = text => {
+  const id = generateId();
+
+  return {
+    type: CREATE_TODO,
+    id,
+    payload: {
+      id,
+      text,
+      complete: false,
+    },
+  };
+};
+
+export const updateTodo = (id, payload) => ({
+  type: UPDATE_TODO,
+  id,
+  payload,
+});
+
+export const deleteTodo = id => ({
+  type: DELETE_TODO,
+  id,
 });
 
 export const toggleTodo = id => (dispatch, getState) => {
@@ -76,12 +92,15 @@ export const toggleTodo = id => (dispatch, getState) => {
 
 // Reducers
 import { combineReducers } from 'redux';
-import update from 'react-addons-update';
+import updateIn, { push, assoc, dissoc, merge } from 'react-update-in';
 
 const records = (state = [], action) => {
   switch (action.type) {
     case CREATE_TODO:
-      return [...state, action.payload.id];
+      return push(state, [action.payload.id]);
+
+    case DELETE_TODO:
+      return dissoc(state, state.indexOf(action.id));
 
     default:
       return state;
@@ -91,17 +110,13 @@ const records = (state = [], action) => {
 const recordsById = (state = {}, action) => {
   switch (action.type) {
     case CREATE_TODO:
-      return {
-        ...state,
-        [action.payload.id]: { ...action.payload },
-      };
+      return assoc(state, action.id, action.payload);
 
     case UPDATE_TODO:
-      return update(state, {
-        [action.id]: {
-          $merge: action.payload,
-        },
-      });
+      return updateIn(state, [action.id], merge, action.payload);
+
+    case DELETE_TODO:
+      return dissoc(state, action.id);
 
     default:
       return state;

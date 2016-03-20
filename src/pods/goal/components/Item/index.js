@@ -4,6 +4,7 @@ import Icon from 'react-svgcon';
 
 import styles from './styles.styl';
 import check from 'assets/icons/check.svg';
+import remove from 'assets/icons/remove.svg';
 
 @cssModules(styles)
 export class TodoItem extends Component {
@@ -11,8 +12,12 @@ export class TodoItem extends Component {
     id: PropTypes.string.isRequired,
     text: PropTypes.string.isRequired,
     complete: PropTypes.bool.isRequired,
+    updateTodo: PropTypes.func.isRequired,
+    deleteTodo: PropTypes.func.isRequired,
     toggleTodo: PropTypes.func.isRequired,
   };
+
+  delete = () => this.props.deleteTodo(this.props.id);
 
   toggle = () => this.props.toggleTodo(this.props.id);
 
@@ -37,7 +42,12 @@ export class TodoItem extends Component {
               </span>
             </label>
           </div>
-          {this.props.text}
+          <div>
+            {this.props.text}
+          </div>
+          <div styleName="remove" onClick={this.delete}>
+            <Icon path={remove} color="currentColor" width="1em" />
+          </div>
         </div>
       </div>
     );
@@ -46,11 +56,11 @@ export class TodoItem extends Component {
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { findRecord, toggleTodo } from 'pods/goal/model';
+import { findRecord, updateTodo, deleteTodo, toggleTodo } from 'pods/goal/model';
 
 export default connect(
   (state, props) => ({
     ...findRecord(state, props.id),
   }),
-  dispatch => bindActionCreators({ toggleTodo }, dispatch),
+  dispatch => bindActionCreators({ updateTodo, deleteTodo, toggleTodo }, dispatch),
 )(TodoItem);
