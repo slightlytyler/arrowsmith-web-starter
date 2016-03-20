@@ -9,7 +9,6 @@ import createEngine from 'redux-storage-engine-localstorage';
 import filter from 'redux-storage-decorator-filter';
 const engine = filter(
   createEngine('arrowsmith-web-starter'),
-  ['goals'],
 );
 
 const storageMiddleware = storage.createMiddleware(engine, [

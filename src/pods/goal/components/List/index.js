@@ -2,10 +2,10 @@ import React, { Component, PropTypes } from 'react';
 import cssModules from 'react-css-modules';
 
 import styles from './styles.styl';
-import TodoItem from '../Item';
+import GoalItem from '../Item';
 
 @cssModules(styles)
-export class TodoList extends Component {
+export class GoalList extends Component {
   static propTypes = {
     goals: PropTypes.array.isRequired,
   };
@@ -13,7 +13,7 @@ export class TodoList extends Component {
   render() {
     return (
       <div styleName="list">
-        {this.props.goals.map(id => <TodoItem key={id} id={id} />)}
+        {this.props.goals.map(id => <GoalItem key={id} id={id} />)}
       </div>
     );
   }
@@ -24,4 +24,4 @@ import { filteredRecordsSelector } from 'pods/goal/model';
 
 export default connect(
   (state, props) => ({ goals: filteredRecordsSelector(state, props.activeFilter) }),
-)(TodoList);
+)(GoalList);

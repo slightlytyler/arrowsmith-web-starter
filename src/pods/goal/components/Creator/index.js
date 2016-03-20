@@ -7,9 +7,9 @@ import plus from 'assets/icons/plus.svg';
 import Input from './Input';
 
 @cssModules(styles, { allowMultiple: true })
-export class TodoCreator extends Component {
+export class GoalCreator extends Component {
   static propTypes = {
-    createTodo: PropTypes.func.isRequired,
+    createGoal: PropTypes.func.isRequired,
   };
 
   state = {
@@ -24,9 +24,9 @@ export class TodoCreator extends Component {
     }
   }
 
-  addTodo = text => {
+  addGoal = text => {
     if (text) {
-      this.props.createTodo(text);
+      this.props.createGoal(text);
     }
 
     this.setState({ active: false });
@@ -50,7 +50,7 @@ export class TodoCreator extends Component {
     if (this.state.active) {
       return (
         <div styleName="creator editing">
-          <Input placeholder={this.placeholder} addTodo={this.addTodo} />
+          <Input placeholder={this.placeholder} addGoal={this.addGoal} />
         </div>
       );
     }
@@ -65,9 +65,9 @@ export class TodoCreator extends Component {
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { createTodo } from 'pods/goal/model';
+import { createGoal } from 'pods/goal/model';
 
 export default connect(
   undefined,
-  dispatch => bindActionCreators({ createTodo }, dispatch),
-)(TodoCreator);
+  dispatch => bindActionCreators({ createGoal }, dispatch),
+)(GoalCreator);

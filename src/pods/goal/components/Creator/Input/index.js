@@ -6,21 +6,21 @@ import styles from '../styles.styl';
 
 @listensToClickOutside()
 @cssModules(styles, { allowMultiple: true })
-export default class TodoCreatorInput extends Component {
+export default class GoalCreatorInput extends Component {
   static propTypes = {
     placeholder: PropTypes.string.isRequired,
-    addTodo: PropTypes.func.isRequired,
+    addGoal: PropTypes.func.isRequired,
   };
 
   handleClickOutside = () => {
-    this.addTodo();
+    this.addGoal();
   }
 
-  addTodo = () => {
-    this.props.addTodo(findDOMNode(this.refs.input).value);
+  addGoal = () => {
+    this.props.addGoal(findDOMNode(this.refs.input).value);
   }
 
-  handleKeyDown = e => e.which === 13 && this.addTodo();
+  handleKeyDown = e => e.which === 13 && this.addGoal();
 
   render() {
     return (
@@ -34,7 +34,7 @@ export default class TodoCreatorInput extends Component {
         />
         <section
           styleName="add button"
-          onClick={this.addTodo}
+          onClick={this.addGoal}
         >
           Add
         </section>

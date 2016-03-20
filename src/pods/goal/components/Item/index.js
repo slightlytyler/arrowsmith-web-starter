@@ -8,14 +8,14 @@ import remove from 'assets/icons/remove.svg';
 import Input from './Input';
 
 @cssModules(styles)
-export class TodoItem extends Component {
+export class GoalItem extends Component {
   static propTypes = {
     id: PropTypes.string.isRequired,
     text: PropTypes.string.isRequired,
     complete: PropTypes.bool.isRequired,
-    updateTodo: PropTypes.func.isRequired,
-    deleteTodo: PropTypes.func.isRequired,
-    toggleTodo: PropTypes.func.isRequired,
+    updateGoal: PropTypes.func.isRequired,
+    deleteGoal: PropTypes.func.isRequired,
+    toggleGoal: PropTypes.func.isRequired,
   };
 
   state = {
@@ -26,16 +26,16 @@ export class TodoItem extends Component {
 
   save = text => {
     if (text) {
-      this.props.updateTodo(this.props.id, { text });
+      this.props.updateGoal(this.props.id, { text });
       this.setState({ editing: false });
     } else {
-      this.props.deleteTodo(this.props.id);
+      this.props.deleteGoal(this.props.id);
     }
   }
 
-  delete = () => this.props.deleteTodo(this.props.id);
+  delete = () => this.props.deleteGoal(this.props.id);
 
-  toggle = () => this.props.toggleTodo(this.props.id);
+  toggle = () => this.props.toggleGoal(this.props.id);
 
   renderContent() {
     return (
@@ -89,11 +89,11 @@ export class TodoItem extends Component {
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { findRecord, updateTodo, deleteTodo, toggleTodo } from 'pods/goal/model';
+import { findRecord, updateGoal, deleteGoal, toggleGoal } from 'pods/goal/model';
 
 export default connect(
   (state, props) => ({
     ...findRecord(state, props.id),
   }),
-  dispatch => bindActionCreators({ updateTodo, deleteTodo, toggleTodo }, dispatch),
-)(TodoItem);
+  dispatch => bindActionCreators({ updateGoal, deleteGoal, toggleGoal }, dispatch),
+)(GoalItem);

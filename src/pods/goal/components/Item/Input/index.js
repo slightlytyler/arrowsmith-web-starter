@@ -6,7 +6,7 @@ import styles from './styles.styl';
 
 @listensToClickOutside()
 @cssModules(styles, { allowMultiple: true })
-export default class TodoInput extends Component {
+export default class GoalInput extends Component {
   static propTypes = {
     value: PropTypes.string,
     placeholder: PropTypes.string,

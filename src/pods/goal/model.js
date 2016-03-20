@@ -1,7 +1,15 @@
 // Constants
-export const CREATE_TODO = 'CREATE_TODO';
-export const UPDATE_TODO = 'UPDATE_TODO';
-export const DELETE_TODO = 'DELETE_TODO';
+export const CREATE_GOAL = 'CREATE_GOAL';
+export const CREATE_GOAL_SUCCESS = 'CREATE_GOAL_SUCCESS';
+export const CREATE_GOAL_FAILURE = 'CREATE_GOAL_FAILURE';
+
+export const UPDATE_GOAL = 'UPDATE_GOAL';
+export const UPDATE_GOAL_SUCCESS = 'UPDATE_GOAL_SUCCESS';
+export const UPDATE_GOAL_FAILURE = 'UPDATE_GOAL_FAILURE';
+
+export const DELETE_GOAL = 'DELETE_GOAL';
+export const DELETE_GOAL_SUCCESS = 'DELETE_GOAL_SUCCESS';
+export const DELETE_GOAL_FAILURE = 'DELETE_GOAL_FAILURE';
 
 export const ACTIVE_FILTER = 'active';
 export const COMPLETE_FILTER = 'complete';
@@ -10,13 +18,13 @@ export const ALL_FILTER = 'all';
 // Selectors
 import { createSelector } from 'reselect';
 
-export const todosSelector = state => state.goals;
+export const goalsSelector = state => state.goals;
 export const recordsSelector = createSelector(
-  todosSelector,
+  goalsSelector,
   goals => goals.records,
 );
 export const recordsByIdSelector = createSelector(
-  todosSelector,
+  goalsSelector,
   goals => goals.recordsById,
 );
 
@@ -26,7 +34,7 @@ export const findRecord = createSelector(
   (recordsById, id) => recordsById[id],
 );
 
-export const remainingTodosSelector = createSelector(
+export const remainingGoalsSelector = createSelector(
   recordsSelector,
   recordsByIdSelector,
   (records, recordsById) => records.filter(id => !recordsById[id].complete),
@@ -53,41 +61,54 @@ export const filteredRecordsSelector = createSelector(
 );
 
 // Actions
-import generateId from 'shortid';
+import recordFromSnapshot from 'utils/recordFromSnapshot';
 
-export const createTodo = text => {
-  const id = generateId();
+export const createGoal = text => (dispatch, getState) => {
+  const { firebase } = getState();
 
-  return {
-    type: CREATE_TODO,
-    id,
-    payload: {
-      id,
-      text,
-      complete: false,
-    },
-  };
+  firebase.child(`goals`).push({
+    text,
+    complete: false,
+  });
 };
 
-export const updateTodo = (id, payload) => ({
-  type: UPDATE_TODO,
-  id,
-  payload,
-});
+export const updateGoal = (id, payload) => (dispatch, getState) => {
+  const { firebase } = getState();
 
-export const deleteTodo = id => ({
-  type: DELETE_TODO,
-  id,
-});
+  firebase.child(`goals/${id}`).update(payload);
+};
 
-export const toggleTodo = id => (dispatch, getState) => {
+
+export const deleteGoal = id => (dispatch, getState) => {
+  const { firebase } = getState();
+
+  firebase.child(`goals/${id}`).remove();
+};
+
+export const toggleGoal = id => (dispatch, getState) => {
   const record = findRecord(getState(), id);
 
-  dispatch({
-    type: UPDATE_TODO,
-    id,
-    payload: { complete: !record.complete },
-  });
+  dispatch(updateGoal(id, { complete: !record.complete }));
+};
+
+export const registerGoalListeners = () => (dispatch, getState) => {
+  const { firebase } = getState();
+  const ref = firebase.child(`goals`);
+
+  ref.on('child_added', snapshot => dispatch({
+    type: CREATE_GOAL_SUCCESS,
+    payload: recordFromSnapshot(snapshot),
+  }));
+
+  ref.on('child_changed', snapshot => dispatch({
+    type: UPDATE_GOAL_SUCCESS,
+    payload: recordFromSnapshot(snapshot),
+  }));
+
+  ref.on('child_removed', snapshot => dispatch({
+    type: DELETE_GOAL_SUCCESS,
+    payload: recordFromSnapshot(snapshot),
+  }));
 };
 
 // Reducers
@@ -96,11 +117,11 @@ import updateIn, { push, assoc, dissoc, merge } from 'react-update-in';
 
 const records = (state = [], action) => {
   switch (action.type) {
-    case CREATE_TODO:
-      return push(state, [action.payload.id]);
+    case CREATE_GOAL_SUCCESS:
+      return push([action.payload.id], state);
 
-    case DELETE_TODO:
-      return dissoc(state, state.indexOf(action.id));
+    case DELETE_GOAL_SUCCESS:
+      return dissoc(state, state.indexOf(action.payload.id));
 
     default:
       return state;
@@ -109,14 +130,14 @@ const records = (state = [], action) => {
 
 const recordsById = (state = {}, action) => {
   switch (action.type) {
-    case CREATE_TODO:
-      return assoc(state, action.id, action.payload);
+    case CREATE_GOAL_SUCCESS:
+      return assoc(state, action.payload.id, action.payload);
 
-    case UPDATE_TODO:
-      return updateIn(state, [action.id], merge, action.payload);
+    case UPDATE_GOAL_SUCCESS:
+      return updateIn(state, [action.payload.id], merge, action.payload);
 
-    case DELETE_TODO:
-      return dissoc(state, action.id);
+    case DELETE_GOAL_SUCCESS:
+      return dissoc(state, action.payload.id);
 
     default:
       return state;

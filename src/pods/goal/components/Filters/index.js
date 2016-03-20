@@ -7,23 +7,23 @@ import styles from './styles.styl';
 import { ACTIVE_FILTER, COMPLETE_FILTER, ALL_FILTER } from 'pods/goal/model';
 
 @cssModules(styles, { allowMultiple: true })
-export class TodoFilters extends Component {
+export class GoalFilters extends Component {
   static propTypes = {
-    remainingTodosCount: PropTypes.number.isRequired,
+    remainingGoalsCount: PropTypes.number.isRequired,
     activeFilter: PropTypes.string.isRequired,
   };
 
   render() {
-    const { remainingTodosCount, activeFilter } = this.props;
+    const { remainingGoalsCount, activeFilter } = this.props;
 
     return (
       <div styleName="filters">
         <section
           styleName={classNames('remaining-count', {
-            complete: remainingTodosCount === 0,
+            complete: remainingGoalsCount === 0,
           })}
         >
-          {remainingTodosCount} goals left
+          {remainingGoalsCount} goals left
         </section>
         <section styleName="list">
           <Link
@@ -51,8 +51,8 @@ export class TodoFilters extends Component {
 }
 
 import { connect } from 'react-redux';
-import { remainingTodosSelector } from 'pods/goal/model';
+import { remainingGoalsSelector } from 'pods/goal/model';
 
 export default connect(
-  state => ({ remainingTodosCount: remainingTodosSelector(state).length }),
-)(TodoFilters);
+  state => ({ remainingGoalsCount: remainingGoalsSelector(state).length }),
+)(GoalFilters);

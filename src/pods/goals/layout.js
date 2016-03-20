@@ -3,9 +3,9 @@ import cssModules from 'react-css-modules';
 
 import styles from './styles.styl';
 import { ACTIVE_FILTER, COMPLETE_FILTER, ALL_FILTER } from 'pods/goal/model';
-import TodoCreator from 'pods/goal/components/Creator';
-import TodoList from 'pods/goal/components/List';
-import TodoFilters from 'pods/goal/components/Filters';
+import GoalCreator from 'pods/goal/components/Creator';
+import GoalList from 'pods/goal/components/List';
+import GoalFilters from 'pods/goal/components/Filters';
 
 @cssModules(styles)
 export class GoalsLayout extends Component {
@@ -15,7 +15,12 @@ export class GoalsLayout extends Component {
       COMPLETE_FILTER,
       ALL_FILTER,
     ]).isRequired,
+    registerGoalListeners: PropTypes.func.isRequired,
   };
+
+  componentWillMount() {
+    this.props.registerGoalListeners();
+  }
 
   render() {
     const { activeFilter } = this.props;
@@ -24,9 +29,9 @@ export class GoalsLayout extends Component {
       <div styleName="page-container">
         <div styleName="goal-container">
           <div styleName="background">
-            <TodoCreator />
-            <TodoList activeFilter={activeFilter} />
-            <TodoFilters activeFilter={activeFilter} />
+            <GoalCreator />
+            <GoalList activeFilter={activeFilter} />
+            <GoalFilters activeFilter={activeFilter} />
           </div>
         </div>
       </div>
@@ -35,10 +40,11 @@ export class GoalsLayout extends Component {
 }
 
 import { connect } from 'react-redux';
-import { activeFilterSelector } from 'pods/goal/model';
+import { bindActionCreators } from 'redux';
+import { activeFilterSelector, registerGoalListeners } from 'pods/goal/model';
 
 export default connect(
   (state, props) => ({ activeFilter: activeFilterSelector(props) }),
-  undefined,
-  sProps => sProps,
+  dispatch => bindActionCreators({ registerGoalListeners }, dispatch),
+  (sProps, dProps) => Object.assign({}, sProps, dProps),
 )(GoalsLayout);
