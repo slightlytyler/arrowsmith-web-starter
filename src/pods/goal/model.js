@@ -1,15 +1,9 @@
 // Constants
+
+// User actions
 export const CREATE_GOAL = 'CREATE_GOAL';
-export const CREATE_GOAL_SUCCESS = 'CREATE_GOAL_SUCCESS';
-export const CREATE_GOAL_FAILURE = 'CREATE_GOAL_FAILURE';
-
 export const UPDATE_GOAL = 'UPDATE_GOAL';
-export const UPDATE_GOAL_SUCCESS = 'UPDATE_GOAL_SUCCESS';
-export const UPDATE_GOAL_FAILURE = 'UPDATE_GOAL_FAILURE';
-
 export const DELETE_GOAL = 'DELETE_GOAL';
-export const DELETE_GOAL_SUCCESS = 'DELETE_GOAL_SUCCESS';
-export const DELETE_GOAL_FAILURE = 'DELETE_GOAL_FAILURE';
 
 export const ACTIVE_FILTER = 'active';
 export const COMPLETE_FILTER = 'complete';
@@ -63,6 +57,26 @@ export const filteredRecordsSelector = createSelector(
 // Actions
 import recordFromSnapshot from 'utils/recordFromSnapshot';
 
+export const registerGoalListeners = () => (dispatch, getState) => {
+  const { firebase } = getState();
+  const ref = firebase.child(`goals`);
+
+  ref.on('child_added', snapshot => dispatch({
+    type: CREATE_GOAL,
+    payload: recordFromSnapshot(snapshot),
+  }));
+
+  ref.on('child_changed', snapshot => dispatch({
+    type: UPDATE_GOAL,
+    payload: recordFromSnapshot(snapshot),
+  }));
+
+  ref.on('child_removed', snapshot => dispatch({
+    type: DELETE_GOAL,
+    payload: recordFromSnapshot(snapshot),
+  }));
+};
+
 export const createGoal = text => (dispatch, getState) => {
   const { firebase } = getState();
 
@@ -91,36 +105,16 @@ export const toggleGoal = id => (dispatch, getState) => {
   dispatch(updateGoal(id, { complete: !record.complete }));
 };
 
-export const registerGoalListeners = () => (dispatch, getState) => {
-  const { firebase } = getState();
-  const ref = firebase.child(`goals`);
-
-  ref.on('child_added', snapshot => dispatch({
-    type: CREATE_GOAL_SUCCESS,
-    payload: recordFromSnapshot(snapshot),
-  }));
-
-  ref.on('child_changed', snapshot => dispatch({
-    type: UPDATE_GOAL_SUCCESS,
-    payload: recordFromSnapshot(snapshot),
-  }));
-
-  ref.on('child_removed', snapshot => dispatch({
-    type: DELETE_GOAL_SUCCESS,
-    payload: recordFromSnapshot(snapshot),
-  }));
-};
-
 // Reducers
 import { combineReducers } from 'redux';
 import updateIn, { push, assoc, dissoc, merge } from 'react-update-in';
 
 const records = (state = [], action) => {
   switch (action.type) {
-    case CREATE_GOAL_SUCCESS:
+    case CREATE_GOAL:
       return push([action.payload.id], state);
 
-    case DELETE_GOAL_SUCCESS:
+    case DELETE_GOAL:
       return dissoc(state, state.indexOf(action.payload.id));
 
     default:
@@ -130,13 +124,13 @@ const records = (state = [], action) => {
 
 const recordsById = (state = {}, action) => {
   switch (action.type) {
-    case CREATE_GOAL_SUCCESS:
+    case CREATE_GOAL:
       return assoc(state, action.payload.id, action.payload);
 
-    case UPDATE_GOAL_SUCCESS:
+    case UPDATE_GOAL:
       return updateIn(state, [action.payload.id], merge, action.payload);
 
-    case DELETE_GOAL_SUCCESS:
+    case DELETE_GOAL:
       return dissoc(state, action.payload.id);
 
     default:
