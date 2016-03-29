@@ -1,6 +1,4 @@
 // Constants
-
-// User actions
 export const CREATE_GOAL = 'CREATE_GOAL';
 export const UPDATE_GOAL = 'UPDATE_GOAL';
 export const DELETE_GOAL = 'DELETE_GOAL';

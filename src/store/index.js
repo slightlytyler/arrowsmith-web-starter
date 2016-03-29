@@ -7,13 +7,21 @@ const reducer = storage.reducer(rootReducer);
 
 import createEngine from 'redux-storage-engine-localstorage';
 import filter from 'redux-storage-decorator-filter';
+import { FIREBASE_APP_NAME } from 'config';
+
 const engine = filter(
-  createEngine('arrowsmith-web-starter'),
+  createEngine(FIREBASE_APP_NAME),
 );
 
-const storageMiddleware = storage.createMiddleware(engine, [
-  '@@router/LOCATION_CHANGE',
-]);
+const storageMiddleware = storage.createMiddleware(
+  engine,
+  [
+    '@@router/LOCATION_CHANGE',
+  ],
+  [
+    'white list placeholder',
+  ],
+);
 
 const load = storage.createLoader(engine);
 
