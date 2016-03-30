@@ -46,13 +46,10 @@ export const registerProjectListeners = () => (dispatch, getState) => {
   }));
 };
 
-export const createProject = text => (dispatch, getState) => {
+export const createProject = name => (dispatch, getState) => {
   const { firebase } = getState();
 
-  firebase.child(`projects`).push({
-    text,
-    complete: false,
-  });
+  firebase.child(`projects`).push({ name });
 };
 
 export const updateProject = (id, payload) => (dispatch, getState) => {

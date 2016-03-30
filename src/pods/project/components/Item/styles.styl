@@ -1,0 +1,19 @@
+.item
+  padding-bottom: 1em
+  color: #acaeb4
+  border-bottom: 1px solid #f0ebec
+  cursor: pointer
+
+  &:hover
+    color: #777880
+
+  &:not(:last-child)
+    margin-bottom: 1em
+
+.item--active
+  composes: item
+  color: #1EB5F9
+  cursor: default
+
+  &:hover
+    color: #1EB5F9

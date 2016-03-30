@@ -26,7 +26,7 @@ export class GoalsViewer extends Component {
     const { activeFilter } = this.props;
 
     return (
-      <div styleName="container">
+      <div styleName="viewer">
         <GoalCreator />
         <GoalFilters activeFilter={activeFilter} />
         <GoalList activeFilter={activeFilter} />
