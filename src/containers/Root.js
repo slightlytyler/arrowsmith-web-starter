@@ -22,7 +22,15 @@ export default class Root extends React.Component {
   render() {
     return (
       <Provider store={this.props.store}>
-        <div style={{ height: '100%', overflow: 'auto' }}>
+        <div
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            minWidth: '100vw',
+            minHeight: '100vh',
+            overflow: 'auto',
+          }}
+        >
           {this.content}
         </div>
       </Provider>

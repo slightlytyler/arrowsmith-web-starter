@@ -8,7 +8,7 @@ import GoalList from 'pods/goal/components/List';
 import GoalFilters from 'pods/goal/components/Filters';
 
 @cssModules(styles)
-export class GoalsLayout extends Component {
+export class GoalsViewer extends Component {
   static propTypes = {
     activeFilter: PropTypes.oneOf([
       ACTIVE_FILTER,
@@ -26,14 +26,10 @@ export class GoalsLayout extends Component {
     const { activeFilter } = this.props;
 
     return (
-      <div styleName="page-container">
-        <div styleName="goal-container">
-          <div styleName="background">
-            <GoalCreator />
-            <GoalList activeFilter={activeFilter} />
-            <GoalFilters activeFilter={activeFilter} />
-          </div>
-        </div>
+      <div styleName="container">
+        <GoalCreator />
+        <GoalFilters activeFilter={activeFilter} />
+        <GoalList activeFilter={activeFilter} />
       </div>
     );
   }
@@ -47,4 +43,4 @@ export default connect(
   (state, props) => ({ activeFilter: activeFilterSelector(props) }),
   dispatch => bindActionCreators({ registerGoalListeners }, dispatch),
   (sProps, dProps) => Object.assign({}, sProps, dProps),
-)(GoalsLayout);
+)(GoalsViewer);

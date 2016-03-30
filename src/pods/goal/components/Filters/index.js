@@ -18,33 +18,35 @@ export class GoalFilters extends Component {
 
     return (
       <div styleName="filters">
-        <section
-          styleName={classNames('remaining-count', {
-            complete: remainingGoalsCount === 0,
-          })}
-        >
-          {remainingGoalsCount} goals left
-        </section>
-        <section styleName="list">
-          <Link
-            to="/goals/active"
-            styleName={classNames('item', { active: activeFilter === ACTIVE_FILTER })}
+        <div styleName="container">
+          <section
+            styleName={classNames('remaining-count', {
+              complete: remainingGoalsCount === 0,
+            })}
           >
-            Active
-          </Link>
-          <Link
-            to="/goals/complete"
-            styleName={classNames('item', { active: activeFilter === COMPLETE_FILTER })}
-          >
-            Complete
-          </Link>
-          <Link
-            to="/goals/all"
-            styleName={classNames('item', { active: activeFilter === ALL_FILTER })}
-          >
-            All
-          </Link>
-        </section>
+            {remainingGoalsCount} goals left
+          </section>
+          <section styleName="list">
+            <Link
+              to="/goals/active"
+              styleName={classNames('item', { active: activeFilter === ACTIVE_FILTER })}
+            >
+              Active
+            </Link>
+            <Link
+              to="/goals/complete"
+              styleName={classNames('item', { active: activeFilter === COMPLETE_FILTER })}
+            >
+              Complete
+            </Link>
+            <Link
+              to="/goals/all"
+              styleName={classNames('item', { active: activeFilter === ALL_FILTER })}
+            >
+              All
+            </Link>
+          </section>
+        </div>
       </div>
     );
   }

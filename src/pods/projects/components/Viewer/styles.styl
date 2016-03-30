@@ -1,0 +1,62 @@
+.viewer
+  position: relative
+  display: flex
+  flex: 1
+  justify-content: center
+  max-width: calc(100vw - 10em)
+  height: 40em
+  margin: 0 auto
+  background-color: rgba(255, 255, 255, 0.45)
+  border-radius: 3px
+
+  &:before
+    z-index: -2
+    content: ''
+    position: absolute
+    left: 1em
+    top: -1em
+    width: calc(100% - 2em)
+    height: calc(100% - 2em)
+    background-color: rgba(255, 255, 255, 0.15)
+    border-radius: 3px
+
+  &:after
+    z-index: -1
+    content: ''
+    position: absolute
+    left: .5em
+    top: -.5em
+    width: calc(100% - 1em)
+    height: calc(100% - 1em)
+    background-color: rgba(255, 255, 255, 0.3)
+    border-radius: 3px
+
+.project-list
+  display: flex
+  flex-direction: column
+  width: 10em
+  padding: 1em
+  background-color: white
+  border-right: 1px solid #f0ebec
+  border-top-left-radius: 3px
+  border-bottom-left-radius: 3px
+
+.project-item
+  padding-bottom: 1em
+  color: #acaeb4
+  border-bottom: 1px solid #f0ebec
+  cursor: pointer
+
+  &:hover
+    color: #777880
+
+  &:not(:last-child)
+    margin-bottom: 1em
+
+.project-item--active
+  composes: project-item
+  color: #1EB5F9
+  cursor: default
+
+  &:hover
+    color: #1EB5F9
