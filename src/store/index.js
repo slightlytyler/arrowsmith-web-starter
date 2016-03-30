@@ -11,16 +11,16 @@ import { FIREBASE_APP_NAME } from 'config';
 
 const engine = filter(
   createEngine(FIREBASE_APP_NAME),
+  ['auth'],
 );
+
+import { LOCATION_CHANGE } from 'react-router-redux';
+import { SET_CURRENT_USER } from 'pods/auth/model';
 
 const storageMiddleware = storage.createMiddleware(
   engine,
-  [
-    '@@router/LOCATION_CHANGE',
-  ],
-  [
-    'white list placeholder',
-  ],
+  [LOCATION_CHANGE],
+  [SET_CURRENT_USER],
 );
 
 const load = storage.createLoader(engine);
