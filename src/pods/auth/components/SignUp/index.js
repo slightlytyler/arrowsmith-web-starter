@@ -17,21 +17,47 @@ export class SignUp extends Component {
 
   render() {
     return (
-      <div>
-        <input ref="email" type="email" placeholder="email" />
-        <input ref="name" placeholder="Name (optional)" />
-        <input ref="password" type="password" placeholder="password" />
-        <button onClick={this.handleSubmit}>Submit</button>
+      <div styleName="auth-container">
+        <header styleName="header">Sign Up</header>
+        <input
+          ref="email"
+          type="email"
+          styleName="input"
+          placeholder="Email"
+        />
+        <input
+          ref="name"
+          styleName="input"
+          placeholder="Name (optional)"
+        />
+        <input
+          ref="password"
+          type="password"
+          styleName="input"
+          placeholder="Password"
+        />
+        <button
+          styleName="button"
+          onClick={this.handleSubmit}
+        >
+          Submit
+        </button>
       </div>
     );
   }
 }
 
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
 import { signUpUser } from 'pods/auth/model';
+import { initializeUser } from 'pods/user/model';
 
 export default connect(
   undefined,
-  dispatch => bindActionCreators({ signUpUser }, dispatch),
+  dispatch => ({
+    signUpUser: (email, password, payload) => dispatch(
+      signUpUser(email, password, payload, () =>
+        dispatch(initializeUser())
+      )
+    ),
+  }),
 )(SignUp);

@@ -25,6 +25,8 @@ export default class Root extends React.Component {
         <div
           style={{
             display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center',
             alignItems: 'center',
             minWidth: '100vw',
             minHeight: '100vh',
