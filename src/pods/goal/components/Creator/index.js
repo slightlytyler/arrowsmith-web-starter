@@ -64,10 +64,11 @@ export class GoalCreator extends Component {
 }
 
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
 import { createGoal } from 'pods/goal/model';
 
 export default connect(
   undefined,
-  dispatch => bindActionCreators({ createGoal }, dispatch),
+  (dispatch, props) => ({
+    createGoal: text => dispatch(createGoal(text, props.projectId)),
+  }),
 )(GoalCreator);

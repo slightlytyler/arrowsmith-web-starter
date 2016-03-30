@@ -33,10 +33,18 @@ export const remainingGoalsSelector = createSelector(
 );
 
 export const activeFilterSelector = containerProps => containerProps.route.filter;
-export const filteredRecordsSelector = createSelector(
+
+export const projectGoalsSelector = createSelector(
   recordsSelector,
   recordsByIdSelector,
-  (state, activeFilter) => activeFilter,
+  (state, projectId) => projectId,
+  (records, recordsById, projectId) => records.filter(id => recordsById[id].projectId === projectId)
+);
+
+export const filteredProjectGoalsSelector = createSelector(
+  projectGoalsSelector,
+  recordsByIdSelector,
+  (state, projectId, activeFilter) => activeFilter,
   (records, recordsById, activeFilter) => {
     switch (activeFilter) {
       case ACTIVE_FILTER:
@@ -75,12 +83,13 @@ export const registerGoalListeners = () => (dispatch, getState) => {
   }));
 };
 
-export const createGoal = text => (dispatch, getState) => {
+export const createGoal = (text, projectId) => (dispatch, getState) => {
   const { firebase } = getState();
 
   firebase.child(`goals`).push({
     text,
     complete: false,
+    projectId,
   });
 };
 

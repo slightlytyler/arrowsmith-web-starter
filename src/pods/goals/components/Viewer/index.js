@@ -15,6 +15,7 @@ export class GoalsViewer extends Component {
       COMPLETE_FILTER,
       ALL_FILTER,
     ]).isRequired,
+    projectId: PropTypes.string.isRequired,
     registerGoalListeners: PropTypes.func.isRequired,
   };
 
@@ -23,13 +24,16 @@ export class GoalsViewer extends Component {
   }
 
   render() {
-    const { activeFilter } = this.props;
+    const { activeFilter, projectId } = this.props;
 
     return (
       <div styleName="viewer">
-        <GoalCreator />
+        <GoalCreator projectId={projectId} />
         <GoalFilters activeFilter={activeFilter} />
-        <GoalList activeFilter={activeFilter} />
+        <GoalList
+          projectId={projectId}
+          activeFilter={activeFilter}
+        />
       </div>
     );
   }
@@ -42,5 +46,7 @@ import { activeFilterSelector, registerGoalListeners } from 'pods/goal/model';
 export default connect(
   (state, props) => ({ activeFilter: activeFilterSelector(props) }),
   dispatch => bindActionCreators({ registerGoalListeners }, dispatch),
-  (sProps, dProps) => Object.assign({}, sProps, dProps),
+  (sProps, dProps, oProps) => Object.assign({}, sProps, dProps, {
+    projectId: oProps.params.projectId,
+  }),
 )(GoalsViewer);
