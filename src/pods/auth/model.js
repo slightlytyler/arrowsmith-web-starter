@@ -1,4 +1,5 @@
 export const SET_CURRENT_USER = 'SET_CURRENT_USER';
+export const CLEAR_CURRENT_USER = 'CLEAR_CURRENT_USER';
 export const SIGN_UP_USER = 'SIGN_UP_USER';
 export const LOGIN_USER = 'LOGIN_USER';
 
@@ -6,6 +7,8 @@ export const setCurrentUser = auth => ({
   type: SET_CURRENT_USER,
   auth,
 });
+
+export const clearCurrentUser = () => ({ type: CLEAR_CURRENT_USER });
 
 export const createUser = (payload, cb) => (dispatch, getState) => {
   const { firebase } = getState();
@@ -42,10 +45,22 @@ export const signUpUser = (email, password, userData, cb) => (dispatch, getState
   });
 };
 
+import { push } from 'react-router-redux';
+
+export const logoutUser = () => (dispatch, getState) => {
+  const { firebase } = getState();
+
+  firebase.unauth();
+  dispatch(clearCurrentUser());
+  dispatch(push('/auth/login'));
+};
+
 export const reducer = (state = {}, { type, auth }) => {
   switch (type) {
     case SET_CURRENT_USER:
       return auth;
+    case CLEAR_CURRENT_USER:
+      return {};
 
     default:
       return state;

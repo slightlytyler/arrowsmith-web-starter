@@ -15,12 +15,12 @@ const engine = filter(
 );
 
 import { LOCATION_CHANGE } from 'react-router-redux';
-import { SET_CURRENT_USER } from 'pods/auth/model';
+import { SET_CURRENT_USER, CLEAR_CURRENT_USER } from 'pods/auth/model';
 
 const storageMiddleware = storage.createMiddleware(
   engine,
   [LOCATION_CHANGE],
-  [SET_CURRENT_USER],
+  [SET_CURRENT_USER, CLEAR_CURRENT_USER],
 );
 
 const load = storage.createLoader(engine);
