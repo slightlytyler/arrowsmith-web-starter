@@ -11,11 +11,11 @@ export class Header extends Component {
     userId: PropTypes.string,
     email: PropTypes.string,
     avatarUrl: PropTypes.string,
-    logoutUser: PropTypes.func.isRequired,
+    logout: PropTypes.func.isRequired,
   }
 
   showUserOptions = () => {
-    this.props.logoutUser();
+    this.props.logout();
   }
 
   renderAuthSection() {
@@ -40,7 +40,6 @@ export class Header extends Component {
     return (
       <div styleName="header">
         <img src={logo} styleName="logo" />
-
         {this.renderAuthSection()}
       </div>
     );
@@ -49,7 +48,7 @@ export class Header extends Component {
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { logoutUser } from 'pods/auth/model';
+import { userLogoutFlow } from 'pods/auth/model';
 
 export default connect(
   state => ({
@@ -57,5 +56,5 @@ export default connect(
     email: state.auth.password ? state.auth.password.email : undefined,
     avatarUrl: state.auth.password ? state.auth.password.profileImageURL : undefined,
   }),
-  dispatch => bindActionCreators({ logoutUser }, dispatch),
+  dispatch => bindActionCreators({ logout: userLogoutFlow }, dispatch),
 )(Header);

@@ -6,7 +6,7 @@ import styles from './styles.styl';
 @cssModules(styles)
 export class Login extends Component {
   static propTypes = {
-    loginUser: PropTypes.func.isRequired,
+    login: PropTypes.func.isRequired,
   }
 
   render() {
@@ -20,9 +20,9 @@ export class Login extends Component {
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { loginUser } from 'pods/auth/model';
+import { userLoginFlow } from 'pods/auth/model';
 
 export default connect(
   undefined,
-  dispatch => bindActionCreators({ loginUser }, dispatch),
+  dispatch => bindActionCreators({ login: userLoginFlow }, dispatch),
 )(Login);

@@ -6,13 +6,13 @@ import styles from './styles.styl';
 @cssModules(styles)
 export class SignUp extends Component {
   static propTypes = {
-    signUpUser: PropTypes.func.isRequired,
+    signUp: PropTypes.func.isRequired,
   }
 
   handleSubmit = () => {
     const { email, name, password } = this.refs;
 
-    this.props.signUpUser(email.value, password.value, { name: name.value });
+    this.props.signUp(email.value, password.value, { name: name.value });
   }
 
   render() {
@@ -48,16 +48,10 @@ export class SignUp extends Component {
 }
 
 import { connect } from 'react-redux';
-import { signUpUser } from 'pods/auth/model';
-import { initializeUser } from 'pods/user/model';
+import { bindActionCreators } from 'redux';
+import { userSignUpFlow } from 'pods/auth/model';
 
 export default connect(
   undefined,
-  dispatch => ({
-    signUpUser: (email, password, payload) => dispatch(
-      signUpUser(email, password, payload, () =>
-        dispatch(initializeUser())
-      )
-    ),
-  }),
+  dispatch => bindActionCreators({ signUp: userSignUpFlow }, dispatch),
 )(SignUp);
