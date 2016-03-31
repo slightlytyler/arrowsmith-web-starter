@@ -3,6 +3,7 @@
 import React from 'react';
 import { Route, IndexRedirect } from 'react-router';
 
+import PageLayout from 'layouts/Page';
 import Login from 'pods/auth/components/Login';
 import SignUp from 'pods/auth/components/SignUp';
 import Editor from 'components/Editor';
@@ -10,7 +11,7 @@ import GoalsViewer from 'pods/goals/components/Viewer';
 import { ACTIVE_FILTER, COMPLETE_FILTER, ALL_FILTER } from 'pods/goal/model';
 
 export default (store) => (
-  <Route path="/">
+  <Route path="/" component={PageLayout}>
     <IndexRedirect to="goals/active" />
     <Route path="auth">
       <Route path="login" component={Login} />

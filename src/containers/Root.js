@@ -1,6 +1,7 @@
 import React, { PropTypes } from 'react';
 import { Provider } from 'react-redux';
 import { Router } from 'react-router';
+
 import 'styles/app.styl';
 
 export default class Root extends React.Component {
@@ -22,19 +23,7 @@ export default class Root extends React.Component {
   render() {
     return (
       <Provider store={this.props.store}>
-        <div
-          style={{
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'center',
-            alignItems: 'center',
-            minWidth: '100vw',
-            minHeight: '100vh',
-            overflow: 'auto',
-          }}
-        >
-          {this.content}
-        </div>
+        {this.content}
       </Provider>
     );
   }
