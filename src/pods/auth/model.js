@@ -53,6 +53,19 @@ export const unauthorizeUser = (resolve, reject) => (dispatch, getState) => {
 
 import { createProject } from 'pods/project/model';
 
+export const getUsersFirstProjectId = (resolve, reject) => async (dispatch, getState) => {
+  const { firebase, auth } = getState();
+
+  firebase
+    .child('projects')
+    .orderByChild('userId')
+    .equalTo(auth.uid)
+    .once('child_added', snapshot =>
+      resolve(snapshot.key())
+    )
+  ;
+};
+
 export const initializeUser = (resolve, reject) => (dispatch, getState) => {
   const { firebase, auth } = getState();
 
@@ -102,11 +115,18 @@ export const userSignUpFlow = (email, password, payload) => async dispatch => {
 
 export const userLoginFlow = (email, password) => async dispatch => {
   try {
+    // Authroize user
     await new Promise((resolve, reject) =>
       dispatch(authorizeUser(email, password, resolve, reject))
     );
 
+    // Get id of first project
+    const projectId = await new Promise((resolve, reject) =>
+      dispatch(getUsersFirstProjectId(resolve, reject))
+    );
+
     // Transition to first project
+    dispatch(push(`/projects/${projectId}/goals/active`));
   } catch (error) {
     console.log(error);
   }

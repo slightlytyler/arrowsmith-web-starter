@@ -9,10 +9,34 @@ export class Login extends Component {
     login: PropTypes.func.isRequired,
   }
 
+  handleSubmit = () => {
+    const { email, password } = this.refs;
+
+    this.props.login(email.value, password.value);
+  }
+
   render() {
     return (
-      <div>
-        Login
+      <div styleName="auth-container">
+        <header styleName="header">Login</header>
+        <input
+          ref="email"
+          type="email"
+          styleName="input"
+          placeholder="Email"
+        />
+        <input
+          ref="password"
+          type="password"
+          styleName="input"
+          placeholder="Password"
+        />
+        <button
+          styleName="button"
+          onClick={this.handleSubmit}
+        >
+          Submit
+        </button>
       </div>
     );
   }
