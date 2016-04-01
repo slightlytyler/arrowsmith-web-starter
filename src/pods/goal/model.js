@@ -26,14 +26,6 @@ export const findRecord = createSelector(
   (recordsById, id) => recordsById[id],
 );
 
-export const remainingGoalsSelector = createSelector(
-  recordsSelector,
-  recordsByIdSelector,
-  (records, recordsById) => records.filter(id => !recordsById[id].complete),
-);
-
-export const activeFilterSelector = containerProps => containerProps.route.filter;
-
 export const projectGoalsSelector = createSelector(
   recordsSelector,
   recordsByIdSelector,
@@ -41,21 +33,36 @@ export const projectGoalsSelector = createSelector(
   (records, recordsById, projectId) => records.filter(id => recordsById[id].projectId === projectId)
 );
 
-export const filteredProjectGoalsSelector = createSelector(
+export const remainingGoalsSelector = createSelector(
   projectGoalsSelector,
   recordsByIdSelector,
+  (records, recordsById) => records.filter(id => !recordsById[id].complete),
+);
+
+export const completedGoalsSelector = createSelector(
+  projectGoalsSelector,
+  recordsByIdSelector,
+  (records, recordsById) => records.filter(id => recordsById[id].complete),
+);
+
+export const activeFilterSelector = containerProps => containerProps.route.filter;
+
+export const filteredProjectGoalsSelector = createSelector(
+  remainingGoalsSelector,
+  completedGoalsSelector,
+  projectGoalsSelector,
   (state, projectId, activeFilter) => activeFilter,
-  (records, recordsById, activeFilter) => {
+  (remainingGoals, completedGoals, allGoals, activeFilter) => {
     switch (activeFilter) {
       case ACTIVE_FILTER:
-        return records.filter(id => !recordsById[id].complete);
+        return remainingGoals;
 
       case COMPLETE_FILTER:
-        return records.filter(id => recordsById[id].complete);
+        return completedGoals;
 
       case ALL_FILTER:
       default:
-        return records;
+        return allGoals;
     }
   },
 );

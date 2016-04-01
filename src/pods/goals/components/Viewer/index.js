@@ -41,7 +41,7 @@ export class GoalsViewer extends Component {
     return (
       <div styleName="viewer">
         <GoalCreator projectId={projectId} />
-        <GoalFilters activeFilter={activeFilter} />
+        <GoalFilters projectId={projectId} activeFilter={activeFilter} />
         <GoalList
           projectId={projectId}
           activeFilter={activeFilter}
