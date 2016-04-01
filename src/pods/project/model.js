@@ -72,6 +72,7 @@ export const deleteProject = id => (dispatch, getState) => {
 // Reducers
 import { combineReducers } from 'redux';
 import updateIn, { push, assoc, dissoc, merge } from 'react-update-in';
+import { CLEAR_CURRENT_USER } from 'pods/auth/model';
 
 const records = (state = [], action) => {
   switch (action.type) {
@@ -80,6 +81,9 @@ const records = (state = [], action) => {
 
     case DELETE_PROJECT:
       return dissoc(state, state.indexOf(action.payload.id));
+
+    case CLEAR_CURRENT_USER:
+      return [];
 
     default:
       return state;
@@ -96,6 +100,9 @@ const recordsById = (state = {}, action) => {
 
     case DELETE_PROJECT:
       return dissoc(state, action.payload.id);
+
+    case CLEAR_CURRENT_USER:
+      return {};
 
     default:
       return state;
