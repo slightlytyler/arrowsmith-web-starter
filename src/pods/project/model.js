@@ -26,24 +26,39 @@ export const findRecord = createSelector(
 // Actions
 import recordFromSnapshot from 'utils/recordFromSnapshot';
 
-export const registerProjectListeners = () => (dispatch, getState) => {
-  const { firebase } = getState();
-  const ref = firebase.child(`projects`);
-
-  ref.on('child_added', snapshot => dispatch({
+export const createProjectsSubscription = () => (dispatch, getState) => {
+  const childAddedHandler = snapshot => dispatch({
     type: CREATE_PROJECT,
     payload: recordFromSnapshot(snapshot),
-  }));
-
-  ref.on('child_changed', snapshot => dispatch({
+  });
+  const childUpdatedHandler = snapshot => dispatch({
     type: UPDATE_PROJECT,
     payload: recordFromSnapshot(snapshot),
-  }));
-
-  ref.on('child_removed', snapshot => dispatch({
+  });
+  const childRemovedHandler = snapshot => dispatch({
     type: DELETE_PROJECT,
     payload: recordFromSnapshot(snapshot),
-  }));
+  });
+
+  const { firebase, auth } = getState();
+  const ref = firebase
+    .child(`projects`)
+    .orderByChild('userId')
+    .equalTo(auth.uid)
+  ;
+
+  return {
+    subscribeProjects: () => {
+      ref.on('child_added', childAddedHandler);
+      ref.on('child_changed', childUpdatedHandler);
+      ref.on('child_removed', childRemovedHandler);
+    },
+    unsubscribeProjects: () => {
+      ref.off('child_added', childAddedHandler);
+      ref.off('child_changed', childUpdatedHandler);
+      ref.off('child_removed', childRemovedHandler);
+    },
+  };
 };
 
 export const createProject = name => (dispatch, getState) => {

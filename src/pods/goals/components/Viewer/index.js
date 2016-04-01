@@ -16,11 +16,16 @@ export class GoalsViewer extends Component {
       ALL_FILTER,
     ]).isRequired,
     projectId: PropTypes.string.isRequired,
-    registerGoalListeners: PropTypes.func.isRequired,
+    subscribeGoals: PropTypes.func.isRequired,
+    unsubscribeGoals: PropTypes.func.isRequired,
   };
 
   componentWillMount() {
-    this.props.registerGoalListeners();
+    this.props.subscribeGoals(this.props.projectId);
+  }
+
+  componentWillUnmount() {
+    this.props.unsubscribeGoals(this.props.projectId);
   }
 
   render() {
@@ -40,13 +45,12 @@ export class GoalsViewer extends Component {
 }
 
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import { activeFilterSelector, registerGoalListeners } from 'pods/goal/model';
+import { activeFilterSelector, createGoalsSubscription } from 'pods/goal/model';
 
 export default connect(
-  (state, props) => ({ activeFilter: activeFilterSelector(props) }),
-  dispatch => bindActionCreators({ registerGoalListeners }, dispatch),
-  (sProps, dProps, oProps) => Object.assign({}, sProps, dProps, {
-    projectId: oProps.params.projectId,
+  (state, props) => ({
+    activeFilter: activeFilterSelector(props),
+    projectId: props.params.projectId,
   }),
+  (dispatch, props) => dispatch(createGoalsSubscription(props.params.projectId)),
 )(GoalsViewer);

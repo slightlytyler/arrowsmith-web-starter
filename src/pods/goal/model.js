@@ -63,24 +63,39 @@ export const filteredProjectGoalsSelector = createSelector(
 // Actions
 import recordFromSnapshot from 'utils/recordFromSnapshot';
 
-export const registerGoalListeners = () => (dispatch, getState) => {
-  const { firebase } = getState();
-  const ref = firebase.child(`goals`);
-
-  ref.on('child_added', snapshot => dispatch({
+export const createGoalsSubscription = projectId => (dispatch, getState) => {
+  const childAddedHandler = snapshot => dispatch({
     type: CREATE_GOAL,
     payload: recordFromSnapshot(snapshot),
-  }));
-
-  ref.on('child_changed', snapshot => dispatch({
+  });
+  const childUpdatedHandler = snapshot => dispatch({
     type: UPDATE_GOAL,
     payload: recordFromSnapshot(snapshot),
-  }));
-
-  ref.on('child_removed', snapshot => dispatch({
+  });
+  const childRemovedHandler = snapshot => dispatch({
     type: DELETE_GOAL,
     payload: recordFromSnapshot(snapshot),
-  }));
+  });
+
+  const { firebase } = getState();
+  const ref = firebase
+    .child(`goals`)
+    .orderByChild('projectId')
+    .equalTo(projectId)
+  ;
+
+  return {
+    subscribeGoals: () => {
+      ref.on('child_added', childAddedHandler);
+      ref.on('child_changed', childUpdatedHandler);
+      ref.on('child_removed', childRemovedHandler);
+    },
+    unsubscribeGoals: () => {
+      ref.off('child_added', childAddedHandler);
+      ref.off('child_changed', childUpdatedHandler);
+      ref.off('child_removed', childRemovedHandler);
+    },
+  };
 };
 
 export const createGoal = (text, projectId) => (dispatch, getState) => {
