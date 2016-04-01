@@ -10,11 +10,13 @@ import { ACTIVE_FILTER, COMPLETE_FILTER, ALL_FILTER } from 'pods/goal/model';
 export class GoalFilters extends Component {
   static propTypes = {
     remainingGoalsCount: PropTypes.number.isRequired,
+    projectId: PropTypes.string.isRequired,
     activeFilter: PropTypes.string.isRequired,
   };
 
   render() {
-    const { remainingGoalsCount, activeFilter } = this.props;
+    const { remainingGoalsCount, projectId, activeFilter } = this.props;
+    const route = filter => `/projects/${projectId}/goals/${filter}`;
 
     return (
       <div styleName="filters">
@@ -28,19 +30,19 @@ export class GoalFilters extends Component {
           </section>
           <section styleName="list">
             <Link
-              to="/goals/active"
+              to={route('active')}
               styleName={classNames('item', { active: activeFilter === ACTIVE_FILTER })}
             >
               Active
             </Link>
             <Link
-              to="/goals/complete"
+              to={route('complete')}
               styleName={classNames('item', { active: activeFilter === COMPLETE_FILTER })}
             >
               Complete
             </Link>
             <Link
-              to="/goals/all"
+              to={route('all')}
               styleName={classNames('item', { active: activeFilter === ALL_FILTER })}
             >
               All
@@ -56,5 +58,7 @@ import { connect } from 'react-redux';
 import { remainingGoalsSelector } from 'pods/goal/model';
 
 export default connect(
-  (state, props) => ({ remainingGoalsCount: remainingGoalsSelector(state, props.projectId).length }),
+  (state, props) => ({
+    remainingGoalsCount: remainingGoalsSelector(state, props.projectId).length,
+  }),
 )(GoalFilters);
