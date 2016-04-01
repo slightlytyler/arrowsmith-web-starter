@@ -24,43 +24,6 @@ export const findRecord = createSelector(
 );
 
 // Actions
-import recordFromSnapshot from 'utils/recordFromSnapshot';
-
-export const createProjectsSubscription = () => (dispatch, getState) => {
-  const childAddedHandler = snapshot => dispatch({
-    type: CREATE_PROJECT,
-    payload: recordFromSnapshot(snapshot),
-  });
-  const childUpdatedHandler = snapshot => dispatch({
-    type: UPDATE_PROJECT,
-    payload: recordFromSnapshot(snapshot),
-  });
-  const childRemovedHandler = snapshot => dispatch({
-    type: DELETE_PROJECT,
-    payload: recordFromSnapshot(snapshot),
-  });
-
-  const { firebase, auth } = getState();
-  const ref = firebase
-    .child(`projects`)
-    .orderByChild('userId')
-    .equalTo(auth.uid)
-  ;
-
-  return {
-    subscribeProjects: () => {
-      ref.on('child_added', childAddedHandler);
-      ref.on('child_changed', childUpdatedHandler);
-      ref.on('child_removed', childRemovedHandler);
-    },
-    unsubscribeProjects: () => {
-      ref.off('child_added', childAddedHandler);
-      ref.off('child_changed', childUpdatedHandler);
-      ref.off('child_removed', childRemovedHandler);
-    },
-  };
-};
-
 export const createProject = name => (dispatch, getState) => {
   const { firebase, auth } = getState();
 
@@ -77,11 +40,47 @@ export const updateProject = (id, payload) => (dispatch, getState) => {
   firebase.child(`projects/${id}`).update(payload);
 };
 
-
 export const deleteProject = id => (dispatch, getState) => {
   const { firebase } = getState();
 
   firebase.child(`projects/${id}`).remove();
+};
+
+import recordFromSnapshot from 'utils/recordFromSnapshot';
+
+export const createProjectsSubscription = () => (dispatch, getState) => {
+  const { firebase, auth } = getState();
+  const ref = firebase
+    .child(`projects`)
+    .orderByChild('userId')
+    .equalTo(auth.uid)
+  ;
+
+  const childAddedHandler = snapshot => dispatch({
+    type: CREATE_PROJECT,
+    payload: recordFromSnapshot(snapshot),
+  });
+  const childUpdatedHandler = snapshot => dispatch({
+    type: UPDATE_PROJECT,
+    payload: recordFromSnapshot(snapshot),
+  });
+  const childRemovedHandler = snapshot => dispatch({
+    type: DELETE_PROJECT,
+    payload: recordFromSnapshot(snapshot),
+  });
+
+  return {
+    subscribeProjects: () => {
+      ref.on('child_added', childAddedHandler);
+      ref.on('child_changed', childUpdatedHandler);
+      ref.on('child_removed', childRemovedHandler);
+    },
+    unsubscribeProjects: () => {
+      ref.off('child_added', childAddedHandler);
+      ref.off('child_changed', childUpdatedHandler);
+      ref.off('child_removed', childRemovedHandler);
+    },
+  };
 };
 
 // Reducers
@@ -91,9 +90,14 @@ import { CLEAR_CURRENT_USER } from 'pods/auth/model';
 
 const records = (state = [], action) => {
   switch (action.type) {
-    case CREATE_PROJECT:
-      return push([action.payload.id], state);
-
+    case CREATE_PROJECT: {
+      const id = action.payload.id;
+      const index = state.indexOf(id);
+      if (index === -1) {
+        return push([action.payload.id], state);
+      }
+      return assoc(state, index, id);
+    }
     case DELETE_PROJECT:
       return dissoc(state, state.indexOf(action.payload.id));
 

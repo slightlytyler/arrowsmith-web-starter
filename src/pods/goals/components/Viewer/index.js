@@ -21,11 +21,18 @@ export class GoalsViewer extends Component {
   };
 
   componentWillMount() {
-    this.props.subscribeGoals(this.props.projectId);
+    this.props.subscribeGoals();
+  }
+
+  componentWillUpdate(nextProps) {
+    if (this.props.subscribeGoals !== nextProps.subscribeGoals) {
+      this.props.unsubscribeGoals();
+      nextProps.subscribeGoals();
+    }
   }
 
   componentWillUnmount() {
-    this.props.unsubscribeGoals(this.props.projectId);
+    this.props.unsubscribeGoals();
   }
 
   render() {

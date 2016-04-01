@@ -16,6 +16,13 @@ export class ProjectsViewer extends Component {
     this.props.subscribeProjects();
   }
 
+  componentWillUpdate(nextProps) {
+    if (this.props.subscribeProjects !== nextProps.subscribeProjects) {
+      this.props.unsubscribeProjects();
+      nextProps.subscribeProjects();
+    }
+  }
+
   componentWillUnmount() {
     this.props.unsubscribeProjects();
   }
@@ -35,5 +42,5 @@ import { createProjectsSubscription } from 'pods/project/model';
 
 export default connect(
   undefined,
-  dispatch => dispatch(createProjectsSubscription()),
+  (dispatch, props) => dispatch(createProjectsSubscription()), // eslint-disable-line no-unused-vars
 )(ProjectsViewer);

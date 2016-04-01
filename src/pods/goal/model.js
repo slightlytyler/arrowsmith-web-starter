@@ -61,43 +61,6 @@ export const filteredProjectGoalsSelector = createSelector(
 );
 
 // Actions
-import recordFromSnapshot from 'utils/recordFromSnapshot';
-
-export const createGoalsSubscription = projectId => (dispatch, getState) => {
-  const childAddedHandler = snapshot => dispatch({
-    type: CREATE_GOAL,
-    payload: recordFromSnapshot(snapshot),
-  });
-  const childUpdatedHandler = snapshot => dispatch({
-    type: UPDATE_GOAL,
-    payload: recordFromSnapshot(snapshot),
-  });
-  const childRemovedHandler = snapshot => dispatch({
-    type: DELETE_GOAL,
-    payload: recordFromSnapshot(snapshot),
-  });
-
-  const { firebase } = getState();
-  const ref = firebase
-    .child(`goals`)
-    .orderByChild('projectId')
-    .equalTo(projectId)
-  ;
-
-  return {
-    subscribeGoals: () => {
-      ref.on('child_added', childAddedHandler);
-      ref.on('child_changed', childUpdatedHandler);
-      ref.on('child_removed', childRemovedHandler);
-    },
-    unsubscribeGoals: () => {
-      ref.off('child_added', childAddedHandler);
-      ref.off('child_changed', childUpdatedHandler);
-      ref.off('child_removed', childRemovedHandler);
-    },
-  };
-};
-
 export const createGoal = (text, projectId) => (dispatch, getState) => {
   const { firebase } = getState();
 
@@ -127,6 +90,43 @@ export const toggleGoal = id => (dispatch, getState) => {
   dispatch(updateGoal(id, { complete: !record.complete }));
 };
 
+import recordFromSnapshot from 'utils/recordFromSnapshot';
+
+export const createGoalsSubscription = projectId => (dispatch, getState) => {
+  const { firebase } = getState();
+  const ref = firebase
+    .child(`goals`)
+    .orderByChild('projectId')
+    .equalTo(projectId)
+  ;
+
+  const childAddedHandler = snapshot => dispatch({
+    type: CREATE_GOAL,
+    payload: recordFromSnapshot(snapshot),
+  });
+  const childUpdatedHandler = snapshot => dispatch({
+    type: UPDATE_GOAL,
+    payload: recordFromSnapshot(snapshot),
+  });
+  const childRemovedHandler = snapshot => dispatch({
+    type: DELETE_GOAL,
+    payload: recordFromSnapshot(snapshot),
+  });
+
+  return {
+    subscribeGoals: () => {
+      ref.on('child_added', childAddedHandler);
+      ref.on('child_changed', childUpdatedHandler);
+      ref.on('child_removed', childRemovedHandler);
+    },
+    unsubscribeGoals: () => {
+      ref.off('child_added', childAddedHandler);
+      ref.off('child_changed', childUpdatedHandler);
+      ref.off('child_removed', childRemovedHandler);
+    },
+  };
+};
+
 // Reducers
 import { combineReducers } from 'redux';
 import updateIn, { push, assoc, dissoc, merge } from 'react-update-in';
@@ -134,8 +134,14 @@ import { CLEAR_CURRENT_USER } from 'pods/auth/model';
 
 const records = (state = [], action) => {
   switch (action.type) {
-    case CREATE_GOAL:
-      return push([action.payload.id], state);
+    case CREATE_GOAL: {
+      const id = action.payload.id;
+      const index = state.indexOf(id);
+      if (index === -1) {
+        return push([action.payload.id], state);
+      }
+      return assoc(state, index, id);
+    }
 
     case DELETE_GOAL:
       return dissoc(state, state.indexOf(action.payload.id));
