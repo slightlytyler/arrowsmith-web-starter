@@ -18,7 +18,7 @@ export class ProjectItem extends Component {
 
   update = () => console.log('update');
 
-  delete = () => this.props.deleteProject(this.props.id);
+  delete = () => this.props.deleteProject(this.props.id, this.props.active);
 
   render() {
     return (
