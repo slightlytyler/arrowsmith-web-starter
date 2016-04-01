@@ -24,6 +24,8 @@ export const findRecord = createSelector(
 );
 
 // Actions
+import { push as pushRoute } from 'react-router-redux';
+
 export const createProject = name => (dispatch, getState) => {
   const { firebase, auth } = getState();
 
@@ -31,7 +33,7 @@ export const createProject = name => (dispatch, getState) => {
     name,
     goals: [],
     userId: auth.uid,
-  });
+  }).then(snapshot => dispatch(pushRoute(`/projects/${snapshot.key()}/goals/active`)));
 };
 
 export const updateProject = (id, payload) => (dispatch, getState) => {
@@ -41,9 +43,12 @@ export const updateProject = (id, payload) => (dispatch, getState) => {
 };
 
 export const deleteProject = id => (dispatch, getState) => {
-  const { firebase } = getState();
+  const { firebase, projects } = getState();
+  const isLastProject = projects.records.length === 1;
 
-  firebase.child(`projects/${id}`).remove();
+  firebase.child(`projects/${id}`).remove().then(() =>
+    isLastProject && dispatch(pushRoute('/projects'))
+  );
 };
 
 import recordFromSnapshot from 'utils/recordFromSnapshot';
