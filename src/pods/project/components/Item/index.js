@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import cssModules from 'react-css-modules';
 import Icon from 'react-svgcon';
+import keycode from 'keycode';
 
 import styles from './styles.styl';
 import editIcon from 'assets/icons/edit.svg';
@@ -17,9 +18,16 @@ export class ProjectItem extends Component {
     viewProject: PropTypes.func.isRequired,
   };
 
-  edit = () => console.log('edit');
+  state = {
+    editing: false,
+  };
 
-  update = () => console.log('update');
+  edit = () => this.setState({ editing: true });
+
+  update = () => {
+    this.props.updateProject(this.props.id, { name: this.refs.input.value });
+    this.setState({ editing: false });
+  };
 
   delete = () => this.props.deleteProject(this.props.id, this.props.active);
 
@@ -29,17 +37,51 @@ export class ProjectItem extends Component {
     }
   };
 
+  renderInput() {
+    const handleKeyDown = e => {
+      if (keycode(e.which) === 'enter') {
+        this.update();
+      }
+    };
+    const handleBlur = () => this.update();
+    const handleFocus = e => {
+      const { target } = e;
+      target.value = target.value;
+    };
+
+    return (
+      <div styleName="item--update">
+        <input
+          ref="input"
+          styleName="input"
+          defaultValue={this.props.name}
+          onKeyDown={handleKeyDown}
+          onBlur={handleBlur}
+          onFocus={handleFocus}
+          autoFocus
+        />
+        <div styleName="edit">
+          <Icon path={editIcon} color="currentColor" width="1em" />
+        </div>
+      </div>
+    );
+  }
+
   render() {
+    if (this.state.editing) {
+      return this.renderInput();
+    }
+
     return (
       <div styleName={this.props.active ? 'item--active' : 'item'}>
         <div styleName="name" onClick={this.view}>
           {this.props.name}
         </div>
-        <div styleName="edit" onClick={this.edit}>
-          <Icon path={editIcon} color="currentColor" width="1em" />
-        </div>
         <div styleName="remove" onClick={this.delete}>
           <Icon path={removeIcon} color="currentColor" width="1em" />
+        </div>
+        <div styleName="edit" onClick={this.edit}>
+          <Icon path={editIcon} color="currentColor" width="1em" />
         </div>
       </div>
     );

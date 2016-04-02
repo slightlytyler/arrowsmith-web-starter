@@ -18,22 +18,34 @@
     &:hover
       color: #1EB5F9
 
-.name
+.item--update
+  composes: item
+
+.name, .input
   flex: 1
   padding: 1em 0
+  font-size: 1em
+
+.name
   cursor: pointer
 
-.edit
+.input
+  min-width: 0
+  color: #acaeb4
+  border: 0
+  outline: none
+
+.remove
   margin-right: .25em
   color: #F0EBEC
   cursor: pointer
 
   &:hover
-    color: #1EB5F9
+    color: #F07366
 
-.remove
+.edit
   color: #F0EBEC
   cursor: pointer
 
   &:hover
-    color: #F07366
+    color: #1EB5F9
