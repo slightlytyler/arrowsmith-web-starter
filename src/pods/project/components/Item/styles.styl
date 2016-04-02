@@ -1,28 +1,37 @@
 .item
   display: flex
-  justify-content: space-between
+  justify-content: flex-end
   align-items: center
-  padding-bottom: 1em
   color: #acaeb4
   border-bottom: 1px solid #f0ebec
-  cursor: pointer
 
-  &:hover
+  .name:hover
     color: #777880
-
-  &:not(:last-child)
-    margin-bottom: 1em
 
 .item--active
   composes: item
   color: #1EB5F9
-  cursor: default
+
+  .name
+    cursor: default
+
+    &:hover
+      color: #1EB5F9
+
+.name
+  flex: 1
+  padding: 1em 0
+  cursor: pointer
+
+.edit
+  margin-right: .25em
+  color: #F0EBEC
+  cursor: pointer
 
   &:hover
     color: #1EB5F9
 
 .remove
-  margin-left: auto
   color: #F0EBEC
   cursor: pointer
 

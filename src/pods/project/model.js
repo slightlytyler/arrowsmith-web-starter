@@ -47,10 +47,12 @@ export const deleteProject = (id, active) => (dispatch, getState) => {
 
   firebase.child(`projects/${id}`).remove().then(() => {
     if (active || projects.records.length === 1) {
-      dispatch(pushRoute('/projects'))
+      dispatch(pushRoute('/projects'));
     }
   });
 };
+
+export const viewProject = id => dispatch => dispatch(pushRoute(`/projects/${id}/goals/active`));
 
 import recordFromSnapshot from 'utils/recordFromSnapshot';
 

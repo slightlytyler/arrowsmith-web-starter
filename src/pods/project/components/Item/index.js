@@ -3,7 +3,8 @@ import cssModules from 'react-css-modules';
 import Icon from 'react-svgcon';
 
 import styles from './styles.styl';
-import remove from 'assets/icons/remove.svg';
+import editIcon from 'assets/icons/edit.svg';
+import removeIcon from 'assets/icons/remove.svg';
 
 @cssModules(styles)
 export class ProjectItem extends Component {
@@ -16,18 +17,29 @@ export class ProjectItem extends Component {
     viewProject: PropTypes.func.isRequired,
   };
 
+  edit = () => console.log('edit');
+
   update = () => console.log('update');
 
   delete = () => this.props.deleteProject(this.props.id, this.props.active);
 
+  view = () => {
+    if (!this.props.active) {
+      this.props.viewProject(this.props.id);
+    }
+  };
+
   render() {
     return (
-      <div styleName={this.props.active ? 'item--active' : 'item'} onClick={this.props.viewProject}>
-        <div>
+      <div styleName={this.props.active ? 'item--active' : 'item'}>
+        <div styleName="name" onClick={this.view}>
           {this.props.name}
         </div>
+        <div styleName="edit" onClick={this.edit}>
+          <Icon path={editIcon} color="currentColor" width="1em" />
+        </div>
         <div styleName="remove" onClick={this.delete}>
-          <Icon path={remove} color="currentColor" width="1em" />
+          <Icon path={removeIcon} color="currentColor" width="1em" />
         </div>
       </div>
     );
@@ -36,22 +48,16 @@ export class ProjectItem extends Component {
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { push } from 'react-router-redux';
-import { findRecord, updateProject, deleteProject } from 'pods/project/model';
-
-const projectBasePath = id => `/projects/${id}`;
-const viewProjectPath = id => `${projectBasePath(id)}/goals/active`;
+import { findRecord, updateProject, deleteProject, viewProject } from 'pods/project/model';
 
 export default connect(
   (state, props) => ({
     ...findRecord(state, props.id),
-    active:
-      state.router.locationBeforeTransitions.pathname.indexOf(projectBasePath(props.id)) === 0
-    ,
+    active: state.router.locationBeforeTransitions.pathname.indexOf(`/projects/${props.id}`) === 0,
   }),
-  (dispatch, props) => bindActionCreators({
+  dispatch => bindActionCreators({
     updateProject,
     deleteProject,
-    viewProject: push.bind(undefined, viewProjectPath(props.id)),
+    viewProject,
   }, dispatch),
 )(ProjectItem);
