@@ -38,7 +38,7 @@ export class ProjectsViewer extends Component {
 }
 
 import { connect } from 'react-redux';
-import { createProjectsSubscription } from 'pods/project/model';
+import { createProjectsSubscription } from 'pods/projects/actions';
 
 export default connect(
   undefined,

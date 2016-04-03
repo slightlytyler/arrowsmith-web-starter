@@ -90,7 +90,8 @@ export class ProjectItem extends Component {
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { findRecord, updateProject, deleteProject, viewProject } from 'pods/project/model';
+import { findRecord } from 'pods/projects/selectors';
+import { updateProject, deleteProject, viewProject } from 'pods/projects/actions';
 
 export default connect(
   (state, props) => ({

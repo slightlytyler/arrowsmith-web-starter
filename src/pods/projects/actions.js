@@ -1,39 +1,7 @@
-// Constants
-export const CREATE_PROJECT = 'CREATE_PROJECT';
-export const UPDATE_PROJECT = 'UPDATE_PROJECT';
-export const DELETE_PROJECT = 'DELETE_PROJECT';
-
-
-// Selectors
-import { createSelector } from 'reselect';
-import { findIndex, map, filter } from 'lodash';
-import createRecordsById from 'utils/createRecordsById';
-
-export const projectsSelector = state => state.projects;
-
-export const recordsSelector = createSelector(
-  projectsSelector,
-  projects => projects.records,
-);
-
-export const recordIdsSelector = createSelector(
-  recordsSelector,
-  records => map(records, record => record.id),
-);
-
-export const recordsByIdSelector = createSelector(
-  recordsSelector,
-  records => createRecordsById(records),
-);
-
-export const findRecord = createSelector(
-  recordsByIdSelector,
-  (state, id) => id,
-  (recordsById, id) => recordsById[id],
-);
-
-// Actions
+import { actionTypes } from './constants';
+const { CREATE_PROJECT, UPDATE_PROJECT, DELETE_PROJECT } = actionTypes;
 import { push as pushRoute } from 'react-router-redux';
+import recordFromSnapshot from 'utils/recordFromSnapshot';
 
 export const createProject = name => (dispatch, getState) => {
   const { firebase, auth } = getState();
@@ -72,8 +40,6 @@ export const deleteProject = (id, active) => (dispatch, getState) => {
 
 export const viewProject = id => dispatch => dispatch(pushRoute(`/projects/${id}/goals/active`));
 
-import recordFromSnapshot from 'utils/recordFromSnapshot';
-
 export const createProjectsSubscription = () => (dispatch, getState) => {
   const { firebase, auth } = getState();
   const ref = firebase
@@ -108,40 +74,3 @@ export const createProjectsSubscription = () => (dispatch, getState) => {
     },
   };
 };
-
-// Reducers
-import { combineReducers } from 'redux';
-import { push, assoc, dissoc } from 'react-update-in';
-import { CLEAR_CURRENT_USER } from 'pods/auth/model';
-
-const records = (state = [], { type, payload }) => {
-  switch (type) {
-    case CREATE_PROJECT: {
-      const index = findIndex(state, record => record.id === payload.id);
-      if (index === -1) {
-        return push(state, [payload]);
-      }
-      return assoc(state, index, payload);
-    }
-
-    case UPDATE_PROJECT: {
-      const index = findIndex(state, record => record.id === payload.id);
-      return assoc(state, index, payload);
-    }
-
-    case DELETE_PROJECT: {
-      const index = findIndex(state, record => record.id === payload.id);
-      return dissoc(state, index);
-    }
-
-    case CLEAR_CURRENT_USER:
-      return [];
-
-    default:
-      return state;
-  }
-};
-
-export const reducer = combineReducers({
-  records,
-});

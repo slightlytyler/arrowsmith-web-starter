@@ -49,8 +49,6 @@ export const unauthorizeUser = (resolve, reject) => (dispatch, getState) => {
 };
 
 
-import { createProject } from 'pods/project/model';
-
 export const getUsersFirstProjectId = (resolve, reject) => async (dispatch, getState) => {
   const { firebase, auth } = getState();
 
@@ -62,21 +60,6 @@ export const getUsersFirstProjectId = (resolve, reject) => async (dispatch, getS
       resolve(snapshot.key())
     )
   ;
-};
-
-export const initializeUser = (resolve, reject) => (dispatch, getState) => {
-  const { firebase, auth } = getState();
-
-  firebase
-    .child('projects')
-    .orderByChild('userId')
-    .equalTo(auth.uid)
-    .once('child_added', snapshot =>
-      resolve(snapshot.key())
-    )
-  ;
-
-  dispatch(createProject('Awesome Project'));
 };
 
 import { push } from 'react-router-redux';
@@ -99,13 +82,8 @@ export const userSignUpFlow = (email, password, payload) => async dispatch => {
       dispatch(authorizeUser(email, password, resolve, reject))
     );
 
-    // Initialize state for user
-    const initialProjectId = await new Promise((resolve, reject) =>
-      dispatch(initializeUser(resolve, reject))
-    );
-
-    // Transition to editor route
-    dispatch(push(`/projects/${initialProjectId}/goals/active`));
+    // Transition to projects
+    dispatch(push('/projects'));
   } catch (error) {
     console.log(error);
   }

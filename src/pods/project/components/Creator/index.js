@@ -35,7 +35,7 @@ export class ProjectCreator extends Component {
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { createProject } from 'pods/project/model';
+import { createProject } from 'pods/projects/actions';
 
 export default connect(
   undefined,
