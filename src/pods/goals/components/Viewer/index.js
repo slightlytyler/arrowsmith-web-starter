@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import cssModules from 'react-css-modules';
 
 import styles from './styles.styl';
-import { ACTIVE_FILTER, COMPLETE_FILTER, ALL_FILTER } from 'pods/goal/model';
+import { ACTIVE_GOALS_FILTER, COMPLETE_GOALS_FILTER, ALL_GOALS_FILTER } from 'pods/goals/constants';
 import GoalCreator from 'pods/goal/components/Creator';
 import GoalList from 'pods/goal/components/List';
 import GoalFilters from 'pods/goal/components/Filters';
@@ -11,9 +11,9 @@ import GoalFilters from 'pods/goal/components/Filters';
 export class GoalsViewer extends Component {
   static propTypes = {
     activeFilter: PropTypes.oneOf([
-      ACTIVE_FILTER,
-      COMPLETE_FILTER,
-      ALL_FILTER,
+      ACTIVE_GOALS_FILTER,
+      COMPLETE_GOALS_FILTER,
+      ALL_GOALS_FILTER,
     ]).isRequired,
     projectId: PropTypes.string.isRequired,
     subscribeGoals: PropTypes.func.isRequired,
@@ -52,7 +52,8 @@ export class GoalsViewer extends Component {
 }
 
 import { connect } from 'react-redux';
-import { activeFilterSelector, createGoalsSubscription } from 'pods/goal/model';
+import { activeFilterSelector } from 'pods/goals/selectors';
+import { createGoalsSubscription } from 'pods/goals/actions';
 
 export default connect(
   (state, props) => ({

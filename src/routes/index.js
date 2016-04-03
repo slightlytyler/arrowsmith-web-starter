@@ -8,7 +8,7 @@ import Login from 'pods/auth/components/Login';
 import SignUp from 'pods/auth/components/SignUp';
 import Editor from 'components/Editor';
 import GoalsViewer from 'pods/goals/components/Viewer';
-import { ACTIVE_FILTER, COMPLETE_FILTER, ALL_FILTER } from 'pods/goal/model';
+import { ACTIVE_GOALS_FILTER, COMPLETE_GOALS_FILTER, ALL_GOALS_FILTER } from 'pods/goals/constants';
 
 export default (store) => (
   <Route path="/" component={Page}>
@@ -20,9 +20,9 @@ export default (store) => (
     <Route path="projects" component={Editor}>
       <Route path=":projectId">
         <Route path="goals">
-          <Route path="active" component={GoalsViewer} filter={ACTIVE_FILTER} />
-          <Route path="complete" component={GoalsViewer} filter={COMPLETE_FILTER} />
-          <Route path="all" component={GoalsViewer} filter={ALL_FILTER} />
+          <Route path="active" component={GoalsViewer} filter={ACTIVE_GOALS_FILTER} />
+          <Route path="complete" component={GoalsViewer} filter={COMPLETE_GOALS_FILTER} />
+          <Route path="all" component={GoalsViewer} filter={ALL_GOALS_FILTER} />
         </Route>
       </Route>
     </Route>

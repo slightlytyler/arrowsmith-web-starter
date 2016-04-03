@@ -20,7 +20,7 @@ export class GoalList extends Component {
 }
 
 import { connect } from 'react-redux';
-import { filteredProjectGoalsSelector } from 'pods/goal/model';
+import { filteredProjectGoalsSelector } from 'pods/goals/selectors';
 
 export default connect(
   (state, props) => ({

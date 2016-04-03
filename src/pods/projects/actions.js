@@ -1,5 +1,4 @@
-import { actionTypes } from './constants';
-const { CREATE_PROJECT, UPDATE_PROJECT, DELETE_PROJECT } = actionTypes;
+import { CREATE_PROJECT, UPDATE_PROJECT, DELETE_PROJECT } from './constants';
 import { push as pushRoute } from 'react-router-redux';
 import recordFromSnapshot from 'utils/recordFromSnapshot';
 
@@ -42,7 +41,7 @@ export const viewProject = id => dispatch => dispatch(pushRoute(`/projects/${id}
 
 export const createProjectsSubscription = () => (dispatch, getState) => {
   const { firebase, auth } = getState();
-  const ref = firebase
+  const query = firebase
     .child(`projects`)
     .orderByChild('userId')
     .equalTo(auth.uid)
@@ -63,14 +62,14 @@ export const createProjectsSubscription = () => (dispatch, getState) => {
 
   return {
     subscribeProjects: () => {
-      ref.on('child_added', childAddedHandler);
-      ref.on('child_changed', childUpdatedHandler);
-      ref.on('child_removed', childRemovedHandler);
+      query.on('child_added', childAddedHandler);
+      query.on('child_changed', childUpdatedHandler);
+      query.on('child_removed', childRemovedHandler);
     },
     unsubscribeProjects: () => {
-      ref.off('child_added', childAddedHandler);
-      ref.off('child_changed', childUpdatedHandler);
-      ref.off('child_removed', childRemovedHandler);
+      query.off('child_added', childAddedHandler);
+      query.off('child_changed', childUpdatedHandler);
+      query.off('child_removed', childRemovedHandler);
     },
   };
 };

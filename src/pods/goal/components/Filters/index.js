@@ -4,7 +4,7 @@ import cssModules from 'react-css-modules';
 import classNames from 'classnames';
 
 import styles from './styles.styl';
-import { ACTIVE_FILTER, COMPLETE_FILTER, ALL_FILTER } from 'pods/goal/model';
+import { ACTIVE_GOALS_FILTER, COMPLETE_GOALS_FILTER, ALL_GOALS_FILTER } from 'pods/goals/constants';
 
 @cssModules(styles, { allowMultiple: true })
 export class GoalFilters extends Component {
@@ -31,19 +31,19 @@ export class GoalFilters extends Component {
           <section styleName="list">
             <Link
               to={route('active')}
-              styleName={classNames('item', { active: activeFilter === ACTIVE_FILTER })}
+              styleName={classNames('item', { active: activeFilter === ACTIVE_GOALS_FILTER })}
             >
               Active
             </Link>
             <Link
               to={route('complete')}
-              styleName={classNames('item', { active: activeFilter === COMPLETE_FILTER })}
+              styleName={classNames('item', { active: activeFilter === COMPLETE_GOALS_FILTER })}
             >
               Complete
             </Link>
             <Link
               to={route('all')}
-              styleName={classNames('item', { active: activeFilter === ALL_FILTER })}
+              styleName={classNames('item', { active: activeFilter === ALL_GOALS_FILTER })}
             >
               All
             </Link>
@@ -55,7 +55,7 @@ export class GoalFilters extends Component {
 }
 
 import { connect } from 'react-redux';
-import { remainingGoalIdsSelector } from 'pods/goal/model';
+import { remainingGoalIdsSelector } from 'pods/goals/selectors';
 
 export default connect(
   (state, props) => ({

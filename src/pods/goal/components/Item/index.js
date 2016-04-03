@@ -89,7 +89,8 @@ export class GoalItem extends Component {
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { findRecord, updateGoal, deleteGoal, toggleGoal } from 'pods/goal/model';
+import { findRecord } from 'pods/goals/selectors';
+import { updateGoal, deleteGoal, toggleGoal } from 'pods/goals/actions';
 
 export default connect(
   (state, props) => ({

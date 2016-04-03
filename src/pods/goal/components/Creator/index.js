@@ -64,7 +64,7 @@ export class GoalCreator extends Component {
 }
 
 import { connect } from 'react-redux';
-import { createGoal } from 'pods/goal/model';
+import { createGoal } from 'pods/goals/actions';
 
 export default connect(
   undefined,
