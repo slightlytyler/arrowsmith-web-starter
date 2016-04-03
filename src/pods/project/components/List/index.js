@@ -20,8 +20,8 @@ export class ProjectList extends Component {
 }
 
 import { connect } from 'react-redux';
-import { recordsSelector } from 'pods/project/model';
+import { recordIdsSelector } from 'pods/project/model';
 
 export default connect(
-  state => ({ projects: recordsSelector(state) }),
+  state => ({ projects: recordIdsSelector(state) }),
 )(ProjectList);

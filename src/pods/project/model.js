@@ -6,15 +6,24 @@ export const DELETE_PROJECT = 'DELETE_PROJECT';
 
 // Selectors
 import { createSelector } from 'reselect';
+import { findIndex, map, filter } from 'lodash';
+import createRecordsById from 'utils/createRecordsById';
 
 export const projectsSelector = state => state.projects;
+
 export const recordsSelector = createSelector(
   projectsSelector,
   projects => projects.records,
 );
+
+export const recordIdsSelector = createSelector(
+  recordsSelector,
+  records => map(records, record => record.id),
+);
+
 export const recordsByIdSelector = createSelector(
-  projectsSelector,
-  projects => projects.recordsById,
+  recordsSelector,
+  records => createRecordsById(records),
 );
 
 export const findRecord = createSelector(
@@ -102,21 +111,28 @@ export const createProjectsSubscription = () => (dispatch, getState) => {
 
 // Reducers
 import { combineReducers } from 'redux';
-import updateIn, { push, assoc, dissoc, merge } from 'react-update-in';
+import { push, assoc, dissoc } from 'react-update-in';
 import { CLEAR_CURRENT_USER } from 'pods/auth/model';
 
-const records = (state = [], action) => {
-  switch (action.type) {
+const records = (state = [], { type, payload }) => {
+  switch (type) {
     case CREATE_PROJECT: {
-      const id = action.payload.id;
-      const index = state.indexOf(id);
+      const index = findIndex(state, record => record.id === payload.id);
       if (index === -1) {
-        return push([action.payload.id], state);
+        return push(state, [payload]);
       }
-      return assoc(state, index, id);
+      return assoc(state, index, payload);
     }
-    case DELETE_PROJECT:
-      return dissoc(state, state.indexOf(action.payload.id));
+
+    case UPDATE_PROJECT: {
+      const index = findIndex(state, record => record.id === payload.id);
+      return assoc(state, index, payload);
+    }
+
+    case DELETE_PROJECT: {
+      const index = findIndex(state, record => record.id === payload.id);
+      return dissoc(state, index);
+    }
 
     case CLEAR_CURRENT_USER:
       return [];
@@ -126,26 +142,6 @@ const records = (state = [], action) => {
   }
 };
 
-const recordsById = (state = {}, action) => {
-  switch (action.type) {
-    case CREATE_PROJECT:
-      return assoc(state, action.payload.id, action.payload);
-
-    case UPDATE_PROJECT:
-      return updateIn(state, [action.payload.id], merge, action.payload);
-
-    case DELETE_PROJECT:
-      return dissoc(state, action.payload.id);
-
-    case CLEAR_CURRENT_USER:
-      return {};
-
-    default:
-      return state;
-  }
-};
-
 export const reducer = combineReducers({
   records,
-  recordsById,
 });
