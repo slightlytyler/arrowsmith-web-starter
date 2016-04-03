@@ -9,15 +9,24 @@ export const ALL_FILTER = 'all';
 
 // Selectors
 import { createSelector } from 'reselect';
+import { findIndex, map, filter } from 'lodash';
+import createRecordsById from 'utils/createRecordsById';
 
 export const goalsSelector = state => state.goals;
+
 export const recordsSelector = createSelector(
   goalsSelector,
   goals => goals.records,
 );
+
+export const recordIdsSelector = createSelector(
+  recordsSelector,
+  records => map(records, record => record.id),
+);
+
 export const recordsByIdSelector = createSelector(
-  goalsSelector,
-  goals => goals.recordsById,
+  recordsSelector,
+  records => createRecordsById(records),
 );
 
 export const findRecord = createSelector(
@@ -26,43 +35,45 @@ export const findRecord = createSelector(
   (recordsById, id) => recordsById[id],
 );
 
-export const projectGoalsSelector = createSelector(
-  recordsSelector,
+export const projectGoalIdsSelector = createSelector(
+  recordIdsSelector,
   recordsByIdSelector,
   (state, projectId) => projectId,
-  (records, recordsById, projectId) => records.filter(id => recordsById[id].projectId === projectId)
+  (recordIds, recordsById, projectId) => (
+    filter(recordIds, id => recordsById[id].projectId === projectId),
+  ),
 );
 
-export const remainingGoalsSelector = createSelector(
-  projectGoalsSelector,
+export const remainingGoalIdsSelector = createSelector(
+  projectGoalIdsSelector,
   recordsByIdSelector,
-  (records, recordsById) => records.filter(id => !recordsById[id].complete),
+  (recordIds, recordsById) => filter(recordIds, id => !recordsById[id].complete),
 );
 
-export const completedGoalsSelector = createSelector(
-  projectGoalsSelector,
+export const completedGoalIdsSelector = createSelector(
+  projectGoalIdsSelector,
   recordsByIdSelector,
-  (records, recordsById) => records.filter(id => recordsById[id].complete),
+  (recordIds, recordsById) => filter(recordIds, id => recordsById[id].complete),
 );
 
 export const activeFilterSelector = containerProps => containerProps.route.filter;
 
 export const filteredProjectGoalsSelector = createSelector(
-  remainingGoalsSelector,
-  completedGoalsSelector,
-  projectGoalsSelector,
+  remainingGoalIdsSelector,
+  completedGoalIdsSelector,
+  projectGoalIdsSelector,
   (state, projectId, activeFilter) => activeFilter,
-  (remainingGoals, completedGoals, allGoals, activeFilter) => {
+  (remainingGoalIds, completedGoalIds, allGoalIds, activeFilter) => {
     switch (activeFilter) {
       case ACTIVE_FILTER:
-        return remainingGoals;
+        return remainingGoalIds;
 
       case COMPLETE_FILTER:
-        return completedGoals;
+        return completedGoalIds;
 
       case ALL_FILTER:
       default:
-        return allGoals;
+        return allGoalIds;
     }
   },
 );
@@ -101,7 +112,7 @@ import recordFromSnapshot from 'utils/recordFromSnapshot';
 
 export const createGoalsSubscription = projectId => (dispatch, getState) => {
   const { firebase } = getState();
-  const ref = firebase
+  const query = firebase
     .child(`goals`)
     .orderByChild('projectId')
     .equalTo(projectId)
@@ -122,36 +133,42 @@ export const createGoalsSubscription = projectId => (dispatch, getState) => {
 
   return {
     subscribeGoals: () => {
-      ref.on('child_added', childAddedHandler);
-      ref.on('child_changed', childUpdatedHandler);
-      ref.on('child_removed', childRemovedHandler);
+      query.on('child_added', childAddedHandler);
+      query.on('child_changed', childUpdatedHandler);
+      query.on('child_removed', childRemovedHandler);
     },
     unsubscribeGoals: () => {
-      ref.off('child_added', childAddedHandler);
-      ref.off('child_changed', childUpdatedHandler);
-      ref.off('child_removed', childRemovedHandler);
+      query.off('child_added', childAddedHandler);
+      query.off('child_changed', childUpdatedHandler);
+      query.off('child_removed', childRemovedHandler);
     },
   };
 };
 
 // Reducers
 import { combineReducers } from 'redux';
-import updateIn, { push, assoc, dissoc, merge } from 'react-update-in';
+import { push, assoc, dissoc } from 'react-update-in';
 import { CLEAR_CURRENT_USER } from 'pods/auth/model';
 
-const records = (state = [], action) => {
-  switch (action.type) {
+const records = (state = [], { type, payload }) => {
+  switch (type) {
     case CREATE_GOAL: {
-      const id = action.payload.id;
-      const index = state.indexOf(id);
+      const index = findIndex(state, record => record.id === payload.id);
       if (index === -1) {
-        return push([action.payload.id], state);
+        return push(state, [payload]);
       }
-      return assoc(state, index, id);
+      return assoc(state, index, payload);
     }
 
-    case DELETE_GOAL:
-      return dissoc(state, state.indexOf(action.payload.id));
+    case UPDATE_GOAL: {
+      const index = findIndex(state, record => record.id === payload.id);
+      return assoc(state, index, payload);
+    }
+
+    case DELETE_GOAL: {
+      const index = findIndex(state, record => record.id === payload.id);
+      return dissoc(state, index);
+    }
 
     case CLEAR_CURRENT_USER:
       return [];
@@ -161,26 +178,6 @@ const records = (state = [], action) => {
   }
 };
 
-const recordsById = (state = {}, action) => {
-  switch (action.type) {
-    case CREATE_GOAL:
-      return assoc(state, action.payload.id, action.payload);
-
-    case UPDATE_GOAL:
-      return updateIn(state, [action.payload.id], merge, action.payload);
-
-    case DELETE_GOAL:
-      return dissoc(state, action.payload.id);
-
-    case CLEAR_CURRENT_USER:
-      return {};
-
-    default:
-      return state;
-  }
-};
-
 export const reducer = combineReducers({
   records,
-  recordsById,
 });

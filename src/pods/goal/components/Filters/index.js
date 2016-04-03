@@ -55,10 +55,10 @@ export class GoalFilters extends Component {
 }
 
 import { connect } from 'react-redux';
-import { remainingGoalsSelector } from 'pods/goal/model';
+import { remainingGoalIdsSelector } from 'pods/goal/model';
 
 export default connect(
   (state, props) => ({
-    remainingGoalsCount: remainingGoalsSelector(state, props.projectId).length,
+    remainingGoalsCount: remainingGoalIdsSelector(state, props.projectId).length,
   }),
 )(GoalFilters);

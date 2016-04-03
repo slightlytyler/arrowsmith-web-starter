@@ -44,12 +44,21 @@ export const updateProject = (id, payload) => (dispatch, getState) => {
 
 export const deleteProject = (id, active) => (dispatch, getState) => {
   const { firebase, projects } = getState();
+  const projectRef = firebase.child(`projects/${id}`);
+  const projectGoalsRef = firebase
+    .child(`goals`)
+    .orderByChild('projectId')
+    .equalTo(id)
+    .ref()
+  ;
 
-  firebase.child(`projects/${id}`).remove().then(() => {
+  projectRef.remove().then(() => {
     if (active || projects.records.length === 1) {
       dispatch(pushRoute('/projects'));
     }
   });
+
+  projectGoalsRef.remove();
 };
 
 export const viewProject = id => dispatch => dispatch(pushRoute(`/projects/${id}/goals/active`));
