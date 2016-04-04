@@ -34,7 +34,7 @@ export class ProjectItem extends Component {
 
   handleDelete = () => {
     if (this.props.remainingGoalsLength) {
-      this.showDeleteConfirmation()
+      this.showDeleteConfirmation();
     } else {
       this.delete();
     }
