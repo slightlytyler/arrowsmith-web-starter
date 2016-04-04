@@ -3,6 +3,7 @@ import { Provider } from 'react-redux';
 import { Router } from 'react-router';
 
 import 'styles/app.styl';
+import 'sweetalert/dist/sweetalert.css';
 
 export default class Root extends React.Component {
   static propTypes = {
