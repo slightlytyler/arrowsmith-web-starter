@@ -25,11 +25,11 @@ export class Header extends Component {
   userOptions = () => ([
     {
       label: 'Billing',
-      action: () => console.log('Billing'),
+      action: () => false,
     },
     {
       label: 'Settings',
-      action: () => console.log('Settings'),
+      action: () => false,
     },
     {
       label: 'Logout',
@@ -48,8 +48,8 @@ export class Header extends Component {
     return undefined;
   }
 
-  renderOption({ label, action}) {
-    return <section key={label} styleName="option" onClick={action}>{label}</section>
+  renderOption({ label, action }) {
+    return <section key={label} styleName="option" onClick={action}>{label}</section>;
   }
 
   renderAuthSection() {

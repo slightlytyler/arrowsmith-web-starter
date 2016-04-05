@@ -41,7 +41,6 @@ export class GoalCreator extends Component {
         <section styleName="prompt">
           {this.placeholder}
         </section>
-        <hr styleName="rule" />
       </div>
     );
   }
