@@ -31,7 +31,7 @@ export const toggleGoal = id => (dispatch, getState) => {
   dispatch(updateGoal(id, { complete: !record.complete }));
 };
 
-export const createGoalsSubscription = projectId => (dispatch, getState) => {
+export const createGoalsSubscription = (projectId, queryParams) => (dispatch, getState) => {
   const { firebase } = getState();
   const query = firebase
     .child(`goals`)
