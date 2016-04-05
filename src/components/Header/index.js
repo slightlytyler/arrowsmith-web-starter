@@ -14,16 +14,53 @@ export class Header extends Component {
     logout: PropTypes.func.isRequired,
   }
 
-  showUserOptions = () => {
-    this.props.logout();
+  state = {
+    showUserOptions: false,
+  };
+
+  toggleUserOptions = () => {
+    this.setState({ showUserOptions: !this.state.showUserOptions });
+  }
+
+  userOptions = () => ([
+    {
+      label: 'Billing',
+      action: () => console.log('Billing'),
+    },
+    {
+      label: 'Settings',
+      action: () => console.log('Settings'),
+    },
+    {
+      label: 'Logout',
+      action: this.props.logout,
+    },
+  ]);
+
+  renderUserOptions() {
+    if (this.state.showUserOptions) {
+      return (
+        <div styleName="menu">
+          {this.userOptions().map(this.renderOption)}
+        </div>
+      );
+    }
+    return undefined;
+  }
+
+  renderOption({ label, action}) {
+    return <section key={label} styleName="option" onClick={action}>{label}</section>
   }
 
   renderAuthSection() {
     if (this.props.userId) {
       return (
-        <section styleName="auth-section" onClick={this.showUserOptions}>
-          <img src={this.props.avatarUrl} styleName="avatar" />&nbsp;
-          <span styleName="name">{this.props.email}</span> <span styleName="caret">&#9660;</span>
+        <section styleName="auth-section" onClick={this.toggleUserOptions}>
+          <div styleName="content">
+            <img src={this.props.avatarUrl} styleName="avatar" />&nbsp;
+            <span styleName="name">{this.props.email}</span> <span styleName="caret">&#9660;</span>
+          </div>
+          {this.renderUserOptions()}
         </section>
       );
     }
