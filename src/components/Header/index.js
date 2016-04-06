@@ -93,7 +93,7 @@ export class Header extends Component {
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { userLogoutFlow } from 'pods/user/model';
+import { userLogoutFlow } from 'pods/user/actions';
 
 export default connect(
   state => ({

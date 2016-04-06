@@ -3,7 +3,7 @@ import { push, assoc, dissoc } from 'react-update-in';
 import { findIndex } from 'lodash';
 
 import { CREATE_GOAL, UPDATE_GOAL, DELETE_GOAL } from 'pods/goals/constants';
-import { CLEAR_CURRENT_USER } from 'pods/user/model';
+import { CLEAR_CURRENT_USER } from 'pods/user/constants';
 
 const records = (state = [], { type, payload }) => {
   switch (type) {

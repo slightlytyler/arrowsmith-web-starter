@@ -49,7 +49,7 @@ export class SignUp extends Component {
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { userSignUpFlow } from 'pods/user/model';
+import { userSignUpFlow } from 'pods/user/actions';
 
 export default connect(
   undefined,

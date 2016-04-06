@@ -8,7 +8,7 @@ import {
   DELETE_PROJECT,
   SET_PROJECTS,
 } from './constants';
-import { CLEAR_CURRENT_USER } from 'pods/user/model';
+import { CLEAR_CURRENT_USER } from 'pods/user/constants';
 
 const records = (state = [], { type, payload }) => {
   switch (type) {

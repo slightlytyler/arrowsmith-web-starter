@@ -44,7 +44,7 @@ export class Login extends Component {
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { userLoginFlow } from 'pods/user/model';
+import { userLoginFlow } from 'pods/user/actions';
 
 export default connect(
   undefined,

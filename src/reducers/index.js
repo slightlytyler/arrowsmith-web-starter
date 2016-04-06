@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux';
 import { routerReducer as router } from 'react-router-redux';
 import storage from './storage';
-import { reducer as user } from 'pods/user/model';
+import user from 'pods/user/reducers';
 import projects from 'pods/projects/reducers';
 import goals from 'pods/goals/reducers';
 

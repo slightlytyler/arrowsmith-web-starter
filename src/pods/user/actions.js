@@ -1,5 +1,4 @@
-export const SET_USER = 'SET_USER';
-export const CLEAR_USER = 'CLEAR_USER';
+import { SET_USER, CLEAR_USER } from './constants';
 
 const setUser = user => ({
   type: SET_USER,
@@ -80,18 +79,5 @@ export const userLogoutFlow = () => dispatch => {
     dispatch(pushRoute('/auth/login'));
   } catch (error) {
     throw error;
-  }
-};
-
-export const reducer = (state = {}, { type, user }) => {
-  switch (type) {
-    case SET_USER:
-      return user;
-
-    case CLEAR_USER:
-      return {};
-
-    default:
-      return state;
   }
 };
