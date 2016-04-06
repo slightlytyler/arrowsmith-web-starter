@@ -8,24 +8,7 @@ import ProjectList from 'pods/project/components/List';
 @cssModules(styles)
 export class ProjectsViewer extends Component {
   static propTypes = {
-    subscribeProjects: PropTypes.func.isRequired,
-    unsubscribeProjects: PropTypes.func.isRequired,
-  }
-
-  componentWillMount() {
-    this.props.subscribeProjects();
-  }
-
-  componentWillUpdate(nextProps) {
-    if (this.props.subscribeProjects !== nextProps.subscribeProjects) {
-      this.props.unsubscribeProjects();
-      nextProps.subscribeProjects();
-    }
-  }
-
-  componentWillUnmount() {
-    this.props.unsubscribeProjects();
-  }
+  };
 
   render() {
     return (
@@ -38,9 +21,7 @@ export class ProjectsViewer extends Component {
 }
 
 import { connect } from 'react-redux';
-import { createProjectsSubscription } from 'pods/projects/actions';
 
 export default connect(
   undefined,
-  (dispatch, props) => dispatch(createProjectsSubscription()), // eslint-disable-line no-unused-vars
 )(ProjectsViewer);

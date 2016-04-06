@@ -65,10 +65,12 @@ import { activeFilterSelector } from 'pods/goals/selectors';
 import { createGoalsSubscription } from 'pods/goals/actions';
 
 export default connect(
-  (state, props) =>({
+  (state, props) => ({
     activeFilter: activeFilterSelector(props),
     projectId: props.params.projectId,
     query: props.location.query,
   }),
-  (dispatch, props) => dispatch(createGoalsSubscription(props.params.projectId, props.location.query)),
+  (dispatch, props) => (
+    dispatch(createGoalsSubscription(props.params.projectId, props.location.query))
+  ),
 )(GoalsViewer);

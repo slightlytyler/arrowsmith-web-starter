@@ -4,8 +4,8 @@ import React from 'react';
 import { Route, IndexRedirect } from 'react-router';
 
 import Page from 'components/Page';
-import Login from 'pods/auth/components/Login';
-import SignUp from 'pods/auth/components/SignUp';
+import Login from 'pods/user/components/Login';
+import SignUp from 'pods/user/components/SignUp';
 import Editor from 'components/Editor';
 import GoalsViewer from 'pods/goals/components/Viewer';
 import { ACTIVE_GOALS_FILTER, COMPLETE_GOALS_FILTER, ALL_GOALS_FILTER } from 'pods/goals/constants';

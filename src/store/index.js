@@ -7,20 +7,20 @@ const reducer = storage.reducer(rootReducer);
 
 import createEngine from 'redux-storage-engine-localstorage';
 import filter from 'redux-storage-decorator-filter';
-import { FIREBASE_APP_NAME } from 'config';
+import { LOCAL_STORAGE_KEY } from 'config';
 
 const engine = filter(
-  createEngine(FIREBASE_APP_NAME),
-  ['auth'],
+  createEngine(LOCAL_STORAGE_KEY),
+  ['user'],
 );
 
 import { LOCATION_CHANGE } from 'react-router-redux';
-import { SET_CURRENT_USER, CLEAR_CURRENT_USER } from 'pods/auth/model';
+import { SET_USER, CLEAR_USER } from 'pods/user/model';
 
 const storageMiddleware = storage.createMiddleware(
   engine,
   [LOCATION_CHANGE],
-  [SET_CURRENT_USER, CLEAR_CURRENT_USER],
+  [SET_USER, CLEAR_USER],
 );
 
 const load = storage.createLoader(engine);

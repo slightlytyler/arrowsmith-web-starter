@@ -4,26 +4,31 @@ import cssModules from 'react-css-modules';
 import styles from './styles.styl';
 
 @cssModules(styles)
-export class Login extends Component {
+export class SignUp extends Component {
   static propTypes = {
-    login: PropTypes.func.isRequired,
+    signUp: PropTypes.func.isRequired,
   }
 
   handleSubmit = () => {
-    const { email, password } = this.refs;
+    const { email, name, password } = this.refs;
 
-    this.props.login(email.value, password.value);
+    this.props.signUp(email.value, password.value, { name: name.value });
   }
 
   render() {
     return (
       <div styleName="auth-container">
-        <header styleName="header">Login</header>
+        <header styleName="header">Sign Up</header>
         <input
           ref="email"
           type="email"
           styleName="input"
           placeholder="Email"
+        />
+        <input
+          ref="name"
+          styleName="input"
+          placeholder="Name (optional)"
         />
         <input
           ref="password"
@@ -44,9 +49,9 @@ export class Login extends Component {
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { userLoginFlow } from 'pods/auth/model';
+import { userSignUpFlow } from 'pods/user/model';
 
 export default connect(
   undefined,
-  dispatch => bindActionCreators({ login: userLoginFlow }, dispatch),
-)(Login);
+  dispatch => bindActionCreators({ signUp: userSignUpFlow }, dispatch),
+)(SignUp);

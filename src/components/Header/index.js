@@ -22,6 +22,14 @@ export class Header extends Component {
     this.setState({ showUserOptions: !this.state.showUserOptions });
   }
 
+  renderAvatar() {
+    if (this.props.avatarUrl) {
+      return <img src={this.props.avatarUrl} styleName="avatar" />;
+    }
+
+    return;
+  }
+
   userOptions = () => ([
     {
       label: 'Billing',
@@ -57,7 +65,7 @@ export class Header extends Component {
       return (
         <section styleName="auth-section" onClick={this.toggleUserOptions}>
           <div styleName="content">
-            <img src={this.props.avatarUrl} styleName="avatar" />&nbsp;
+            {this.renderAvatar()}
             <span styleName="name">{this.props.email}</span> <span styleName="caret">&#9660;</span>
           </div>
           {this.renderUserOptions()}
@@ -85,13 +93,13 @@ export class Header extends Component {
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { userLogoutFlow } from 'pods/auth/model';
+import { userLogoutFlow } from 'pods/user/model';
 
 export default connect(
   state => ({
-    userId: state.auth.uid,
-    email: state.auth.password ? state.auth.password.email : undefined,
-    avatarUrl: state.auth.password ? state.auth.password.profileImageURL : undefined,
+    userId: state.user._id,
+    email: state.user.email,
+    avatarUrl: state.user.profileImg,
   }),
   dispatch => bindActionCreators({ logout: userLogoutFlow }, dispatch),
 )(Header);
