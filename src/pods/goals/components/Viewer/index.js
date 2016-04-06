@@ -6,7 +6,6 @@ import { ACTIVE_GOALS_FILTER, COMPLETE_GOALS_FILTER, ALL_GOALS_FILTER } from 'po
 import GoalCreator from 'pods/goal/components/Creator';
 import GoalList from 'pods/goal/components/List';
 import GoalFilters from 'pods/goal/components/Filters';
-import Pagination from 'components/Pagination';
 
 @cssModules(styles)
 export class GoalsViewer extends Component {
@@ -17,10 +16,6 @@ export class GoalsViewer extends Component {
       ALL_GOALS_FILTER,
     ]).isRequired,
     projectId: PropTypes.string.isRequired,
-    query: PropTypes.shape({
-      page: PropTypes.string.isRequired,
-      perPage: PropTypes.string.isRequired,
-    }),
   };
 
   render() {
@@ -34,10 +29,6 @@ export class GoalsViewer extends Component {
           projectId={projectId}
           activeFilter={activeFilter}
         />
-        <Pagination
-          {...this.props.query}
-          totalPages="1"
-        />
       </div>
     );
   }
@@ -50,6 +41,5 @@ export default connect(
   (state, props) => ({
     activeFilter: activeFilterSelector(props),
     projectId: props.params.projectId,
-    query: props.location.query,
   }),
 )(GoalsViewer);
