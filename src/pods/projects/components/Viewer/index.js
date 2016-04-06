@@ -8,7 +8,12 @@ import ProjectList from 'pods/project/components/List';
 @cssModules(styles)
 export class ProjectsViewer extends Component {
   static propTypes = {
+    fetchProjects: PropTypes.func.isRequired,
   };
+
+  componentWillMount() {
+    this.props.fetchProjects();
+  }
 
   render() {
     return (
@@ -21,7 +26,10 @@ export class ProjectsViewer extends Component {
 }
 
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { fetchProjects } from 'pods/projects/actions';
 
 export default connect(
   undefined,
+  dispatch => bindActionCreators({ fetchProjects }, dispatch),
 )(ProjectsViewer);
