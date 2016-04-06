@@ -22,14 +22,6 @@ export class Header extends Component {
     this.setState({ showUserOptions: !this.state.showUserOptions });
   }
 
-  renderAvatar() {
-    if (this.props.avatarUrl) {
-      return <img src={this.props.avatarUrl} styleName="avatar" />;
-    }
-
-    return;
-  }
-
   userOptions = () => ([
     {
       label: 'Billing',
@@ -58,6 +50,14 @@ export class Header extends Component {
 
   renderOption({ label, action }) {
     return <section key={label} styleName="option" onClick={action}>{label}</section>;
+  }
+
+  renderAvatar() {
+    if (this.props.avatarUrl) {
+      return <img src={this.props.avatarUrl} styleName="avatar" />;
+    }
+
+    return undefined;
   }
 
   renderAuthSection() {

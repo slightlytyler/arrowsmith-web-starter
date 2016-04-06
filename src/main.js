@@ -1,14 +1,12 @@
 import 'babel-polyfill';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Firebase from 'firebase';
 import createBrowserHistory from 'history/lib/createBrowserHistory';
 import { useRouterHistory } from 'react-router';
 import { syncHistoryWithStore, routerMiddleware } from 'react-router-redux';
 import makeRoutes from 'routes';
 import Root from 'containers/Root';
 import configureStore from 'store';
-import { FIREBASE_APP_NAME } from 'config';
 
 import injectTapEventPlugin from 'react-tap-event-plugin';
 injectTapEventPlugin();
@@ -17,9 +15,7 @@ injectTapEventPlugin();
 const browserHistory = useRouterHistory(createBrowserHistory)({
   basename: __BASENAME__,
 });
-const store = configureStore({
-  firebase: new Firebase(`https://${FIREBASE_APP_NAME}.firebaseio.com/`),
-}, routerMiddleware(browserHistory));
+const store = configureStore({}, routerMiddleware(browserHistory));
 const history = syncHistoryWithStore(browserHistory, store, {
   selectLocationState: (state) => state.router,
 });

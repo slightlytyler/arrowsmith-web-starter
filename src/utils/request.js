@@ -1,5 +1,5 @@
 import path from 'path';
-import { API_VERSION, STAMPLAY_APP_ID, STAMPLAY_API_KEY } from 'config';
+import { API_VERSION, STAMPLAY_APP_ID } from 'config';
 const baseUrl = `https://${STAMPLAY_APP_ID}.stamplayapp.com`;
 const apiUrl = path.join(baseUrl, 'api');
 const authUrl = path.join(baseUrl, 'auth');
