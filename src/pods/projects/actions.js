@@ -11,14 +11,10 @@ export const viewProject = id => dispatch => (
   dispatch(pushRoute(`/projects/${id}/goals/active`))
 );
 
-export const fetchProjects = () => async (dispatch, getState) => {
+export const fetchProjects = () => async dispatch => {
   try {
     // Fetch projects
-    const response = await request.get(
-      'cobject',
-      'projects/find/owner',
-      getState().user.token,
-    );
+    const response = await request.get('cobject', 'projects/find/owner');
 
     // Add projects to store
     dispatch({
@@ -32,15 +28,10 @@ export const fetchProjects = () => async (dispatch, getState) => {
 
 export const createProject = name => async (dispatch, getState) => {
   try {
-    const response = await request.post(
-      'cobject',
-      'projects',
-      getState().user.token,
-      {
-        name,
-        owner: getState().user.id,
-      },
-    );
+    const response = await request.post('cobject', 'projects', {
+      name,
+      owner: getState().user.id,
+    });
 
     dispatch({
       type: CREATE_PROJECT,
@@ -53,14 +44,9 @@ export const createProject = name => async (dispatch, getState) => {
   }
 };
 
-export const updateProject = (id, payload) => async (dispatch, getState) => {
+export const updateProject = (id, payload) => async dispatch => {
   try {
-    const response = await request.patch(
-      'cobject',
-      `projects/${id}`,
-      getState().user.token,
-      payload,
-    );
+    const response = await request.patch('cobject', `projects/${id}`, payload);
 
     dispatch({
       type: UPDATE_PROJECT,
@@ -71,13 +57,9 @@ export const updateProject = (id, payload) => async (dispatch, getState) => {
   }
 };
 
-export const deleteProject = id => async (dispatch, getState) => {
+export const deleteProject = id => async dispatch => {
   try {
-    await request.delete(
-      'cobject',
-      `projects/${id}`,
-      getState().user.token,
-    );
+    await request.delete('cobject', `projects/${id}`);
 
     dispatch({
       type: DELETE_PROJECT,

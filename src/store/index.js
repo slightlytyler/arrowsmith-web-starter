@@ -2,20 +2,19 @@ import { applyMiddleware, compose, createStore } from 'redux';
 import thunk from 'redux-thunk';
 import * as storage from 'redux-storage';
 import rootReducer from 'reducers';
-
-const reducer = storage.reducer(rootReducer);
-
 import createEngine from 'redux-storage-engine-localstorage';
 import filter from 'redux-storage-decorator-filter';
 import { LOCAL_STORAGE_KEY } from 'config';
+import { registerToken } from 'utils/request';
+import { LOCATION_CHANGE } from 'react-router-redux';
+import { SET_USER, CLEAR_USER } from 'pods/user/model';
+
+const reducer = storage.reducer(rootReducer);
 
 const engine = filter(
   createEngine(LOCAL_STORAGE_KEY),
   ['user'],
 );
-
-import { LOCATION_CHANGE } from 'react-router-redux';
-import { SET_USER, CLEAR_USER } from 'pods/user/model';
 
 const storageMiddleware = storage.createMiddleware(
   engine,
@@ -47,7 +46,13 @@ export default function configureStore(initialState = {}, routerMiddleware) {
     });
   }
 
-  load(store);
+  load(store).then(loadedState => {
+    const { token } = loadedState.user;
+    if (token) {
+      registerToken(token);
+      store.dispatch({ type: 'LOAD_COMPLETE' });
+    }
+  });
 
   return store;
 }

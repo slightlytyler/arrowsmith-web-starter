@@ -10,7 +10,7 @@ const clearUser = () => ({
   type: CLEAR_USER,
 });
 
-import request from 'utils/request';
+import request, { registerToken, unregisterToken } from 'utils/request';
 
 
 const createUser = (email, password) => request.post(
@@ -21,11 +21,11 @@ const createUser = (email, password) => request.post(
 
 const authorizeUser = (email, password) => request.authorize({ email, password });
 
-const unauthorizeUser = clearUser;
+const unauthorizeUser = () => request.unauthorize(); // eslint-disable-line no-unused-vars
 
-import { push } from 'react-router-redux';
+import { push as pushRoute } from 'react-router-redux';
 
-export const userSignUpFlow = (email, password, payload) => async dispatch => {
+export const userSignUpFlow = (email, password) => async dispatch => {
   try {
     // Create firebase user
     await createUser(email, password);
@@ -35,13 +35,16 @@ export const userSignUpFlow = (email, password, payload) => async dispatch => {
     const user = response.data;
     user.token = response.headers['x-stamplay-jwt'];
 
+    // Register token
+    registerToken(user.token);
+
     // Persist user
     dispatch(setUser(user));
 
     // Transition to projects
-    dispatch(push('/projects'));
+    dispatch(pushRoute('/projects'));
   } catch (error) {
-    console.log(error);
+    throw error;
   }
 };
 
@@ -52,25 +55,31 @@ export const userLoginFlow = (email, password) => async dispatch => {
     const user = response.data;
     user.token = response.headers['x-stamplay-jwt'];
 
+    // Register token
+    registerToken(user.token);
+
     // Persist user
     dispatch(setUser(user));
 
     // Transition to first project
-    dispatch(push(`/projects`));
+    dispatch(pushRoute(`/projects`));
   } catch (error) {
-    console.log(error);
+    throw error;
   }
 };
 
 export const userLogoutFlow = () => dispatch => {
   try {
-    // Logout user
-    dispatch(unauthorizeUser());
+    // Unregister toke
+    unregisterToken();
+
+    // Clear user from local data
+    dispatch(clearUser());
 
     // Transition to login page
-    dispatch(push('/auth/login'));
+    dispatch(pushRoute('/auth/login'));
   } catch (error) {
-    console.log(error);
+    throw error;
   }
 };
 
