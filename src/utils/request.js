@@ -14,35 +14,43 @@ export const buildApiUrl = (resource, endpoint) => (
 );
 export const buildAuthUrl = endpoint => path.join(authBaseUrl, API_VERSION, endpoint);
 
+const buildHeaders = (headers = {}) => {
+  if (token) {
+    return { 'x-stamplay-jwt': token, ...headers };
+  }
+
+  return headers;
+}
+
 import axios from 'axios';
 
 export default {
   get: (resource, endpoint, queryParams) => axios.get(buildApiUrl(resource, endpoint), {
-    headers: { 'x-stamplay-jwt': token },
+    headers: buildHeaders(),
     params: queryParams,
   }),
   post: (resource, endpoint, payload) => (
     axios.post(buildApiUrl(resource, endpoint), payload, {
-      headers: { 'x-stamplay-jwt': token },
+      headers: buildHeaders(),
     })
   ),
   put: (resource, endpoint, payload) => (
     axios.put(buildApiUrl(resource, endpoint), payload, {
-      headers: { 'x-stamplay-jwt': token },
+      headers: buildHeaders(),
     })
   ),
   patch: (resource, endpoint, payload) => (
     axios.patch(buildApiUrl(resource, endpoint), payload, {
-      headers: { 'x-stamplay-jwt': token },
+      headers: buildHeaders(),
     })
   ),
   delete: (resource, endpoint) => (
     axios.delete(buildApiUrl(resource, endpoint), {
-      headers: { 'x-stamplay-jwt': token },
+      headers: buildHeaders(),
     })
   ),
   authorize: payload => axios.post(buildAuthUrl('local/login'), payload),
   unauthorize: () => axios.get(buildAuthUrl('logout'), {
-    headers: { 'x-stamplay-jwt': token },
+    headers: buildHeaders(),
   }),
 };

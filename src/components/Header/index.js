@@ -9,7 +9,7 @@ import logo from 'assets/logo.svg';
 export class Header extends Component {
   static propTypes = {
     userId: PropTypes.string,
-    email: PropTypes.string,
+    displayName: PropTypes.string,
     avatarUrl: PropTypes.string,
     logout: PropTypes.func.isRequired,
   }
@@ -66,7 +66,7 @@ export class Header extends Component {
         <section styleName="auth-section" onClick={this.toggleUserOptions}>
           <div styleName="content">
             {this.renderAvatar()}
-            <span styleName="name">{this.props.email}</span> <span styleName="caret">&#9660;</span>
+            <span styleName="name">{this.props.displayName}</span> <span styleName="caret">&#9660;</span>
           </div>
           {this.renderUserOptions()}
         </section>
@@ -98,7 +98,7 @@ import { userLogoutFlow } from 'pods/user/actions';
 export default connect(
   state => ({
     userId: state.user._id,
-    email: state.user.email,
+    displayName: state.user.displayName || state.user.email,
     avatarUrl: state.user.profileImg,
   }),
   dispatch => bindActionCreators({ logout: userLogoutFlow }, dispatch),

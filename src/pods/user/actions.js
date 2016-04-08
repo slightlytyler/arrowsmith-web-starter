@@ -12,10 +12,10 @@ const clearUser = () => ({
 import request, { registerToken, unregisterToken } from 'utils/request';
 
 
-const createUser = (email, password) => request.post(
+const createUser = user => request.post(
   'user',
   'users',
-  { email, password },
+  user,
 );
 
 const authorizeUser = (email, password) => request.authorize({ email, password });
@@ -24,10 +24,14 @@ const unauthorizeUser = () => request.unauthorize(); // eslint-disable-line no-u
 
 import { push as pushRoute } from 'react-router-redux';
 
-export const userSignUpFlow = (email, password) => async dispatch => {
+export const userSignUpFlow = (email, password, payload) => async dispatch => {
   try {
     // Create firebase user
-    await createUser(email, password);
+    await createUser({
+      email,
+      password,
+      displayName: payload.name,
+    });
 
     // Login user
     const response = await authorizeUser(email, password);
