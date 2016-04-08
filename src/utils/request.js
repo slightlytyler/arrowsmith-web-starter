@@ -20,7 +20,7 @@ const buildHeaders = (headers = {}) => {
   }
 
   return headers;
-}
+};
 
 import axios from 'axios';
 

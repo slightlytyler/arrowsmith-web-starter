@@ -11,6 +11,7 @@ export class Header extends Component {
     userId: PropTypes.string,
     displayName: PropTypes.string,
     avatarUrl: PropTypes.string,
+    viewSubscriptionOptions: PropTypes.func.isRequired,
     logout: PropTypes.func.isRequired,
   }
 
@@ -24,8 +25,8 @@ export class Header extends Component {
 
   userOptions = () => ([
     {
-      label: 'Billing',
-      action: () => false,
+      label: 'Start a subscription',
+      action: this.props.viewSubscriptionOptions,
     },
     {
       label: 'Settings',
@@ -66,7 +67,9 @@ export class Header extends Component {
         <section styleName="auth-section" onClick={this.toggleUserOptions}>
           <div styleName="content">
             {this.renderAvatar()}
-            <span styleName="name">{this.props.displayName}</span> <span styleName="caret">&#9660;</span>
+            <span styleName="name">
+              {this.props.displayName}</span> <span styleName="caret">&#9660;
+            </span>
           </div>
           {this.renderUserOptions()}
         </section>
@@ -93,6 +96,7 @@ export class Header extends Component {
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { viewSubscriptionOptions } from 'pods/subscriptions/actions';
 import { userLogoutFlow } from 'pods/user/actions';
 
 export default connect(
@@ -101,5 +105,8 @@ export default connect(
     displayName: state.user.displayName || state.user.email,
     avatarUrl: state.user.profileImg,
   }),
-  dispatch => bindActionCreators({ logout: userLogoutFlow }, dispatch),
+  dispatch => bindActionCreators({
+    logout: userLogoutFlow,
+    viewSubscriptionOptions,
+  }, dispatch),
 )(Header);

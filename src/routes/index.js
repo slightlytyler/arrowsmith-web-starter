@@ -7,6 +7,7 @@ import Page from 'components/Page';
 import Landing from 'pods/landing/components/Layout';
 import Login from 'pods/user/components/Login';
 import SignUp from 'pods/user/components/SignUp';
+import StartSubscription from 'pods/subscriptions/components/StartSubscription';
 import Editor from 'components/Editor';
 import GoalsViewer from 'pods/goals/components/Viewer';
 import { ACTIVE_GOALS_FILTER, COMPLETE_GOALS_FILTER, ALL_GOALS_FILTER } from 'pods/goals/constants';
@@ -27,5 +28,6 @@ export default (store) => (
         </Route>
       </Route>
     </Route>
+    <Route path="start-subscription" component={StartSubscription} />
   </Route>
 );
