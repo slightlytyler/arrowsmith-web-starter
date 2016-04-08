@@ -1,10 +1,10 @@
+import request from 'utils/request';
 import {
   CREATE_PROJECT,
   UPDATE_PROJECT,
   DELETE_PROJECT,
   SET_PROJECTS,
 } from './constants';
-import request from 'utils/request';
 import { push as pushRoute } from 'react-router-redux';
 
 export const viewProject = id => dispatch => (

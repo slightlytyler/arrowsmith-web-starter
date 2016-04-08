@@ -16,7 +16,12 @@ export class GoalsViewer extends Component {
       ALL_GOALS_FILTER,
     ]).isRequired,
     projectId: PropTypes.string.isRequired,
+    fetchGoals: PropTypes.func.isRequired,
   };
+
+  componentWillMount() {
+    this.props.fetchGoals(this.props.projectId);
+  }
 
   render() {
     const { activeFilter, projectId } = this.props;
@@ -35,11 +40,14 @@ export class GoalsViewer extends Component {
 }
 
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import { activeFilterSelector } from 'pods/goals/selectors';
+import { fetchGoals } from 'pods/goals/actions';
 
 export default connect(
   (state, props) => ({
     activeFilter: activeFilterSelector(props),
     projectId: props.params.projectId,
   }),
+  dispatch => bindActionCreators({ fetchGoals }, dispatch),
 )(GoalsViewer);

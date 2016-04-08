@@ -17,11 +17,10 @@ export const buildAuthUrl = endpoint => path.join(authBaseUrl, API_VERSION, endp
 import axios from 'axios';
 
 export default {
-  get: (resource, endpoint) => (
-    axios.get(buildApiUrl(resource, endpoint), {
-      headers: { 'x-stamplay-jwt': token },
-    })
-  ),
+  get: (resource, endpoint, queryParams) => axios.get(buildApiUrl(resource, endpoint), {
+    headers: { 'x-stamplay-jwt': token },
+    params: queryParams,
+  }),
   post: (resource, endpoint, payload) => (
     axios.post(buildApiUrl(resource, endpoint), payload, {
       headers: { 'x-stamplay-jwt': token },
