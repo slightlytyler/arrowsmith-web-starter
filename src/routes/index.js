@@ -1,9 +1,10 @@
 /* eslint no-unused-vars: [2, {"argsIgnorePattern": "store"}] */
 
 import React from 'react';
-import { Route, IndexRedirect } from 'react-router';
+import { Route, IndexRoute } from 'react-router';
 
 import Page from 'components/Page';
+import Landing from 'pods/landing/components/Layout';
 import Login from 'pods/user/components/Login';
 import SignUp from 'pods/user/components/SignUp';
 import Editor from 'components/Editor';
@@ -12,7 +13,7 @@ import { ACTIVE_GOALS_FILTER, COMPLETE_GOALS_FILTER, ALL_GOALS_FILTER } from 'po
 
 export default (store) => (
   <Route path="/" component={Page}>
-    <IndexRedirect to="goals/active" />
+    <IndexRoute component={Landing} />
     <Route path="auth">
       <Route path="login" component={Login} />
       <Route path="sign-up" component={SignUp} />

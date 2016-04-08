@@ -48,10 +48,8 @@ export default function configureStore(initialState = {}, routerMiddleware) {
 
   load(store).then(loadedState => {
     const { token } = loadedState.user;
-    if (token) {
-      registerToken(token);
-      store.dispatch({ type: 'LOAD_COMPLETE' });
-    }
+    if (token) registerToken(token);
+    store.dispatch({ type: 'LOAD_COMPLETE' });
   });
 
   return store;
