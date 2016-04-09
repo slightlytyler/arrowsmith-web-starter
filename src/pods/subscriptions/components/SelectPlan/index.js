@@ -7,7 +7,7 @@ import Options from 'pods/subscription/components/Options';
 @cssModules(styles)
 export class SubscriptionsSelectPlan extends Component {
   static propTypes = {
-    user: PropTypes.string.isRequired,
+    checkout: PropTypes.func.isRequired,
   };
 
   render() {
@@ -21,14 +21,21 @@ export class SubscriptionsSelectPlan extends Component {
             Priced just right for companies of every size.
           </section>
         </header>
-        <Options />
+        <Options checkout={this.props.checkout} />
       </div>
     );
   }
 }
 
 import { connect } from 'react-redux';
+import { push } from 'react-router-redux';
 
 export default connect(
-  state => ({ user: state.user.id }),
+  undefined,
+  dispatch => ({
+    checkout: plan => dispatch(push({
+      pathname: '/start-subscription/checkout',
+      query: { plan },
+    })),
+  }),
 )(SubscriptionsSelectPlan);

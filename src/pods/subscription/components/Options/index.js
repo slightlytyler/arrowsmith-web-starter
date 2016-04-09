@@ -1,10 +1,27 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import cssModules from 'react-css-modules';
 
 import styles from './styles.styl';
 
 @cssModules(styles)
 export default class SubscriptionOptions extends Component {
+  static propTypes = {
+    checkout: PropTypes.func.isRequired,
+  };
+
+  renderButton(plan, highlight) {
+    const handleClick = () => this.props.checkout(plan);
+
+    return (
+      <button
+        styleName={highlight ? 'button--highlight' : 'button'}
+        onClick={handleClick}
+      >
+        Get started
+      </button>
+    );
+  }
+
   render() {
     return (
       <div styleName="options">
@@ -15,7 +32,7 @@ export default class SubscriptionOptions extends Component {
             <section styleName="tag-line">
               All-in-one customer support for small business
             </section>
-            <button styleName="button">Get started</button>
+            {this.renderButton('standard')}
           </div>
         </section>
         <section styleName="option">
@@ -25,7 +42,7 @@ export default class SubscriptionOptions extends Component {
             <section styleName="tag-line">
               Everything you need to take support to the next level
             </section>
-            <button styleName="button--highlight">Get started</button>
+            {this.renderButton('pro', true)}
           </div>
         </section>
         <section styleName="option">
@@ -35,7 +52,7 @@ export default class SubscriptionOptions extends Component {
             <section styleName="tag-line">
               Complete support with enterprise-grade customization
             </section>
-            <button styleName="button">Get started</button>
+            {this.renderButton('enterprise')}
           </div>
         </section>
       </div>

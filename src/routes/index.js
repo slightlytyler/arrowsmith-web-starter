@@ -8,6 +8,7 @@ import Landing from 'pods/landing/components/Layout';
 import Login from 'pods/user/components/Login';
 import SignUp from 'pods/user/components/SignUp';
 import SelectPlan from 'pods/subscriptions/components/SelectPlan';
+import Checkout from 'pods/subscriptions/components/Checkout';
 import Editor from 'components/Editor';
 import GoalsViewer from 'pods/goals/components/Viewer';
 import { ACTIVE_GOALS_FILTER, COMPLETE_GOALS_FILTER, ALL_GOALS_FILTER } from 'pods/goals/constants';
@@ -30,7 +31,7 @@ export default (store) => (
     </Route>
     <Route path="start-subscription">
       <Route path="select-plan" component={SelectPlan} />
-      <Route path="checkout" />
+      <Route path="checkout" component={Checkout}/>
     </Route>
   </Route>
 );
