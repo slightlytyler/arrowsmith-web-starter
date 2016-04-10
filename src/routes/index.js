@@ -1,7 +1,7 @@
 /* eslint no-unused-vars: [2, {"argsIgnorePattern": "store"}] */
 
 import React from 'react';
-import { Route, IndexRoute } from 'react-router';
+import { Route, Redirect, IndexRoute } from 'react-router';
 
 import Page from 'components/Page';
 import Landing from 'pods/landing/components/Layout';
@@ -29,6 +29,7 @@ export default (store) => (
         </Route>
       </Route>
     </Route>
+    <Redirect from="start-subscription" to="start-subscription/select-plan" />
     <Route path="start-subscription">
       <Route path="select-plan" component={SelectPlan} />
       <Route path="checkout" component={Checkout}/>

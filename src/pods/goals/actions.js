@@ -7,7 +7,7 @@ import {
 } from 'pods/goals/constants';
 import { findRecord } from 'pods/goals/selectors';
 
-export const fetchGoals = (projectId) => async dispatch => {
+export const fetchGoals = projectId => async dispatch => {
   try {
     // Fetch projects
     const response = await request.get('cobject', 'goals/find/owner', {

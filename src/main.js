@@ -11,6 +11,9 @@ import configureStore from 'store';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 injectTapEventPlugin();
 
+import stripe from 'stripe';
+stripe.setPublishableKey('pk_test_RrlLyLc2RCoiMWIuxuWQL5BJ');
+
 // Configure history for react-router
 const browserHistory = useRouterHistory(createBrowserHistory)({
   basename: __BASENAME__,

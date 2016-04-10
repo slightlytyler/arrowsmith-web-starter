@@ -6,20 +6,25 @@ import styles from './styles.styl';
 @cssModules(styles)
 export class SubscriptionsCheckout extends Component {
   static propTypes = {
-    user: PropTypes.string.isRequired,
+    createSubscription: PropTypes.func.isRequired,
   };
+
+  createSubscription = () => this.props.createSubscription();
 
   render() {
     return (
       <div>
-        Chckout
+        <button onClick={this.createSubscription}>Test Checkout</button>
       </div>
     );
   }
 }
 
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { createSubscriptionFlow } from 'pods/subscriptions/actions';
 
 export default connect(
-  state => ({ user: state.user.id }),
+  undefined,
+  dispatch => bindActionCreators({ createSubscription: createSubscriptionFlow }, dispatch),
 )(SubscriptionsCheckout);
