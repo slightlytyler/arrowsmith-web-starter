@@ -1,3 +1,5 @@
+import request, { registerToken, unregisterToken } from 'utils/request';
+import { push as pushRoute } from 'react-router-redux';
 import { SET_USER, CLEAR_USER } from './constants';
 
 const setUser = user => ({
@@ -9,9 +11,6 @@ const clearUser = () => ({
   type: CLEAR_USER,
 });
 
-import request, { registerToken, unregisterToken } from 'utils/request';
-
-
 const createUser = user => request.post(
   'user',
   'users',
@@ -22,19 +21,13 @@ const authorizeUser = (email, password) => request.authorize({ email, password }
 
 const unauthorizeUser = () => request.unauthorize(); // eslint-disable-line no-unused-vars
 
-import { push as pushRoute } from 'react-router-redux';
-
-export const userSignUpFlow = (email, password, payload) => async dispatch => {
+export const userSignUpFlow = payload => async dispatch => {
   try {
     // Create firebase user
-    await createUser({
-      email,
-      password,
-      displayName: payload.name,
-    });
+    await createUser(payload);
 
     // Login user
-    const response = await authorizeUser(email, password);
+    const response = await authorizeUser(payload.email, payload.password);
     const user = response.data;
     user.token = response.headers['x-stamplay-jwt'];
 

@@ -1,31 +1,24 @@
 .auth-container
-  display: flex
-  flex-direction: column
   margin: auto auto
+
+  & > form
+    display: flex
+    flex-direction: column
 
 .header
   margin-bottom: .5em
   font-size: .75em
   color: white
 
-.input, .button
+
+.button
   padding: .5em
   font-size: 1em
+  color: #1EB5F9
+  background-color: white
   border-width: 0
   border-radius: 3px
   outline: none
-
-.input
-  margin-bottom: .25em
-  color: white
-  background-color: rgba(white, 0.15)
-
-  &::placeholder
-    color: rgba(white, .75)
-
-.button
-  color: #1EB5F9
-  background-color: white
   cursor: pointer
 
   &:active

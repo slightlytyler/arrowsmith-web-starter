@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import cssModules from 'react-css-modules';
-
+import { Form } from 'formsy-react';
+import Input from 'components/Input';
 import styles from './styles.styl';
 
 @cssModules(styles)
@@ -9,34 +10,33 @@ export class Login extends Component {
     login: PropTypes.func.isRequired,
   }
 
-  handleSubmit = () => {
-    const { email, password } = this.refs;
-
-    this.props.login(email.value, password.value);
-  }
+  handleValidSubmit = user => this.props.login(user.email, user.password);
 
   render() {
     return (
       <div styleName="auth-container">
-        <header styleName="header">Login</header>
-        <input
-          ref="email"
-          type="email"
-          styleName="input"
-          placeholder="Email"
-        />
-        <input
-          ref="password"
-          type="password"
-          styleName="input"
-          placeholder="Password"
-        />
-        <button
-          styleName="button"
-          onClick={this.handleSubmit}
+        <Form
+          ref="form"
+          onValidSubmit={this.handleValidSubmit}
         >
-          Submit
-        </button>
+          <header styleName="header">Login</header>
+          <Input
+            name="email"
+            type="email"
+            placeholder="Email"
+          />
+          <Input
+            name="password"
+            type="password"
+            placeholder="Password"
+          />
+          <button
+            type="submit"
+            styleName="button"
+          >
+            Submit
+          </button>
+        </Form>
       </div>
     );
   }

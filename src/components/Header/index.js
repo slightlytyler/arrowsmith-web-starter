@@ -9,7 +9,7 @@ import logo from 'assets/logo.svg';
 export class Header extends Component {
   static propTypes = {
     userId: PropTypes.string,
-    displayName: PropTypes.string,
+    name: PropTypes.string,
     avatarUrl: PropTypes.string,
     viewSubscriptionOptions: PropTypes.func.isRequired,
     logout: PropTypes.func.isRequired,
@@ -68,7 +68,7 @@ export class Header extends Component {
           <div styleName="content">
             {this.renderAvatar()}
             <span styleName="name">
-              {this.props.displayName}</span> <span styleName="caret">&#9660;
+              {this.props.name}</span> <span styleName="caret">&#9660;
             </span>
           </div>
           {this.renderUserOptions()}
@@ -102,7 +102,7 @@ import { userLogoutFlow } from 'pods/user/actions';
 export default connect(
   state => ({
     userId: state.user._id,
-    displayName: state.user.displayName || state.user.email,
+    name: state.user.name || state.user.email,
     avatarUrl: state.user.profileImg,
   }),
   dispatch => bindActionCreators({

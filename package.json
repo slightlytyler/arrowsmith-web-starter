@@ -70,6 +70,7 @@
     "classnames": "^2.2.3",
     "co-request": "^1.0.0",
     "debug": "^2.2.0",
+    "formsy-react": "^0.17.0",
     "history": "^2.0.0",
     "iconv-lite": "^0.4.13",
     "immutable": "^3.7.6",
