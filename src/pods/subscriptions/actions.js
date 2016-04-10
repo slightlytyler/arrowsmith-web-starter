@@ -3,23 +3,9 @@ import stripe from 'stripe';
 import { push } from 'react-router-redux';
 import { mapKeys, snakeCase } from 'lodash';
 
-const testAddress = {
-  addressLine1: '301 S Harwood St.',
-  addressLine2: '1102',
-  city: 'Dallas',
-  state: 'TX',
-  zip: '75201',
-};
-
-const testCreditCard = {
-  number: '4242424242424242',
-  expMonth: 12,
-  expYear: 2017,
-  cvc: '123',
-};
-
-export const createSubscriptionFlow = (plan = 'GOALS_STANDARD', address = testAddress, creditCard = testCreditCard) => async (dispatch, getState) => {
+export const createSubscriptionFlow = (plan, card, address) => async (dispatch, getState) => {
   try {
+    const planId = `GOALS_${plan.toUpperCase()}`;
     const { user } = getState();
 
     // Create stripe customer
@@ -31,7 +17,7 @@ export const createSubscriptionFlow = (plan = 'GOALS_STANDARD', address = testAd
     // Create credit card
     const token = await new Promise((resolve, reject) =>
       stripe.card.createToken(
-        mapKeys(creditCard,
+        mapKeys(card,
         (value, key) => snakeCase(key)
       ),
       (status, response) => {
@@ -42,7 +28,7 @@ export const createSubscriptionFlow = (plan = 'GOALS_STANDARD', address = testAd
     await request.post('stripe', `customers/${user.id}/cards`, { token });
 
     // Create Subscription
-    await request.post('stripe', `customers/${user.id}/subscriptions`, { planId: plan });
+    await request.post('stripe', `customers/${user.id}/subscriptions`, { planId });
 
     // Transition to dashboard
     dispatch(push('/projects'));

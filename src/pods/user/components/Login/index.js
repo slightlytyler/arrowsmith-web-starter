@@ -15,10 +15,7 @@ export class Login extends Component {
   render() {
     return (
       <div styleName="auth-container">
-        <Form
-          ref="form"
-          onValidSubmit={this.handleValidSubmit}
-        >
+        <Form onValidSubmit={this.handleValidSubmit}>
           <header styleName="header">Login</header>
           <Input
             name="email"
