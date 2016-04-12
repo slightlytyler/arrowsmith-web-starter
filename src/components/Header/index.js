@@ -8,10 +8,10 @@ import logo from 'assets/logo.svg';
 @cssModules(styles)
 export class Header extends Component {
   static propTypes = {
-    userId: PropTypes.string,
-    name: PropTypes.string,
-    avatarUrl: PropTypes.string,
-    viewSubscriptionOptions: PropTypes.func.isRequired,
+    userIsLoggedIn: PropTypes.bool.isRequired,
+    userHasSubscription: PropTypes.bool.isRequired,
+    userName: PropTypes.string,
+    userAvatarUrl: PropTypes.string,
     logout: PropTypes.func.isRequired,
   }
 
@@ -23,20 +23,39 @@ export class Header extends Component {
     this.setState({ showUserOptions: !this.state.showUserOptions });
   }
 
-  userOptions = () => ([
-    {
-      label: 'Start a subscription',
-      action: this.props.viewSubscriptionOptions,
-    },
-    {
-      label: 'Settings',
-      action: () => false,
-    },
-    {
-      label: 'Logout',
-      action: this.props.logout,
-    },
-  ]);
+  userOptions = () => {
+    if (this.props.userHasSubscription) {
+      return [
+        {
+          label: 'Subscription',
+          link: '/dashboard/subscription',
+        },
+        {
+          label: 'Settings',
+          link: '/dashboard/user',
+        },
+        {
+          label: 'Logout',
+          action: this.props.logout,
+        },
+      ];
+    }
+
+    return [
+      {
+        label: 'Start a subscription',
+        link: '/start-subscription',
+      },
+      {
+        label: 'Settings',
+        link: '/dashboard/user',
+      },
+      {
+        label: 'Logout',
+        action: this.props.logout,
+      },
+    ];
+  };
 
   renderUserOptions() {
     if (this.state.showUserOptions) {
@@ -49,26 +68,30 @@ export class Header extends Component {
     return undefined;
   }
 
-  renderOption({ label, action }) {
+  renderOption({ label, link, action }) {
+    if (link) {
+      return <Link to={link} key={label} styleName="option">{label}</Link>;
+    }
+
     return <section key={label} styleName="option" onClick={action}>{label}</section>;
   }
 
   renderAvatar() {
-    if (this.props.avatarUrl) {
-      return <img src={this.props.avatarUrl} styleName="avatar" />;
+    if (this.props.userAvatarUrl) {
+      return <img src={this.props.userAvatarUrl} styleName="avatar" />;
     }
 
     return undefined;
   }
 
   renderAuthSection() {
-    if (this.props.userId) {
+    if (this.props.userIsLoggedIn) {
       return (
         <section styleName="auth-section" onClick={this.toggleUserOptions}>
           <div styleName="content">
             {this.renderAvatar()}
             <span styleName="name">
-              {this.props.name}</span> <span styleName="caret">&#9660;
+              {this.props.userName}</span> <span styleName="caret">&#9660;
             </span>
           </div>
           {this.renderUserOptions()}
@@ -96,17 +119,14 @@ export class Header extends Component {
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { viewSubscriptionOptions } from 'pods/subscriptions/actions';
 import { userLogoutFlow } from 'pods/user/actions';
 
 export default connect(
   state => ({
-    userId: state.user._id,
-    name: state.user.name || state.user.email,
-    avatarUrl: state.user.profileImg,
+    userIsLoggedIn: !!state.user.id,
+    userHasSubscription: !!state.user.subscription,
+    userName: state.user.name || state.user.email,
+    userAvatarUrl: state.user.profileImg,
   }),
-  dispatch => bindActionCreators({
-    logout: userLogoutFlow,
-    viewSubscriptionOptions,
-  }, dispatch),
+  dispatch => bindActionCreators({ logout: userLogoutFlow }, dispatch),
 )(Header);

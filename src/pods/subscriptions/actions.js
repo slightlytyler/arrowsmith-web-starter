@@ -2,6 +2,23 @@ import request from 'utils/request';
 import stripe from 'stripe';
 import { push } from 'react-router-redux';
 import { mapKeys, snakeCase } from 'lodash';
+import { SET_SUBSCRIPTION } from 'pods/subscriptions/constants';
+
+export const fetchSubscription = subscriptionId => async (dispatch, getState) => {
+  try {
+    const response = await request.get(
+      'stripe',
+      `customers/${getState().user.id}/subscriptions/${subscriptionId}`
+    );
+
+    dispatch({
+      type: SET_SUBSCRIPTION,
+      payload: response.data,
+    });
+  } catch (error) {
+    throw error;
+  }
+};
 
 export const createSubscriptionFlow = (plan, card, address) => async (dispatch, getState) => {
   try {
@@ -36,5 +53,3 @@ export const createSubscriptionFlow = (plan, card, address) => async (dispatch, 
     throw error;
   }
 };
-
-export const viewSubscriptionOptions = () => push('/start-subscription');
