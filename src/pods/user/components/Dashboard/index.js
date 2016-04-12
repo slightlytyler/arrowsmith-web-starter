@@ -1,21 +1,16 @@
-import React, { Component, PropTypes } from 'react';
+import React, { PropTypes } from 'react';
 import cssModules from 'react-css-modules';
 
 import styles from './styles.styl';
 
-@cssModules(styles)
-export default class UserDashboard extends Component {
-  static propTypes = {
-  };
-
-  render() {
-    return (
-      <div>User Dashboard</div>
-    );
-  }
+function UserDashboard({ children }) {
+  return (
+    <div styleName="dashboard">{children}</div>
+  );
 }
 
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
+UserDashboard.propTypes = {
+  children: PropTypes.element,
+};
 
-connect()(UserDashboard);
+export default cssModules(UserDashboard, styles);

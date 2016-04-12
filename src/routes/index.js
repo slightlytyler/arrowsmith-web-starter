@@ -12,7 +12,8 @@ import Checkout from 'pods/subscriptions/components/Checkout';
 import Editor from 'components/Editor';
 import GoalsViewer from 'pods/goals/components/Viewer';
 import { ACTIVE_GOALS_FILTER, COMPLETE_GOALS_FILTER, ALL_GOALS_FILTER } from 'pods/goals/constants';
-import SubscriptionViewer from 'pods/subscription/components/Viewer';
+import UserDashboard from 'pods/user/components/Dashboard';
+import UserDashboardBilling from 'pods/user/components/Dashboard/Billing';
 
 export default (store) => (
   <Route path="/" component={Page}>
@@ -33,11 +34,11 @@ export default (store) => (
     <Redirect from="start-subscription" to="start-subscription/select-plan" />
     <Route path="start-subscription">
       <Route path="select-plan" component={SelectPlan} />
-      <Route path="checkout" component={Checkout }/>
+      <Route path="checkout" component={Checkout}/>
     </Route>
-    <Route path="dashboard">
+    <Route path="dashboard" component={UserDashboard}>
       <Route path="user" />
-      <Route path="subscription" component={SubscriptionViewer} />
+      <Route path="billing" component={UserDashboardBilling} />
     </Route>
   </Route>
 );

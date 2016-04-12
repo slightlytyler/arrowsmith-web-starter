@@ -27,8 +27,8 @@ export class Header extends Component {
     if (this.props.userHasSubscription) {
       return [
         {
-          label: 'Subscription',
-          link: '/dashboard/subscription',
+          label: 'Billing',
+          link: '/dashboard/billing',
         },
         {
           label: 'Settings',
