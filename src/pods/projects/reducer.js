@@ -2,35 +2,33 @@ import { combineReducers } from 'redux';
 import { push, assoc, dissoc } from 'react-update-in';
 import { findIndex } from 'lodash';
 
-import {
-  CREATE_PROJECT,
-  UPDATE_PROJECT,
-  DELETE_PROJECT,
-  SET_PROJECTS,
-} from './constants';
+import * as actionTypes from './actionTypes';
 import { CLEAR_CURRENT_USER } from 'pods/user/constants';
 
 const records = (state = [], { type, payload }) => {
   switch (type) {
-    case CREATE_PROJECT: {
-      const index = findIndex(state, record => record.id === payload.id);
+    case actionTypes.CREATE_PROJECT: {
+      const index = findIndex(state, record => record.id === payload);
       if (index === -1) {
         return push(state, [payload]);
       }
       return assoc(state, index, payload);
     }
 
-    case UPDATE_PROJECT: {
+    case actionTypes.UPDATE_PROJECT: {
       const index = findIndex(state, record => record.id === payload.id);
       return assoc(state, index, payload);
     }
 
-    case DELETE_PROJECT: {
+    case actionTypes.DELETE_PROJECT: {
       const index = findIndex(state, record => record.id === payload.id);
       return dissoc(state, index);
     }
 
-    case SET_PROJECTS:
+    case actionTypes.FETCH_PROJECT:
+      return [...state, payload];
+
+    case actionTypes.FETCH_PROJECTS:
       return [...state, ...payload];
 
     case CLEAR_CURRENT_USER:

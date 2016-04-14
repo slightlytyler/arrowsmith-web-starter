@@ -5,7 +5,7 @@ import styles from './styles.styl';
 import ProjectItem from '../Item';
 
 @cssModules(styles)
-export class ProjectList extends Component {
+export class ProjectsList extends Component {
   static propTypes = {
     projects: PropTypes.array.isRequired,
   };
@@ -24,4 +24,4 @@ import { recordIdsSelector } from 'pods/projects/selectors';
 
 export default connect(
   state => ({ projects: recordIdsSelector(state) }),
-)(ProjectList);
+)(ProjectsList);

@@ -9,7 +9,7 @@ import editIcon from 'assets/icons/edit.svg';
 import removeIcon from 'assets/icons/remove.svg';
 
 @cssModules(styles)
-export class ProjectItem extends Component {
+export class ProjectsItem extends Component {
   static propTypes = {
     id: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
@@ -137,4 +137,4 @@ export default connect(
     deleteProject,
     viewProject,
   }, dispatch),
-)(ProjectItem);
+)(ProjectsItem);

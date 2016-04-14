@@ -2,8 +2,12 @@ import React, { Component, PropTypes } from 'react';
 import cssModules from 'react-css-modules';
 
 import styles from './styles.styl';
-import ProjectsViewer from 'pods/projects/components/Viewer';
-import ProjectsEmpty from 'pods/projects/components/Empty';
+import { components as projectsComponents } from 'pods/projects';
+
+const {
+  Root: ProjectsRoot,
+  Empty: ProjectsEmpty,
+} = projectsComponents;
 
 @cssModules(styles)
 export class Editor extends Component {
@@ -16,7 +20,7 @@ export class Editor extends Component {
     if (this.props.hasProjects) {
       return (
         <div styleName="editor">
-          <ProjectsViewer />
+          <ProjectsRoot />
           {this.props.children}
         </div>
       );
@@ -24,7 +28,7 @@ export class Editor extends Component {
 
     return (
       <div styleName="editor">
-        <ProjectsViewer />
+        <ProjectsRoot />
         <ProjectsEmpty />
       </div>
     );

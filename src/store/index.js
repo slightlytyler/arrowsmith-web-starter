@@ -1,5 +1,6 @@
 import { applyMiddleware, compose, createStore } from 'redux';
-import thunk from 'redux-thunk';
+import thunkMiddleware from 'redux-thunk';
+import promiseMiddleware from 'redux-promise';
 import * as storage from 'redux-storage';
 import rootReducer from 'reducers';
 import createEngine from 'redux-storage-engine-localstorage';
@@ -27,7 +28,8 @@ const load = storage.createLoader(engine);
 export default function configureStore(initialState = {}, routerMiddleware) {
   // Compose final middleware and use devtools in debug environment
   const middleware = applyMiddleware(
-    thunk,
+    thunkMiddleware,
+    promiseMiddleware,
     routerMiddleware,
     storageMiddleware,
   );

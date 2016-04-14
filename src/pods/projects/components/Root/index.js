@@ -2,11 +2,11 @@ import React, { Component, PropTypes } from 'react';
 import cssModules from 'react-css-modules';
 
 import styles from './styles.styl';
-import ProjectCreator from 'pods/project/components/Creator';
-import ProjectList from 'pods/project/components/List';
+import ProjectCreator from '../Creator';
+import ProjectList from '../List';
 
 @cssModules(styles)
-export class ProjectsViewer extends Component {
+export class ProjectsRoot extends Component {
   static propTypes = {
     fetchProjects: PropTypes.func.isRequired,
   };
@@ -17,7 +17,7 @@ export class ProjectsViewer extends Component {
 
   render() {
     return (
-      <div styleName="viewer">
+      <div styleName="root">
         <ProjectCreator />
         <ProjectList />
       </div>
@@ -32,4 +32,4 @@ import { fetchProjects } from 'pods/projects/actions';
 export default connect(
   undefined,
   dispatch => bindActionCreators({ fetchProjects }, dispatch),
-)(ProjectsViewer);
+)(ProjectsRoot);

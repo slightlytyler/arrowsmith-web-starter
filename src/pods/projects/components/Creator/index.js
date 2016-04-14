@@ -5,7 +5,7 @@ import keycode from 'keycode';
 import styles from './styles.styl';
 
 @cssModules(styles)
-export class ProjectCreator extends Component {
+export class ProjectsCreator extends Component {
   static propTypes = {
     createProject: PropTypes.func.isRequired,
   }
@@ -40,4 +40,4 @@ import { createProject } from 'pods/projects/actions';
 export default connect(
   undefined,
   dispatch => bindActionCreators({ createProject }, dispatch),
-)(ProjectCreator);
+)(ProjectsCreator);
