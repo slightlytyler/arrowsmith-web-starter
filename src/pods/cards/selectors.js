@@ -2,11 +2,11 @@ import { createSelector } from 'reselect';
 import { map } from 'lodash';
 import createRecordsById from 'utils/createRecordsById';
 
-export const subscriptionsSelector = state => state.subscriptions;
+export const cardsSelector = state => state.subscriptions;
 
 export const recordsSelector = createSelector(
-  subscriptionsSelector,
-  subscriptions => subscriptions.records,
+  cardsSelector,
+  cards => cards.records,
 );
 
 export const recordIdsSelector = createSelector(
