@@ -1,3 +1,5 @@
+/* eslint-disable no-console */
+
 import { push, assoc, dissoc } from 'react-update-in';
 import { findIndex } from 'lodash';
 
@@ -25,4 +27,7 @@ export const fetchRecords = (state, { payload }) => [...state, ...payload];
 
 export const dropRecords = () => ([]);
 
-export const handleError = (state, { payload }) => { throw (payload); };
+export const handleError = (state, { payload }) => {
+  console.log(payload);
+  return state;
+};
