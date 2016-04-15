@@ -1,42 +1,34 @@
 import { combineReducers } from 'redux';
-import { push, assoc, dissoc } from 'react-update-in';
-import { findIndex } from 'lodash';
-
+import { handleActions } from 'redux-actions';
+import * as mutations from 'utils/mutations';
 import * as actionTypes from './actionTypes';
 import { CLEAR_CURRENT_USER } from 'pods/user/constants';
 
-const records = (state = [], { type, payload }) => {
-  switch (type) {
-    case actionTypes.CREATE_PROJECT: {
-      const index = findIndex(state, record => record.id === payload);
-      if (index === -1) {
-        return push(state, [payload]);
-      }
-      return assoc(state, index, payload);
-    }
-
-    case actionTypes.UPDATE_PROJECT: {
-      const index = findIndex(state, record => record.id === payload.id);
-      return assoc(state, index, payload);
-    }
-
-    case actionTypes.DELETE_PROJECT: {
-      const index = findIndex(state, record => record.id === payload.id);
-      return dissoc(state, index);
-    }
-
-    case actionTypes.FETCH_PROJECT:
-      return [...state, payload];
-
-    case actionTypes.FETCH_PROJECTS:
-      return [...state, ...payload];
-
-    case CLEAR_CURRENT_USER:
-      return [];
-
-    default:
-      return state;
-  }
-};
+const records = handleActions({
+  [actionTypes.CREATE_PROJECT]: {
+    next: mutations.createRecord,
+    throw: mutations.handleError,
+  },
+  [actionTypes.UPDATE_PROJECT]: {
+    next: mutations.updateRecord,
+    throw: mutations.handleError,
+  },
+  [actionTypes.DELETE_PROJECT]: {
+    next: mutations.deleteRecord,
+    throw: mutations.handleError,
+  },
+  [actionTypes.FETCH_PROJECT]: {
+    next: mutations.fetchRecord,
+    throw: mutations.handleError,
+  },
+  [actionTypes.FETCH_PROJECTS]: {
+    next: mutations.fetchRecords,
+    throw: mutations.handleError,
+  },
+  [CLEAR_CURRENT_USER]: {
+    next: mutations.dropRecords,
+    throw: mutations.handleError,
+  },
+}, []);
 
 export default combineReducers({ records });
