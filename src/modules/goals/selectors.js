@@ -8,12 +8,10 @@ import {
 
 export const goalsSelector = state => state.goals;
 
-export const recordsSelector = createSelector(
+export const recordIdsSelector = createSelector(
   goalsSelector,
-  goals => goals.records,
+  goals => goals.recordIds,
 );
-
-export const recordIdsSelector = recordsSelector;
 
 export const recordsByIdSelector = createSelector(
   goalsSelector,

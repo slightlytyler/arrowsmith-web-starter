@@ -4,7 +4,7 @@ import * as mutations from 'utils/mutations';
 import * as actionTypes from './actionTypes';
 import { CLEAR_CURRENT_USER } from 'modules/user/constants';
 
-const records = handleActions({
+const recordIds = handleActions({
   [actionTypes.CREATE_GOAL]: {
     next: mutations.createRecord,
     throw: mutations.handleError,
@@ -58,4 +58,4 @@ const recordsById = handleActions({
   },
 }, {});
 
-export default combineReducers({ records, recordsById });
+export default combineReducers({ recordIds, recordsById });

@@ -57,10 +57,10 @@ export default {
 
 import { mapValues } from 'lodash';
 
-export const isRecordId = key => key !== 'id' && key !== '_id' && key.substr(-2) === 'Id';
+export const isRelationshipId = key => key !== 'id' && key !== '_id' && key.substr(-2) === 'Id';
 
 const deserializeRecord = record => mapValues(record, (value, key) => {
-  if (isRecordId(key) && Array.isArray(value)) return value[0];
+  if (isRelationshipId(key) && Array.isArray(value)) return value[0];
   return value;
 });
 
