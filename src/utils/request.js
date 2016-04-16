@@ -54,3 +54,17 @@ export default {
     headers: buildHeaders(),
   }),
 };
+
+import { mapValues } from 'lodash';
+
+export const isRecordId = key => key !== 'id' && key !== '_id' && key.substr(-2) === 'Id';
+
+const deserializeRecord = record => mapValues(record, (value, key) => {
+  if (isRecordId(key) && Array.isArray(value)) return value[0];
+  return value;
+});
+
+export const deserialize = payload => {
+  if (Array.isArray(payload)) return payload.map(deserializeRecord);
+  return deserializeRecord(payload);
+};

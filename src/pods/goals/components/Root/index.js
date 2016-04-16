@@ -3,12 +3,12 @@ import cssModules from 'react-css-modules';
 
 import styles from './styles.styl';
 import { ACTIVE_GOALS_FILTER, COMPLETE_GOALS_FILTER, ALL_GOALS_FILTER } from 'pods/goals/constants';
-import GoalCreator from 'pods/goal/components/Creator';
-import GoalList from 'pods/goal/components/List';
-import GoalFilters from 'pods/goal/components/Filters';
+import GoalCreator from '../Creator';
+import GoalList from '../List';
+import GoalFilters from '../Filters';
 
 @cssModules(styles)
-export class GoalsViewer extends Component {
+export class GoalsRoot extends Component {
   static propTypes = {
     activeFilter: PropTypes.oneOf([
       ACTIVE_GOALS_FILTER,
@@ -27,7 +27,7 @@ export class GoalsViewer extends Component {
     const { activeFilter, projectId } = this.props;
 
     return (
-      <div styleName="viewer">
+      <div styleName="root">
         <GoalCreator projectId={projectId} />
         <GoalFilters projectId={projectId} activeFilter={activeFilter} />
         <GoalList
@@ -50,4 +50,4 @@ export default connect(
     projectId: props.params.projectId,
   }),
   dispatch => bindActionCreators({ fetchGoals }, dispatch),
-)(GoalsViewer);
+)(GoalsRoot);

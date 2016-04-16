@@ -4,16 +4,19 @@ import storage from './storage';
 import user from 'pods/user/reducers';
 import subscriptions from 'pods/subscriptions/reducers';
 import {
-  NAME as PROJECTS_NAME,
+  NAME as PROJECTS_KEY,
   reducer as projectsReducer,
 } from 'pods/projects';
-import goals from 'pods/goals/reducers';
+import {
+  NAME as GOALS_KEY,
+  reducer as goalsReducer,
+} from 'pods/goals';
 
 export default combineReducers({
   router,
   storage,
   user,
   subscriptions,
-  [PROJECTS_NAME]: projectsReducer,
-  goals,
+  [PROJECTS_KEY]: projectsReducer,
+  [GOALS_KEY]: goalsReducer,
 });

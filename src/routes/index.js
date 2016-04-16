@@ -10,7 +10,7 @@ import SignUp from 'pods/user/components/SignUp';
 import SelectPlan from 'pods/subscriptions/components/SelectPlan';
 import Checkout from 'pods/subscriptions/components/Checkout';
 import Editor from 'components/Editor';
-import GoalsViewer from 'pods/goals/components/Viewer';
+import GoalsRoot from 'pods/goals/components/Root';
 import { ACTIVE_GOALS_FILTER, COMPLETE_GOALS_FILTER, ALL_GOALS_FILTER } from 'pods/goals/constants';
 import UserDashboard from 'pods/user/components/Dashboard';
 import UserDashboardBilling from 'pods/user/components/Dashboard/Billing';
@@ -25,9 +25,9 @@ export default (store) => (
     <Route path="projects" component={Editor}>
       <Route path=":projectId">
         <Route path="goals">
-          <Route path="active" component={GoalsViewer} filter={ACTIVE_GOALS_FILTER} />
-          <Route path="complete" component={GoalsViewer} filter={COMPLETE_GOALS_FILTER} />
-          <Route path="all" component={GoalsViewer} filter={ALL_GOALS_FILTER} />
+          <Route path="active" component={GoalsRoot} filter={ACTIVE_GOALS_FILTER} />
+          <Route path="complete" component={GoalsRoot} filter={COMPLETE_GOALS_FILTER} />
+          <Route path="all" component={GoalsRoot} filter={ALL_GOALS_FILTER} />
         </Route>
       </Route>
     </Route>
