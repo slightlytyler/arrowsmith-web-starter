@@ -14,5 +14,5 @@ export const fetchGoals = createAction(actionTypes.FETCH_GOALS, service.fetchGoa
 export const toggleGoal = id => async (dispatch, getState) => {
   const record = findRecord(getState(), id);
 
-  dispatch(updateGoal({ id, complete: !record.complete }));
+  dispatch(updateGoal(id, { complete: !record.complete }));
 };

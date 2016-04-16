@@ -1,6 +1,5 @@
 import { createSelector } from 'reselect';
-import { map, filter } from 'lodash';
-import createRecordsById from 'utils/createRecordsById';
+import { filter } from 'lodash';
 import {
   ACTIVE_GOALS_FILTER,
   COMPLETE_GOALS_FILTER,
@@ -14,14 +13,11 @@ export const recordsSelector = createSelector(
   goals => goals.records,
 );
 
-export const recordIdsSelector = createSelector(
-  recordsSelector,
-  records => map(records, record => record.id),
-);
+export const recordIdsSelector = recordsSelector;
 
 export const recordsByIdSelector = createSelector(
-  recordsSelector,
-  records => createRecordsById(records),
+  goalsSelector,
+  goals => goals.recordsById,
 );
 
 export const findRecord = createSelector(

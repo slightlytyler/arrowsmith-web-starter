@@ -1,31 +1,42 @@
 /* eslint-disable no-console */
 
 import { push, assoc, dissoc } from 'react-update-in';
-import { findIndex } from 'lodash';
+import { union, map } from 'lodash';
+import createRecordsById from 'utils/createRecordsById';
 
 export const createRecord = (state, { payload }) => {
-  const index = findIndex(state, record => record.id === payload);
-  if (index === -1) {
-    return push(state, [payload]);
-  }
-  return assoc(state, index, payload);
+  if (Array.isArray(state)) return push(state, [payload.id]);
+  return assoc(state, payload.id, payload);
 };
 
 export const updateRecord = (state, { payload }) => {
-  const index = findIndex(state, record => record.id === payload.id);
-  return assoc(state, index, payload);
+  if (Array.isArray(state)) return state;
+  return assoc(state, payload.id, payload);
 };
 
 export const deleteRecord = (state, { payload }) => {
-  const index = findIndex(state, record => record.id === payload.id);
-  return dissoc(state, index);
+  if (Array.isArray(state)) return dissoc(state, state.indexOf(payload.id));
+  return dissoc(state, payload.id);
 };
 
-export const fetchRecord = (state, { payload }) => [...state, payload];
+export const fetchRecord = (state, { payload }) => {
+  if (Array.isArray(state)) {
+    if (state.indexOf(payload.id) === -1) return push(state, [payload.id]);
+    return state;
+  }
 
-export const fetchRecords = (state, { payload }) => [...state, ...payload];
+  return assoc(state, payload.id, payload);
+};
 
-export const dropRecords = () => ([]);
+export const fetchRecords = (state, { payload }) => {
+  if (Array.isArray(state)) return union(state, map(payload, 'id'));
+  return Object.assign({}, state, createRecordsById(payload));
+};
+
+export const dropRecords = state => {
+  if (Array.isArray(state)) return [];
+  return {};
+};
 
 export const handleError = (state, { payload }) => {
   console.log(payload);

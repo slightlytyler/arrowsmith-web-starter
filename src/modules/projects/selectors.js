@@ -1,6 +1,4 @@
 import { createSelector } from 'reselect';
-import { map } from 'lodash';
-import createRecordsById from 'utils/createRecordsById';
 
 export const projectsSelector = state => state.projects;
 
@@ -9,14 +7,11 @@ export const recordsSelector = createSelector(
   projects => projects.records,
 );
 
-export const recordIdsSelector = createSelector(
-  recordsSelector,
-  records => map(records, record => record.id),
-);
+export const recordIdsSelector = recordsSelector;
 
 export const recordsByIdSelector = createSelector(
-  recordsSelector,
-  records => createRecordsById(records),
+  projectsSelector,
+  projects => projects.recordsById,
 );
 
 export const findRecord = createSelector(

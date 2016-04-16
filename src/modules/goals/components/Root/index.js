@@ -27,6 +27,12 @@ export class GoalsRoot extends Component {
     this.props.fetchGoals(this.props.projectId);
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (this.props.projectId !== nextProps.projectId) {
+      this.props.fetchGoals(nextProps.projectId);
+    }
+  }
+
   render() {
     const { activeFilter, projectId } = this.props;
 
