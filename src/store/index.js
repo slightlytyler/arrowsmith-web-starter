@@ -8,7 +8,7 @@ import filter from 'redux-storage-decorator-filter';
 import { LOCAL_STORAGE_KEY } from 'config';
 import { registerToken } from 'utils/request';
 import { LOCATION_CHANGE } from 'react-router-redux';
-import { SET_USER, CLEAR_USER } from 'pods/user/constants';
+import { SET_USER, CLEAR_USER } from 'modules/user/constants';
 
 const reducer = storage.reducer(rootReducer);
 

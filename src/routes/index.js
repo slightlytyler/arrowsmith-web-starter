@@ -4,16 +4,20 @@ import React from 'react';
 import { Route, Redirect, IndexRoute } from 'react-router';
 
 import Page from 'components/Page';
-import Landing from 'pods/landing/components/Layout';
-import Login from 'pods/user/components/Login';
-import SignUp from 'pods/user/components/SignUp';
-import SelectPlan from 'pods/subscriptions/components/SelectPlan';
-import Checkout from 'pods/subscriptions/components/Checkout';
+import Landing from 'modules/landing/components/Layout';
+import Login from 'modules/user/components/Login';
+import SignUp from 'modules/user/components/SignUp';
+import SelectPlan from 'modules/subscriptions/components/SelectPlan';
+import Checkout from 'modules/subscriptions/components/Checkout';
 import Editor from 'components/Editor';
-import GoalsRoot from 'pods/goals/components/Root';
-import { ACTIVE_GOALS_FILTER, COMPLETE_GOALS_FILTER, ALL_GOALS_FILTER } from 'pods/goals/constants';
-import UserDashboard from 'pods/user/components/Dashboard';
-import UserDashboardBilling from 'pods/user/components/Dashboard/Billing';
+import GoalsRoot from 'modules/goals/components/Root';
+import {
+  ACTIVE_GOALS_FILTER,
+  COMPLETE_GOALS_FILTER,
+  ALL_GOALS_FILTER,
+} from 'modules/goals/constants';
+import UserDashboard from 'modules/user/components/Dashboard';
+import UserDashboardBilling from 'modules/user/components/Dashboard/Billing';
 
 export default (store) => (
   <Route path="/" component={Page}>

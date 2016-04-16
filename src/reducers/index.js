@@ -1,16 +1,16 @@
 import { combineReducers } from 'redux';
 import { routerReducer as router } from 'react-router-redux';
 import storage from './storage';
-import user from 'pods/user/reducers';
-import subscriptions from 'pods/subscriptions/reducers';
+import user from 'modules/user/reducers';
+import subscriptions from 'modules/subscriptions/reducers';
 import {
   NAME as PROJECTS_KEY,
   reducer as projectsReducer,
-} from 'pods/projects';
+} from 'modules/projects';
 import {
   NAME as GOALS_KEY,
   reducer as goalsReducer,
-} from 'pods/goals';
+} from 'modules/goals';
 
 export default combineReducers({
   router,

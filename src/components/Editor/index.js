@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import cssModules from 'react-css-modules';
 
 import styles from './styles.styl';
-import { components as projectsComponents } from 'pods/projects';
+import { components as projectsComponents } from 'modules/projects';
 
 const {
   Root: ProjectsRoot,
@@ -36,7 +36,7 @@ export class Editor extends Component {
 }
 
 import { connect } from 'react-redux';
-import { recordsSelector } from 'pods/projects/selectors';
+import { recordsSelector } from 'modules/projects/selectors';
 
 export default connect(
   state => ({ hasProjects: recordsSelector(state).length > 0 })
