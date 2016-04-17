@@ -5,19 +5,16 @@ import { Route, Redirect, IndexRoute } from 'react-router';
 
 import Page from 'components/Page';
 import Landing from 'modules/landing/components/Layout';
-import Login from 'modules/user/components/Login';
-import SignUp from 'modules/user/components/SignUp';
-import SelectPlan from 'modules/subscriptions/components/SelectPlan';
-import Checkout from 'modules/subscriptions/components/Checkout';
+import { SignUp, Login } from 'modules/user/components';
+import { SelectPlan, Checkout } from 'modules/subscriptions/components';
 import Editor from 'components/Editor';
-import GoalsRoot from 'modules/goals/components/Root';
+import { Root as GoalsRoot } from 'modules/goals';
 import {
   ACTIVE_GOALS_FILTER,
   COMPLETE_GOALS_FILTER,
   ALL_GOALS_FILTER,
 } from 'modules/goals/constants';
-import UserDashboard from 'modules/user/components/Dashboard';
-import UserDashboardBilling from 'modules/user/components/Dashboard/Billing';
+import { Dashboard, Billing } from 'modules/user/components';
 
 export default (store) => (
   <Route path="/" component={Page}>
@@ -40,9 +37,9 @@ export default (store) => (
       <Route path="select-plan" component={SelectPlan} />
       <Route path="checkout" component={Checkout}/>
     </Route>
-    <Route path="dashboard" component={UserDashboard}>
+    <Route path="dashboard" component={Dashboard}>
       <Route path="user" />
-      <Route path="billing" component={UserDashboardBilling} />
+      <Route path="billing" component={Billing} />
     </Route>
   </Route>
 );

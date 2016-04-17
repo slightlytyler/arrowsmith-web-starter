@@ -1,7 +1,10 @@
 import { combineReducers } from 'redux';
 import { routerReducer as router } from 'react-router-redux';
 import storage from './storage';
-import user from 'modules/user/reducers';
+import {
+  NAME as USER_KEY,
+  reducer as userReducer,
+} from 'modules/user';
 import {
   NAME as SUBSCRIPTIONS_KEY,
   reducer as subscriptionsReducer,
@@ -22,7 +25,7 @@ import {
 export default combineReducers({
   router,
   storage,
-  user,
+  [USER_KEY]: userReducer,
   [SUBSCRIPTIONS_KEY]: subscriptionsReducer,
   [CARDS_KEY]: cardsReducer,
   [PROJECTS_KEY]: projectsReducer,

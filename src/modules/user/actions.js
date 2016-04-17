@@ -1,79 +1,50 @@
-import request, { registerToken, unregisterToken } from 'utils/request';
+import { createAction } from 'redux-actions';
 import { push as pushRoute } from 'react-router-redux';
-import { SET_USER, CLEAR_USER } from './constants';
+import * as actionTypes from './actionTypes';
+import * as service from './service';
 
-const setUser = user => ({
-  type: SET_USER,
-  user,
-});
-
-const clearUser = () => ({
-  type: CLEAR_USER,
-});
-
-const createUser = user => request.post(
-  'user',
-  'users',
-  user,
+export const createUser = createAction(
+  actionTypes.CREATE_USER,
+  service.createUser
 );
 
-const authorizeUser = (email, password) => request.authorize({ email, password });
+export const updateUser = () => undefined;
 
-const unauthorizeUser = () => request.unauthorize(); // eslint-disable-line no-unused-vars
+export const deleteUser = () => undefined;
 
-export const userSignUpFlow = payload => async dispatch => {
-  try {
-    // Create firebase user
-    await createUser(payload);
+export const authorizeUser = createAction(
+  actionTypes.AUTHORIZE_USER,
+  service.authorizeUser
+);
 
-    // Login user
-    const response = await authorizeUser(payload.email, payload.password);
-    const user = response.data;
-    user.token = response.headers['x-stamplay-jwt'];
-
-    // Register token
-    registerToken(user.token);
-
-    // Persist user
-    dispatch(setUser(user));
-
-    // Transition to projects
-    dispatch(pushRoute('/projects'));
-  } catch (error) {
-    throw error;
-  }
-};
+export const unauthorizeUser = createAction(
+  actionTypes.UNAUTHORIZE_USER,
+  service.unauthorizeUser
+);
 
 export const userLoginFlow = (email, password) => async dispatch => {
   try {
-    // Login user
-    const response = await authorizeUser(email, password);
-    const user = response.data;
-    user.token = response.headers['x-stamplay-jwt'];
-
-    // Register token
-    registerToken(user.token);
-
-    // Persist user
-    dispatch(setUser(user));
-
-    // Transition to first project
+    await dispatch(authorizeUser(email, password));
     dispatch(pushRoute(`/projects`));
   } catch (error) {
     throw error;
   }
 };
 
-export const userLogoutFlow = () => dispatch => {
+export const userLogoutFlow = () => async dispatch => {
   try {
-    // Unregister toke
-    unregisterToken();
-
-    // Clear user from local data
-    dispatch(clearUser());
-
-    // Transition to login page
+    await dispatch(unauthorizeUser());
     dispatch(pushRoute('/auth/login'));
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const userSignUpFlow = payload => async dispatch => {
+  try {
+    await dispatch(createUser(payload));
+    await dispatch(userLoginFlow(payload.email, payload.password));
+    dispatch(pushRoute(`/projects`));
   } catch (error) {
     throw error;
   }

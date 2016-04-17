@@ -5,7 +5,7 @@ import styles from './styles.styl';
 import { Root as SubscriptionsRoot } from 'modules/subscriptions';
 import { Root as CardsRoot } from 'modules/cards';
 
-function UserDashboardBilling() {
+function UserBilling() {
   return (
     <div styleName="content">
       <section styleName="section">
@@ -20,4 +20,4 @@ function UserDashboardBilling() {
   );
 }
 
-export default cssModules(UserDashboardBilling, styles);
+export default cssModules(UserBilling, styles);

@@ -8,7 +8,7 @@ import filter from 'redux-storage-decorator-filter';
 import { LOCAL_STORAGE_KEY } from 'config';
 import { registerToken } from 'utils/request';
 import { LOCATION_CHANGE } from 'react-router-redux';
-import { SET_USER, CLEAR_USER } from 'modules/user/constants';
+import { actionTypes as userActionTypes } from 'modules/user';
 
 const reducer = storage.reducer(rootReducer);
 
@@ -20,7 +20,7 @@ const engine = filter(
 const storageMiddleware = storage.createMiddleware(
   engine,
   [LOCATION_CHANGE],
-  [SET_USER, CLEAR_USER],
+  [userActionTypes.CREATE_USER, userActionTypes.AUTHORIZE_USER, userActionTypes.UNAUTHORIZE_USER],
 );
 
 const load = storage.createLoader(engine);
