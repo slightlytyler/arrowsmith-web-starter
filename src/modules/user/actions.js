@@ -34,29 +34,17 @@ export const unauthorizeUser = createAction(
 );
 
 export const loginUser = (email, password) => async dispatch => {
-  try {
-    await dispatch(authorizeUser(email, password));
-    dispatch(pushRoute(`/projects`));
-  } catch (error) {
-    throw error;
-  }
+  await dispatch(authorizeUser(email, password));
+  dispatch(pushRoute(`/projects`));
 };
 
 export const logoutUser = () => async dispatch => {
-  try {
-    await dispatch(unauthorizeUser());
-    dispatch(pushRoute('/auth/login'));
-  } catch (error) {
-    throw error;
-  }
+  await dispatch(unauthorizeUser());
+  dispatch(pushRoute('/auth/login'));
 };
 
 export const signupUser = payload => async dispatch => {
-  try {
-    await dispatch(createUser(payload));
-    await dispatch(loginUser(payload.email, payload.password));
-    dispatch(pushRoute(`/projects`));
-  } catch (error) {
-    throw error;
-  }
+  await dispatch(createUser(payload));
+  await dispatch(loginUser(payload.email, payload.password));
+  dispatch(pushRoute(`/projects`));
 };
