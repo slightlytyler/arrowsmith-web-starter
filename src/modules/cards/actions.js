@@ -8,10 +8,7 @@ export const updateCard = createAction(actionTypes.UPDATE_CARD, service.updateCa
 
 export const deleteCard = createAction(actionTypes.DELETE_CARD, service.deleteCard);
 
-const fetchCardAction = createAction(
-  actionTypes.FETCH_CARD,
-  service.fetchCard
-);
+const fetchCardAction = createAction(actionTypes.FETCH_CARD, service.fetchCard);
 
 export const fetchCard = () => (dispatch, getState) => (
   dispatch(fetchCardAction(getState().user.id))

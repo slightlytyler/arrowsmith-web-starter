@@ -1,9 +1,12 @@
-import path from 'path';
-import { API_VERSION, STAMPLAY_APP_ID } from 'config';
-
+// JWT Handling
 let token;
-export const registerToken = (newToken) => token = newToken;
+export const registerToken = newToken => token = newToken;
 export const unregisterToken = () => token = undefined;
+
+// HTTP Request config
+import path from 'path';
+import axios from 'axios';
+import { API_VERSION, STAMPLAY_APP_ID } from 'config';
 
 const baseUrl = `https://${STAMPLAY_APP_ID}.stamplayapp.com`;
 const apiBaseUrl = path.join(baseUrl, 'api');
@@ -21,8 +24,6 @@ const buildHeaders = (headers = {}) => {
 
   return headers;
 };
-
-import axios from 'axios';
 
 export default {
   get: (resource, endpoint, queryParams) => axios.get(buildApiUrl(resource, endpoint), {
@@ -55,6 +56,7 @@ export default {
   }),
 };
 
+// Serializing / Deserializing
 import { mapValues } from 'lodash';
 
 export const isRelationshipId = key => key !== 'id' && key !== '_id' && key.substr(-2) === 'Id';
