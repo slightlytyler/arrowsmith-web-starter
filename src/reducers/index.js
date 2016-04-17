@@ -6,7 +6,10 @@ import {
   NAME as SUBSCRIPTIONS_KEY,
   reducer as subscriptionsReducer,
 } from 'modules/subscriptions';
-import cards from 'modules/cards/reducers';
+import {
+  NAME as CARDS_KEY,
+  reducer as cardsReducer,
+} from 'modules/cards';
 import {
   NAME as PROJECTS_KEY,
   reducer as projectsReducer,
@@ -21,7 +24,7 @@ export default combineReducers({
   storage,
   user,
   [SUBSCRIPTIONS_KEY]: subscriptionsReducer,
-  cards,
+  [CARDS_KEY]: cardsReducer,
   [PROJECTS_KEY]: projectsReducer,
   [GOALS_KEY]: goalsReducer,
 });

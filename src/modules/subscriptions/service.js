@@ -1,13 +1,5 @@
 import request from 'utils/request';
 
-export const fetchSubscription = async (subscriptionId, userId) => {
-  const response = await request.get(
-    'stripe',
-    `customers/${userId}/subscriptions/${subscriptionId}`
-  );
-  return response.data;
-};
-
 export const createSubscription = async (userId, planId) => {
   const response = await request.post('stripe', `customers/${userId}/subscriptions`, { planId });
   return response.data;
@@ -20,6 +12,14 @@ export const updateSubscription = async (id, payload) => {
 
 export const deleteSubscription = async id => {
   const response = await request.delete('stripe', `subscriptions/${id}`);
+  return response.data;
+};
+
+export const fetchSubscription = async (subscriptionId, userId) => {
+  const response = await request.get(
+    'stripe',
+    `customers/${userId}/subscriptions/${subscriptionId}`
+  );
   return response.data;
 };
 

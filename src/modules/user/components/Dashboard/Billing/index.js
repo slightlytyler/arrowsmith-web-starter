@@ -3,7 +3,7 @@ import cssModules from 'react-css-modules';
 
 import styles from './styles.styl';
 import { Root as SubscriptionsRoot } from 'modules/subscriptions';
-import CardsViewer from 'modules/cards/components/Viewer';
+import { Root as CardsRoot } from 'modules/cards';
 
 function UserDashboardBilling() {
   return (
@@ -14,7 +14,7 @@ function UserDashboardBilling() {
       </section>
       <section styleName="section">
         <header styleName="header">Cards</header>
-        <CardsViewer />
+        <CardsRoot />
       </section>
     </div>
   );

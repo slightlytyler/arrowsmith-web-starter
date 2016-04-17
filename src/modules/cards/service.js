@@ -16,3 +16,15 @@ export const createCard = async (userId, card) => {
 
   return request.post('stripe', `customers/${userId}/cards`, { token });
 };
+
+export const updateCard = async () => new Promise;
+
+export const deleteCard = async () => new Promise;
+
+export const fetchCard = async (userId) => {
+  const response = await request.get(
+    'stripe',
+    `customers/${userId}/cards`
+  );
+  return response.data;
+};

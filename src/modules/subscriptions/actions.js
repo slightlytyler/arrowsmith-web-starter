@@ -4,18 +4,9 @@ import * as actionTypes from './actionTypes';
 import * as service from './service';
 import { actions as cardsActions } from 'modules/cards';
 
-const fetchSubscriptionAction = createAction(
-  actionTypes.FETCH_SUBSCRIPTION,
-  service.fetchSubscription
-);
-
 export const createSubscription = createAction(
   actionTypes.CREATE_SUBSCRIPTION,
   service.createSubscription
-);
-
-export const fetchSubscription = subscriptionId => (dispatch, getState) => (
-  dispatch(fetchSubscriptionAction(subscriptionId, getState().user.id))
 );
 
 export const createSubscriptionFlow = (plan, card, address) => async (dispatch, getState) => {
@@ -41,3 +32,12 @@ export const createSubscriptionFlow = (plan, card, address) => async (dispatch, 
     throw error;
   }
 };
+
+const fetchSubscriptionAction = createAction(
+  actionTypes.FETCH_SUBSCRIPTION,
+  service.fetchSubscription
+);
+
+export const fetchSubscription = subscriptionId => (dispatch, getState) => (
+  dispatch(fetchSubscriptionAction(subscriptionId, getState().user.id))
+);

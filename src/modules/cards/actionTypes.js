@@ -1,5 +1,5 @@
-export const CREATE_CARD = 'CREATE_CARD';
-export const UPDATE_CARD = 'UPDATE_CARD';
-export const DELETE_CARD = 'DELETE_CARD';
-export const SET_CARD = 'SET_CARD';
-export const SET_CARDS = 'SET_CARDS';
+export const CREATE_CARD = 'cards/CREATE';
+export const UPDATE_CARD = 'cards/UPDATE';
+export const DELETE_CARD = 'cards/DELETE';
+export const FETCH_CARD = 'cards/FETCH_SINGLE';
+export const FETCH_CARDS = 'cards/FETCH_MANY';

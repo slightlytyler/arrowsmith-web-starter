@@ -4,7 +4,7 @@ import cssModules from 'react-css-modules';
 import styles from './styles.styl';
 
 @cssModules(styles)
-export class CardsViewer extends Component {
+export class CardsRoot extends Component {
   static propTypes = {
     card: PropTypes.string,
     fetchCard: PropTypes.func.isRequired,
@@ -15,8 +15,13 @@ export class CardsViewer extends Component {
   }
 
   render() {
+    if (this.props.card) {
+      return (
+        <div>{this.props.card}</div>
+      );
+    }
     return (
-      <div>Cards Viewer</div>
+      <div>Cards Root</div>
     );
   }
 }
@@ -31,4 +36,4 @@ export default connect(
     card: recordIdsSelector(state)[0],
   }),
   dispatch => bindActionCreators({ fetchCard }, dispatch)
-)(CardsViewer);
+)(CardsRoot);
