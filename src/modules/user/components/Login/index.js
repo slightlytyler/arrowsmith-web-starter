@@ -41,9 +41,9 @@ export class Login extends Component {
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { userLoginFlow } from 'modules/user/actions';
+import { loginUser } from 'modules/user/actions';
 
 export default connect(
   undefined,
-  dispatch => bindActionCreators({ login: userLoginFlow }, dispatch),
+  dispatch => bindActionCreators({ login: loginUser }, dispatch),
 )(Login);

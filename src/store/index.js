@@ -8,7 +8,7 @@ import filter from 'redux-storage-decorator-filter';
 import { LOCAL_STORAGE_KEY } from 'config';
 import { registerToken } from 'utils/request';
 import { LOCATION_CHANGE } from 'react-router-redux';
-import { actionTypes as userActionTypes } from 'modules/user';
+import { actionTypes as userActionTypes, actions as userActions } from 'modules/user';
 
 const reducer = storage.reducer(rootReducer);
 
@@ -48,10 +48,15 @@ export default function configureStore(initialState = {}, routerMiddleware) {
     });
   }
 
-  load(store).then(loadedState => {
-    const { token } = loadedState.user;
-    if (token) registerToken(token);
-    store.dispatch({ type: 'LOAD_COMPLETE' });
+  load(store).then(({ user }) => {
+    const { dispatch } = store;
+
+    if (user.id) {
+      if (user.token) registerToken(user.token);
+      dispatch(userActions.fetchUser());
+    }
+
+    dispatch({ type: 'LOAD_COMPLETE' });
   });
 
   return store;

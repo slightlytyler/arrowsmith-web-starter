@@ -1,13 +1,24 @@
 import request, { registerToken, unregisterToken } from 'utils/request';
 
-export const createUser = async user => {
-  const response = await request.post('user', 'users', user);
+export const createUser = async payload => {
+  const response = await request.post('user', 'users', payload);
   return response.data;
 };
 
-export const updateUset = async () => new Promise;
+export const updateUser = async (userId, payload) => {
+  const response = await request.put('user', `users/${userId}`, payload);
+  return response.data;
+};
 
-export const deleteUser = async () => new Promise;
+export const deleteUser = async userId => {
+  const response = await request.delete('user', `users/${userId}`);
+  return response.data;
+};
+
+export const fetchUser = async () => {
+  const response = await request.get('user', 'getstatus');
+  return response.data.user;
+};
 
 export const authorizeUser = async (email, password) => {
   const response = await request.authorize({ email, password });
@@ -20,7 +31,14 @@ export const authorizeUser = async (email, password) => {
 };
 
 export const unauthorizeUser = async () => {
+  // stamplay forces redirect after unauthorize,
+  // waiting on api changes
   // await request.unauthorize();
   unregisterToken();
   return true;
+};
+
+export const createCustomer = async userId => {
+  const response = await request.post('stripe', 'customers', { userId });
+  return response.data;
 };

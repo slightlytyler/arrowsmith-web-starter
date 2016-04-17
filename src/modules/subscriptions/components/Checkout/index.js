@@ -102,9 +102,9 @@ export class SubscriptionsCheckout extends Component {
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { createSubscriptionFlow } from 'modules/subscriptions/actions';
+import { createSubscription } from 'modules/subscriptions/actions';
 
 export default connect(
   (state, props) => ({ plan: props.location.query.plan }),
-  dispatch => bindActionCreators({ createSubscription: createSubscriptionFlow }, dispatch),
+  dispatch => bindActionCreators({ createSubscription }, dispatch),
 )(SubscriptionsCheckout);

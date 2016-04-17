@@ -119,7 +119,7 @@ export class Header extends Component {
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { userLogoutFlow } from 'modules/user/actions';
+import { logoutUser } from 'modules/user/actions';
 
 export default connect(
   state => ({
@@ -128,5 +128,5 @@ export default connect(
     userName: state.user.name || state.user.email,
     userAvatarUrl: state.user.profileImg,
   }),
-  dispatch => bindActionCreators({ logout: userLogoutFlow }, dispatch),
+  dispatch => bindActionCreators({ logout: logoutUser }, dispatch),
 )(Header);

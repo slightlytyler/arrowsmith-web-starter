@@ -66,9 +66,9 @@ export class SignUp extends Component {
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { userSignUpFlow } from 'modules/user/actions';
+import { signupUser } from 'modules/user/actions';
 
 export default connect(
   undefined,
-  dispatch => bindActionCreators({ signUp: userSignUpFlow }, dispatch),
+  dispatch => bindActionCreators({ signUp: signupUser }, dispatch),
 )(SignUp);

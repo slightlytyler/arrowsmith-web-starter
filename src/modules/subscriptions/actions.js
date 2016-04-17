@@ -2,29 +2,30 @@ import { createAction } from 'redux-actions';
 import { push } from 'react-router-redux';
 import * as actionTypes from './actionTypes';
 import * as service from './service';
+import { actions as userActions, service as userService } from 'modules/user';
 import { actions as cardsActions } from 'modules/cards';
 
-export const createSubscription = createAction(
+export const createSubscriptionAction = createAction(
   actionTypes.CREATE_SUBSCRIPTION,
   service.createSubscription
 );
 
-export const createSubscriptionFlow = (plan, card, address) => async (dispatch, getState) => {
+export const createSubscription = (plan, card, address) => async (dispatch, getState) => {
   try {
     const planId = `GOALS_${plan.toUpperCase()}`;
     const { user } = getState();
 
     // Create stripe customer
-    await service.createCustomer(user.id);
-
-    // Update user with address
-    await service.setUserAddress(user.id, address);
+    await userService.createCustomer(user.id);
 
     // Create credit card
     await dispatch(cardsActions.createCard(user.id, card));
 
     // Create Subscription
-    await dispatch(createSubscription(user.id, planId));
+    const { payload: subscription } = await dispatch(createSubscriptionAction(user.id, planId));
+
+    // Update user with address
+    await dispatch(userActions.updateUser(user.id, { address, subscription: subscription.id }));
 
     // Transition to dashboard
     dispatch(push('/projects'));
@@ -32,6 +33,10 @@ export const createSubscriptionFlow = (plan, card, address) => async (dispatch, 
     throw error;
   }
 };
+
+export const updateSubscription = () => undefined;
+
+export const deleteSubscription = () => undefined;
 
 const fetchSubscriptionAction = createAction(
   actionTypes.FETCH_SUBSCRIPTION,

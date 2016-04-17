@@ -22,9 +22,3 @@ export const fetchSubscription = async (subscriptionId, userId) => {
   );
   return response.data;
 };
-
-export const createCustomer = userId => request.post('stripe', 'customers', { userId });
-
-export const setUserAddress = (userId, address) => (
-  request.put('user', `users/${userId}`, { address })
-);

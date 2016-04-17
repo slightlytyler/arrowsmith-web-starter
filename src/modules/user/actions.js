@@ -8,9 +8,20 @@ export const createUser = createAction(
   service.createUser
 );
 
-export const updateUser = () => undefined;
+export const updateUser = createAction(
+  actionTypes.UPDATE_USER,
+  service.updateUser
+);
 
-export const deleteUser = () => undefined;
+export const deleteUser = createAction(
+  actionTypes.DELETE_USER,
+  service.deleteUser
+);
+
+export const fetchUser = createAction(
+  actionTypes.FETCH_USER,
+  service.fetchUser
+);
 
 export const authorizeUser = createAction(
   actionTypes.AUTHORIZE_USER,
@@ -22,7 +33,7 @@ export const unauthorizeUser = createAction(
   service.unauthorizeUser
 );
 
-export const userLoginFlow = (email, password) => async dispatch => {
+export const loginUser = (email, password) => async dispatch => {
   try {
     await dispatch(authorizeUser(email, password));
     dispatch(pushRoute(`/projects`));
@@ -31,7 +42,7 @@ export const userLoginFlow = (email, password) => async dispatch => {
   }
 };
 
-export const userLogoutFlow = () => async dispatch => {
+export const logoutUser = () => async dispatch => {
   try {
     await dispatch(unauthorizeUser());
     dispatch(pushRoute('/auth/login'));
@@ -40,10 +51,10 @@ export const userLogoutFlow = () => async dispatch => {
   }
 };
 
-export const userSignUpFlow = payload => async dispatch => {
+export const signupUser = payload => async dispatch => {
   try {
     await dispatch(createUser(payload));
-    await dispatch(userLoginFlow(payload.email, payload.password));
+    await dispatch(loginUser(payload.email, payload.password));
     dispatch(pushRoute(`/projects`));
   } catch (error) {
     throw error;
