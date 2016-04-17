@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import cssModules from 'react-css-modules';
 
 import styles from './styles.styl';
-import Options from 'modules/subscription/components/Options';
+import Options from '../Options';
 
 @cssModules(styles)
 export class SubscriptionsSelectPlan extends Component {

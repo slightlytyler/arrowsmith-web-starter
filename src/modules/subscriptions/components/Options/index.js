@@ -4,7 +4,7 @@ import cssModules from 'react-css-modules';
 import styles from './styles.styl';
 
 @cssModules(styles)
-export default class SubscriptionOptions extends Component {
+export default class SubscriptionsOptions extends Component {
   static propTypes = {
     checkout: PropTypes.func.isRequired,
   };

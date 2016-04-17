@@ -1,24 +1,22 @@
-import request from 'utils/request';
-import stripe from 'stripe';
+import { createAction } from 'redux-actions';
 import { push } from 'react-router-redux';
-import { mapKeys, snakeCase } from 'lodash';
-import { SET_SUBSCRIPTION } from 'modules/subscriptions/constants';
+import * as actionTypes from './actionTypes';
+import * as service from './service';
+import { actions as cardsActions } from 'modules/cards';
 
-export const fetchSubscription = subscriptionId => async (dispatch, getState) => {
-  try {
-    const response = await request.get(
-      'stripe',
-      `customers/${getState().user.id}/subscriptions/${subscriptionId}`
-    );
+const fetchSubscriptionAction = createAction(
+  actionTypes.FETCH_SUBSCRIPTION,
+  service.fetchSubscription
+);
 
-    dispatch({
-      type: SET_SUBSCRIPTION,
-      payload: response.data,
-    });
-  } catch (error) {
-    throw error;
-  }
-};
+export const createSubscription = createAction(
+  actionTypes.CREATE_SUBSCRIPTION,
+  service.createSubscription
+);
+
+export const fetchSubscription = subscriptionId => (dispatch, getState) => (
+  dispatch(fetchSubscriptionAction(subscriptionId, getState().user.id))
+);
 
 export const createSubscriptionFlow = (plan, card, address) => async (dispatch, getState) => {
   try {
@@ -26,26 +24,16 @@ export const createSubscriptionFlow = (plan, card, address) => async (dispatch, 
     const { user } = getState();
 
     // Create stripe customer
-    await request.post('stripe', 'customers', { userId: user.id });
+    await service.createCustomer(user.id);
 
     // Update user with address
-    await request.put('user', `users/${user.id}`, { address });
+    await service.setUserAddress(user.id, address);
 
     // Create credit card
-    const token = await new Promise((resolve, reject) =>
-      stripe.card.createToken(
-        mapKeys(card,
-        (value, key) => snakeCase(key)
-      ),
-      (status, response) => {
-        if (response.error) reject(response.error.message);
-        else resolve(response.id);
-      })
-    );
-    await request.post('stripe', `customers/${user.id}/cards`, { token });
+    await dispatch(cardsActions.createCard(user.id, card));
 
     // Create Subscription
-    await request.post('stripe', `customers/${user.id}/subscriptions`, { planId });
+    await dispatch(createSubscription(user.id, planId));
 
     // Transition to dashboard
     dispatch(push('/projects'));

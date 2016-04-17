@@ -6,7 +6,7 @@ import styles from './styles.styl';
 @cssModules(styles)
 export class CardsViewer extends Component {
   static propTypes = {
-    card: PropTypes.array,
+    card: PropTypes.string,
     fetchCard: PropTypes.func.isRequired,
   };
 

@@ -5,7 +5,7 @@ import {
   CREATE_CARD,
   UPDATE_CARD,
   DELETE_CARD,
-  SET_CARDS,
+  SET_CARD,
 } from 'modules/cards/constants';
 import { CLEAR_CURRENT_USER } from 'modules/user/constants';
 

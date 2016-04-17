@@ -5,7 +5,7 @@ import moment from 'moment';
 import styles from './styles.styl';
 
 @cssModules(styles)
-export class SubscriptionViewer extends Component {
+export class SubscriptionsRoot extends Component {
   static propTypes = {
     id: PropTypes.string.isRequired,
     status: PropTypes.string,
@@ -83,4 +83,4 @@ export default connect(
     return { id };
   },
   dispatch => bindActionCreators({ fetchSubscription }, dispatch)
-)(SubscriptionViewer);
+)(SubscriptionsRoot);

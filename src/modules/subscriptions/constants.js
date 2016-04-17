@@ -1,5 +1,1 @@
-// Action types
-export const CREATE_SUBSCRIPTION = 'CREATE_SUBSCRIPTION';
-export const UPDATE_SUBSCRIPTION = 'UPDATE_SUBSCRIPTION';
-export const DELETE_SUBSCRIPTION = 'DELETE_SUBSCRIPTION';
-export const SET_SUBSCRIPTION = 'SET_SUBSCRIPTION';
+export const NAME = 'subscriptions';
