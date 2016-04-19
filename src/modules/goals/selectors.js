@@ -1,10 +1,5 @@
-import { createSelector } from 'reselect';
-import { filter } from 'lodash';
-import {
-  ACTIVE_GOALS_FILTER,
-  COMPLETE_GOALS_FILTER,
-  ALL_GOALS_FILTER,
-} from 'modules/goals/constants';
+import { createSelector, defaultMemoize as memoize } from 'reselect';
+import { filters } from 'modules/goals/constants';
 
 export const goalsSelector = state => state.goals;
 
@@ -20,49 +15,32 @@ export const recordsByIdSelector = createSelector(
 
 export const findRecord = createSelector(
   recordsByIdSelector,
-  (state, id) => id,
-  (recordsById, id) => recordsById[id],
+  (state, props) => props.id,
+  (recordsById, id) => recordsById[id]
 );
 
-export const projectGoalIdsSelector = createSelector(
-  recordIdsSelector,
-  recordsByIdSelector,
-  (state, projectId) => projectId,
-  (recordIds, recordsById, projectId) => (
-    filter(recordIds, id => recordsById[id].projectId === projectId),
-  ),
-);
+export const getRemainingGoalIds = memoize((recordIds, recordsById) => (
+  recordIds.filter(id => !recordsById[id].complete)
+));
 
-export const remainingGoalIdsSelector = createSelector(
-  projectGoalIdsSelector,
-  recordsByIdSelector,
-  (recordIds, recordsById) => filter(recordIds, id => !recordsById[id].complete),
-);
+export const getCompletedGoalIds = memoize((recordIds, recordsById) => (
+  recordIds.filter(id => recordsById[id].complete)
+));
 
-export const completedGoalIdsSelector = createSelector(
-  projectGoalIdsSelector,
-  recordsByIdSelector,
-  (recordIds, recordsById) => filter(recordIds, id => recordsById[id].complete),
-);
+export const getFilteredGoalIds = memoize((recordIds, recordsById, activeFilter) => {
+  switch (activeFilter) {
+    case filters.REMAINING_GOALS_FILTER:
+      return getRemainingGoalIds(recordIds, recordsById);
 
-export const activeFilterSelector = containerProps => containerProps.route.filter;
+    case filters.COMPLETED_GOALS_FILTER:
+      return getCompletedGoalIds(recordIds, recordsById);
 
-export const filteredProjectGoalsSelector = createSelector(
-  remainingGoalIdsSelector,
-  completedGoalIdsSelector,
-  projectGoalIdsSelector,
-  (state, projectId, activeFilter) => activeFilter,
-  (remainingGoalIds, completedGoalIds, allGoalIds, activeFilter) => {
-    switch (activeFilter) {
-      case ACTIVE_GOALS_FILTER:
-        return remainingGoalIds;
+    case filters.ALL_GOALS_FILTER:
+    default:
+      return recordIds;
+  }
+});
 
-      case COMPLETE_GOALS_FILTER:
-        return completedGoalIds;
-
-      case ALL_GOALS_FILTER:
-      default:
-        return allGoalIds;
-    }
-  },
-);
+export const getGoalIdsByProject = memoize((recordIds, recordsById, projectId) => (
+  recordIds.filter(id => recordsById[id].projectId === projectId)
+));

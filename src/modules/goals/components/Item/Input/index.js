@@ -5,7 +5,7 @@ import listensToClickOutside from 'react-onclickoutside/decorator';
 import styles from './styles.styl';
 
 @listensToClickOutside()
-@cssModules(styles, { allowMultiple: true })
+@cssModules(styles)
 export default class GoalsInput extends Component {
   static propTypes = {
     value: PropTypes.string,
@@ -18,20 +18,16 @@ export default class GoalsInput extends Component {
     saveLabel: 'Save',
   };
 
-  handleClickOutside = () => {
-    this.save();
-  }
+  handleClickOutside = () => this.handleSave();
 
   handleFocus = e => {
     const { target } = e;
     target.value = target.value;
   }
 
-  save = () => {
-    this.props.handleSave(findDOMNode(this.refs.input).value);
-  }
+  handleSave = () => this.props.handleSave(findDOMNode(this.refs.input).value);
 
-  handleKeyDown = e => e.which === 13 && this.save();
+  handleKeyDown = e => e.which === 13 && this.handleSave();
 
   render() {
     return (
@@ -47,7 +43,7 @@ export default class GoalsInput extends Component {
         />
         <section
           styleName="save-button"
-          onClick={this.save}
+          onClick={this.handleSave}
         >
           {this.props.saveLabel}
         </section>

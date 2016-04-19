@@ -5,22 +5,22 @@ import listensToClickOutside from 'react-onclickoutside/decorator';
 import styles from '../styles.styl';
 
 @listensToClickOutside()
-@cssModules(styles, { allowMultiple: true })
+@cssModules(styles)
 export default class GoalsCreatorInput extends Component {
   static propTypes = {
     placeholder: PropTypes.string.isRequired,
-    addGoal: PropTypes.func.isRequired,
+    handleSubmit: PropTypes.func.isRequired,
   };
 
   handleClickOutside = () => {
-    this.addGoal();
+    this.handleSubmit();
   }
 
-  addGoal = () => {
-    this.props.addGoal(findDOMNode(this.refs.input).value);
+  handleSubmit = () => {
+    this.props.handleSubmit(findDOMNode(this.refs.input).value);
   }
 
-  handleKeyDown = e => e.which === 13 && this.addGoal();
+  handleKeyDown = e => e.which === 13 && this.handleSubmit();
 
   render() {
     return (
@@ -33,8 +33,8 @@ export default class GoalsCreatorInput extends Component {
           autoFocus
         />
         <section
-          styleName="add button"
-          onClick={this.addGoal}
+          styleName="add--button"
+          onClick={this.handleSubmit}
         >
           Add
         </section>

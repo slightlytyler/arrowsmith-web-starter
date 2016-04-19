@@ -4,11 +4,7 @@ import cssModules from 'react-css-modules';
 import classNames from 'classnames';
 
 import styles from './styles.styl';
-import {
-  ACTIVE_GOALS_FILTER,
-  COMPLETE_GOALS_FILTER,
-  ALL_GOALS_FILTER,
-} from 'modules/goals/constants';
+import { filters } from 'modules/goals/constants';
 
 @cssModules(styles, { allowMultiple: true })
 export class GoalsFilters extends Component {
@@ -35,19 +31,25 @@ export class GoalsFilters extends Component {
           <section styleName="list">
             <Link
               to={route('active')}
-              styleName={classNames('item', { active: activeFilter === ACTIVE_GOALS_FILTER })}
+              styleName={classNames('item', {
+                active: activeFilter === filters.REMAINING_GOALS_FILTER,
+              })}
             >
               Active
             </Link>
             <Link
               to={route('complete')}
-              styleName={classNames('item', { active: activeFilter === COMPLETE_GOALS_FILTER })}
+              styleName={classNames('item', {
+                active: activeFilter === filters.COMPLETED_GOALS_FILTER,
+              })}
             >
               Complete
             </Link>
             <Link
               to={route('all')}
-              styleName={classNames('item', { active: activeFilter === ALL_GOALS_FILTER })}
+              styleName={classNames('item', {
+                active: activeFilter === filters.ALL_GOALS_FILTER,
+              })}
             >
               All
             </Link>
@@ -59,10 +61,25 @@ export class GoalsFilters extends Component {
 }
 
 import { connect } from 'react-redux';
-import { remainingGoalIdsSelector } from 'modules/goals/selectors';
+import { createSelector, createStructuredSelector } from 'reselect';
+import {
+  recordIdsSelector,
+  recordsByIdSelector,
+  getGoalIdsByProject,
+  getRemainingGoalIds,
+} from 'modules/goals/selectors';
+
+const projectIdSelector = (state, props) => props.projectId;
+const remainingGoalsCountSelector = createSelector(
+  recordIdsSelector,
+  recordsByIdSelector,
+  projectIdSelector,
+  (recordIds, recordsById, projectId) => getRemainingGoalIds(
+    getGoalIdsByProject(recordIds, recordsById, projectId),
+    recordsById
+  ).length
+);
 
 export default connect(
-  (state, props) => ({
-    remainingGoalsCount: remainingGoalIdsSelector(state, props.projectId).length,
-  }),
+  createStructuredSelector({ remainingGoalsCount: remainingGoalsCountSelector })
 )(GoalsFilters);

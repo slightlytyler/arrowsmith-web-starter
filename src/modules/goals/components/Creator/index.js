@@ -6,7 +6,7 @@ import styles from './styles.styl';
 import plus from 'assets/icons/plus.svg';
 import Input from './Input';
 
-@cssModules(styles, { allowMultiple: true })
+@cssModules(styles)
 export class GoalsCreator extends Component {
   static propTypes = {
     createGoal: PropTypes.func.isRequired,
@@ -24,9 +24,9 @@ export class GoalsCreator extends Component {
     }
   }
 
-  addGoal = text => {
+  handleCreate = text => {
     if (text) {
-      this.props.createGoal(text);
+      this.props.createGoal({ text });
     }
 
     this.setState({ active: false });
@@ -35,7 +35,7 @@ export class GoalsCreator extends Component {
   renderPlaceholder() {
     return (
       <div styleName="content">
-        <section styleName="add">
+        <section styleName="add--icon">
           <Icon path={plus} color="#1EB5F9" width="1em" />
         </section>
         <section styleName="prompt">
@@ -48,8 +48,8 @@ export class GoalsCreator extends Component {
   render() {
     if (this.state.active) {
       return (
-        <div styleName="creator editing">
-          <Input placeholder={this.placeholder} addGoal={this.addGoal} />
+        <div styleName="creator--editing">
+          <Input placeholder={this.placeholder} handleSubmit={this.handleCreate} />
         </div>
       );
     }
@@ -64,10 +64,9 @@ export class GoalsCreator extends Component {
 
 import { connect } from 'react-redux';
 import { createGoal } from 'modules/goals/actions';
+import { createStructuredActions } from 'utils';
 
 export default connect(
   undefined,
-  (dispatch, props) => ({
-    createGoal: text => dispatch(createGoal(text, props.projectId)),
-  }),
+  createStructuredActions({ createGoal }, 'projectId')
 )(GoalsCreator);

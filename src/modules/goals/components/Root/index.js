@@ -2,11 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import cssModules from 'react-css-modules';
 
 import styles from './styles.styl';
-import {
-  ACTIVE_GOALS_FILTER,
-  COMPLETE_GOALS_FILTER,
-  ALL_GOALS_FILTER,
-} from 'modules/goals/constants';
+import { filters } from 'modules/goals/constants';
 import GoalCreator from '../Creator';
 import GoalList from '../List';
 import GoalFilters from '../Filters';
@@ -14,11 +10,7 @@ import GoalFilters from '../Filters';
 @cssModules(styles)
 export class GoalsRoot extends Component {
   static propTypes = {
-    activeFilter: PropTypes.oneOf([
-      ACTIVE_GOALS_FILTER,
-      COMPLETE_GOALS_FILTER,
-      ALL_GOALS_FILTER,
-    ]).isRequired,
+    activeFilter: PropTypes.oneOf(Object.values(filters)).isRequired,
     projectId: PropTypes.string.isRequired,
     fetchGoals: PropTypes.func.isRequired,
   };
@@ -50,14 +42,17 @@ export class GoalsRoot extends Component {
 }
 
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import { activeFilterSelector } from 'modules/goals/selectors';
+import { createStructuredSelector } from 'reselect';
+import { createStructuredActions } from 'utils';
 import { fetchGoals } from 'modules/goals/actions';
 
+const activeFilterSelector = (state, props) => props.route.filter;
+const projectIdSelector = (state, props) => props.params.projectId;
+
 export default connect(
-  (state, props) => ({
-    activeFilter: activeFilterSelector(props),
-    projectId: props.params.projectId,
+  createStructuredSelector({
+    activeFilter: activeFilterSelector,
+    projectId: projectIdSelector,
   }),
-  dispatch => bindActionCreators({ fetchGoals }, dispatch),
+  createStructuredActions({ fetchGoals })
 )(GoalsRoot);

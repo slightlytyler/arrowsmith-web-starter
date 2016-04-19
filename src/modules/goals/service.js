@@ -1,6 +1,6 @@
 import request, { deserialize } from 'utils/request';
 
-export const createGoal = async (text, projectId) => {
+export const createGoal = async (projectId, { text }) => {
   const response = await request.post('cobject', 'goals', {
     text,
     projectId,

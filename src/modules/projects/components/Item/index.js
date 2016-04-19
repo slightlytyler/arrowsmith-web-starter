@@ -124,13 +124,12 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { findRecord } from 'modules/projects/selectors';
 import { updateProject, deleteProject, viewProject } from 'modules/projects/actions';
-import { remainingGoalIdsSelector } from 'modules/goals/selectors';
 
 export default connect(
   (state, props) => ({
     ...findRecord(state, props.id),
     active: state.router.locationBeforeTransitions.pathname.indexOf(`/projects/${props.id}`) === 0,
-    remainingGoalsLength: remainingGoalIdsSelector(state, props.id).length,
+    remainingGoalsLength: 0,
   }),
   dispatch => bindActionCreators({
     updateProject,

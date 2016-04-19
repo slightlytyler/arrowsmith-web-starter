@@ -22,31 +22,31 @@ export class GoalsItem extends Component {
     editing: false,
   };
 
-  edit = () => this.setState({ editing: true });
+  handleEdit = () => this.setState({ editing: true });
 
-  save = text => {
+  handleSave = text => {
     if (text) {
-      this.props.updateGoal(this.props.id, { text });
+      this.props.updateGoal({ text });
       this.setState({ editing: false });
     } else {
-      this.props.deleteGoal(this.props.id);
+      this.props.deleteGoal();
     }
   }
 
-  delete = () => this.props.deleteGoal(this.props.id);
+  handleDelete = () => this.props.deleteGoal();
 
-  toggle = () => this.props.toggleGoal(this.props.id);
+  handleToggle = () => this.props.toggleGoal();
 
   renderContent() {
     return (
-      <div styleName="content" onDoubleClick={this.edit}>
+      <div styleName="content" onDoubleClick={this.handleEdit}>
         <div styleName="checkbox">
           <input
             styleName="input"
             type="checkbox"
             id={`${this.props.id}-checkbox`}
             checked={this.props.complete}
-            onChange={this.toggle}
+            onChange={this.handleToggle}
           />
           <label
             styleName="label"
@@ -60,7 +60,7 @@ export class GoalsItem extends Component {
         <div>
           {this.props.text}
         </div>
-        <div styleName="remove" onClick={this.delete}>
+        <div styleName="remove" onClick={this.handleDelete}>
           <Icon path={remove} color="currentColor" width="1em" />
         </div>
       </div>
@@ -73,7 +73,7 @@ export class GoalsItem extends Component {
         <div styleName="item">
           <Input
             value={this.props.text}
-            handleSave={this.save}
+            handleSave={this.handleSave}
           />
         </div>
       );
@@ -88,13 +88,11 @@ export class GoalsItem extends Component {
 }
 
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
+import { createStructuredActions } from 'utils';
 import { findRecord } from 'modules/goals/selectors';
 import { updateGoal, deleteGoal, toggleGoal } from 'modules/goals/actions';
 
 export default connect(
-  (state, props) => ({
-    ...findRecord(state, props.id),
-  }),
-  dispatch => bindActionCreators({ updateGoal, deleteGoal, toggleGoal }, dispatch),
+  findRecord,
+  createStructuredActions({ updateGoal, deleteGoal, toggleGoal }, 'id')
 )(GoalsItem);
