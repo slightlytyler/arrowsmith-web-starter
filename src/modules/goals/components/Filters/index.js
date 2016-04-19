@@ -32,7 +32,7 @@ export class GoalsFilters extends Component {
             <Link
               to={route('active')}
               styleName={classNames('item', {
-                active: activeFilter === filters.REMAINING_GOALS_FILTER,
+                active: activeFilter === filters.REMAINING_FILTER,
               })}
             >
               Active
@@ -40,7 +40,7 @@ export class GoalsFilters extends Component {
             <Link
               to={route('complete')}
               styleName={classNames('item', {
-                active: activeFilter === filters.COMPLETED_GOALS_FILTER,
+                active: activeFilter === filters.COMPLETED_FILTER,
               })}
             >
               Complete
@@ -48,7 +48,7 @@ export class GoalsFilters extends Component {
             <Link
               to={route('all')}
               styleName={classNames('item', {
-                active: activeFilter === filters.ALL_GOALS_FILTER,
+                active: activeFilter === filters.ALL_FILTER,
               })}
             >
               All
@@ -65,8 +65,8 @@ import { createSelector, createStructuredSelector } from 'reselect';
 import {
   recordIdsSelector,
   recordsByIdSelector,
-  getGoalIdsByProject,
-  getRemainingGoalIds,
+  getRecordIdsByProjectId,
+  getRemainingRecordIds,
 } from 'modules/goals/selectors';
 
 const projectIdSelector = (state, props) => props.projectId;
@@ -74,8 +74,8 @@ const remainingGoalsCountSelector = createSelector(
   recordIdsSelector,
   recordsByIdSelector,
   projectIdSelector,
-  (recordIds, recordsById, projectId) => getRemainingGoalIds(
-    getGoalIdsByProject(recordIds, recordsById, projectId),
+  (recordIds, recordsById, projectId) => getRemainingRecordIds(
+    getRecordIdsByProjectId(recordIds, recordsById, projectId),
     recordsById
   ).length
 );

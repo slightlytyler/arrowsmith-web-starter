@@ -3,15 +3,17 @@ import * as actionTypes from './actionTypes';
 import * as service from './service';
 import { recordsByIdSelector } from './selectors';
 
-export const createGoal = createAction(actionTypes.CREATE_GOAL, service.createGoal);
+export const create = createAction(actionTypes.CREATE, service.create);
 
-export const updateGoal = createAction(actionTypes.UPDATE_GOAL, service.updateGoal);
+export const update = createAction(actionTypes.UPDATE, service.update);
 
-export const deleteGoal = createAction(actionTypes.DELETE_GOAL, service.deleteGoal);
+export const remove = createAction(actionTypes.REMOVE, service.remove);
 
-export const fetchGoals = createAction(actionTypes.FETCH_GOALS, service.fetchGoals);
+export const fetchSingle = createAction(actionTypes.FETCH_SINGLE, service.fetchSingle);
 
-export const toggleGoal = id => async (dispatch, getState) => {
+export const fetchMany = createAction(actionTypes.FETCH_MANY, service.fetchMany);
+
+export const toggle = id => async (dispatch, getState) => {
   const record = recordsByIdSelector(getState())[id];
-  dispatch(updateGoal(id, { complete: !record.complete }));
+  dispatch(update(id, { complete: !record.complete }));
 };

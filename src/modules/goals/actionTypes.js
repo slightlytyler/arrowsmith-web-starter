@@ -1,5 +1,7 @@
-export const CREATE_GOAL = 'goals/CREATE';
-export const UPDATE_GOAL = 'goals/UPDATE';
-export const DELETE_GOAL = 'goals/DELETE';
-export const FETCH_GOAL = 'goals/FETCH_SINGLE';
-export const FETCH_GOALS = 'goals/FETCH_MANY';
+import { NAME } from './constants';
+
+export const CREATE = `${NAME}/CREATE`;
+export const UPDATE = `${NAME}/UPDATE`;
+export const REMOVE = `${NAME}/REMOVE`;
+export const FETCH_SINGLE = `${NAME}/FETCH_SINGLE`;
+export const FETCH_MANY = `${NAME}/FETCH_MANY`;

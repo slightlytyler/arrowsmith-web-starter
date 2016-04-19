@@ -1,6 +1,6 @@
 import request, { deserialize } from 'utils/request';
 
-export const createGoal = async (projectId, { text }) => {
+export const create = async (projectId, { text }) => {
   const response = await request.post('cobject', 'goals', {
     text,
     projectId,
@@ -9,17 +9,22 @@ export const createGoal = async (projectId, { text }) => {
   return deserialize(response.data);
 };
 
-export const updateGoal = async (id, payload) => {
+export const update = async (id, payload) => {
   const response = await request.patch('cobject', `goals/${id}`, payload);
   return deserialize(response.data);
 };
 
-export const deleteGoal = async id => {
+export const remove = async id => {
   const response = await request.delete('cobject', `goals/${id}`);
   return deserialize(response.data);
 };
 
-export const fetchGoals = async projectId => {
+export const fetchSingle = async id => {
+  const response = await request.get('cobject', `goals/${id}`);
+  return deserialize(response.data);
+};
+
+export const fetchMany = async projectId => {
   const response = await request.get('cobject', 'goals/find/owner', { projectId });
   return deserialize(response.data.data);
 };

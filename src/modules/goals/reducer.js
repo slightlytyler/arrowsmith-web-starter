@@ -5,23 +5,23 @@ import * as actionTypes from './actionTypes';
 import { actionTypes as userActionTypes } from 'modules/user';
 
 const recordIds = handleActions({
-  [actionTypes.CREATE_GOAL]: {
+  [actionTypes.CREATE]: {
     next: mutations.createRecord,
     throw: mutations.handleError,
   },
-  [actionTypes.UPDATE_GOAL]: {
+  [actionTypes.UPDATE]: {
     next: mutations.updateRecord,
     throw: mutations.handleError,
   },
-  [actionTypes.DELETE_GOAL]: {
+  [actionTypes.REMOVE]: {
     next: mutations.deleteRecord,
     throw: mutations.handleError,
   },
-  [actionTypes.FETCH_GOAL]: {
+  [actionTypes.FETCH_SINGLE]: {
     next: mutations.fetchRecord,
     throw: mutations.handleError,
   },
-  [actionTypes.FETCH_GOALS]: {
+  [actionTypes.FETCH_MANY]: {
     next: mutations.fetchRecords,
     throw: mutations.handleError,
   },
@@ -32,23 +32,23 @@ const recordIds = handleActions({
 }, []);
 
 const recordsById = handleActions({
-  [actionTypes.CREATE_GOAL]: {
+  [actionTypes.CREATE]: {
     next: mutations.createRecord,
     throw: mutations.handleError,
   },
-  [actionTypes.UPDATE_GOAL]: {
+  [actionTypes.UPDATE]: {
     next: mutations.updateRecord,
     throw: mutations.handleError,
   },
-  [actionTypes.DELETE_GOAL]: {
+  [actionTypes.REMOVE]: {
     next: mutations.deleteRecord,
     throw: mutations.handleError,
   },
-  [actionTypes.FETCH_GOAL]: {
+  [actionTypes.FETCH_SINGLE]: {
     next: mutations.fetchRecord,
     throw: mutations.handleError,
   },
-  [actionTypes.FETCH_GOALS]: {
+  [actionTypes.FETCH_MANY]: {
     next: mutations.fetchRecords,
     throw: mutations.handleError,
   },

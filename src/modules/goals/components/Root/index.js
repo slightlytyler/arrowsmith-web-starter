@@ -12,16 +12,18 @@ export class GoalsRoot extends Component {
   static propTypes = {
     activeFilter: PropTypes.oneOf(Object.values(filters)).isRequired,
     projectId: PropTypes.string.isRequired,
-    fetchGoals: PropTypes.func.isRequired,
+    actions: PropTypes.shape({
+      fetchRecords: PropTypes.func.isRequired,
+    }),
   };
 
   componentWillMount() {
-    this.props.fetchGoals(this.props.projectId);
+    this.props.actions.fetchRecords(this.props.projectId);
   }
 
   componentWillReceiveProps(nextProps) {
     if (this.props.projectId !== nextProps.projectId) {
-      this.props.fetchGoals(nextProps.projectId);
+      this.props.actions.fetchRecords(nextProps.projectId);
     }
   }
 
@@ -44,7 +46,7 @@ export class GoalsRoot extends Component {
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { createStructuredActions } from 'utils';
-import { fetchGoals } from 'modules/goals/actions';
+import { fetchMany as fetchRecords } from 'modules/goals/actions';
 
 const activeFilterSelector = (state, props) => props.route.filter;
 const projectIdSelector = (state, props) => props.params.projectId;
@@ -54,5 +56,5 @@ export default connect(
     activeFilter: activeFilterSelector,
     projectId: projectIdSelector,
   }),
-  createStructuredActions({ fetchGoals })
+  createStructuredActions({ fetchRecords })
 )(GoalsRoot);

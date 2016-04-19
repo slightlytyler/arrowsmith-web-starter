@@ -9,7 +9,9 @@ import Input from './Input';
 @cssModules(styles)
 export class GoalsCreator extends Component {
   static propTypes = {
-    createGoal: PropTypes.func.isRequired,
+    actions: PropTypes.shape({
+      create: PropTypes.func.isRequired,
+    }),
   };
 
   state = {
@@ -26,7 +28,7 @@ export class GoalsCreator extends Component {
 
   handleCreate = text => {
     if (text) {
-      this.props.createGoal({ text });
+      this.props.actions.create({ text });
     }
 
     this.setState({ active: false });
@@ -63,10 +65,10 @@ export class GoalsCreator extends Component {
 }
 
 import { connect } from 'react-redux';
-import { createGoal } from 'modules/goals/actions';
+import { create } from 'modules/goals/actions';
 import { createStructuredActions } from 'utils';
 
 export default connect(
   undefined,
-  createStructuredActions({ createGoal }, 'projectId')
+  createStructuredActions({ create }, 'projectId')
 )(GoalsCreator);

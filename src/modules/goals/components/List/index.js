@@ -24,8 +24,8 @@ import { createSelector, createStructuredSelector } from 'reselect';
 import {
   recordIdsSelector,
   recordsByIdSelector,
-  getGoalIdsByProject,
-  getFilteredGoalIds,
+  getRecordIdsByProjectId,
+  getFilteredRecordIds,
 } from 'modules/goals/selectors';
 
 const projectIdSelector = (state, props) => props.projectId;
@@ -35,8 +35,8 @@ const goalsSelector = createSelector(
   recordsByIdSelector,
   projectIdSelector,
   activeFilterSelector,
-  (recordIds, recordsById, projectId, activeFilter) => getFilteredGoalIds(
-    getGoalIdsByProject(recordIds, recordsById, projectId),
+  (recordIds, recordsById, projectId, activeFilter) => getFilteredRecordIds(
+    getRecordIdsByProjectId(recordIds, recordsById, projectId),
     recordsById,
     activeFilter
   )
