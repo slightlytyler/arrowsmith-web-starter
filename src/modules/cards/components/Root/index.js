@@ -7,11 +7,13 @@ import styles from './styles.styl';
 export class CardsRoot extends Component {
   static propTypes = {
     card: PropTypes.string,
-    fetchCard: PropTypes.func.isRequired,
+    actions: PropTypes.shape({
+      fetch: PropTypes.func.isRequired,
+    }),
   };
 
   componentWillMount() {
-    this.props.fetchCard();
+    this.props.actions.fetch();
   }
 
   render() {
@@ -27,13 +29,13 @@ export class CardsRoot extends Component {
 }
 
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
+import { createStructuredActions } from 'utils';
 import { recordIdsSelector } from 'modules/cards/selectors';
-import { fetchCard } from 'modules/cards/actions';
+import { fetch } from 'modules/cards/actions';
 
 export default connect(
   state => ({
     card: recordIdsSelector(state)[0],
   }),
-  dispatch => bindActionCreators({ fetchCard }, dispatch)
+  createStructuredActions({ fetch })
 )(CardsRoot);

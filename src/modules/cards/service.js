@@ -2,7 +2,7 @@ import stripe from 'stripe';
 import { mapKeys, snakeCase } from 'lodash';
 import request from 'utils/request';
 
-export const createCard = async (userId, card) => {
+export const create = async (userId, card) => {
   const token = await new Promise((resolve, reject) =>
     stripe.card.createToken(
       mapKeys(card,
@@ -17,11 +17,12 @@ export const createCard = async (userId, card) => {
   return request.post('stripe', `customers/${userId}/cards`, { token });
 };
 
-export const updateCard = async () => new Promise;
+export const update = async (userId, payload) => {
+  const response = await request.put('stripe', `customers/${userId}/cards`, payload);
+  return response.data;
+};
 
-export const deleteCard = async () => new Promise;
-
-export const fetchCard = async (userId) => {
+export const fetch = async userId => {
   const response = await request.get(
     'stripe',
     `customers/${userId}/cards`

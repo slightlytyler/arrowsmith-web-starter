@@ -35,6 +35,10 @@ export const fetchSingle = async (subscriptionId, userId) => {
   return response.data;
 };
 
-export const fetchMany = () => new Error(
-  'Currently stamplay only allows for a single subscription, aborting fetchMany.'
-);
+export const fetchMany = async userId => {
+  const response = await request.get(
+    'stripe',
+    `customers/${userId}/subscriptions`
+  );
+  return response.data;
+};

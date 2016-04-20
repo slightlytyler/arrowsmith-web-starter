@@ -1,14 +1,14 @@
 import { createSelector } from 'reselect';
 
-export const cardsSelector = state => state.subscriptions;
+export const substateSelector = state => state.subscriptions;
 
 export const recordIdsSelector = createSelector(
-  cardsSelector,
+  substateSelector,
   cards => cards.recordIds
 );
 
 export const recordsByIdSelector = createSelector(
-  cardsSelector,
+  substateSelector,
   cards => cards.recordsById
 );
 
