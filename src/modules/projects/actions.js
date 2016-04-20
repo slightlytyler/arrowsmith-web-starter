@@ -3,10 +3,22 @@ import { push as pushRoute } from 'react-router-redux';
 import * as actionTypes from './actionTypes';
 import * as service from './service';
 
-export const view = id => dispatch => dispatch(pushRoute(`/projects/${id}/goals/active`));
+export const view = id => pushRoute(`/projects/${id}/goals/active`);
+export const viewIndex = () => pushRoute('/projects');
 
-export const create = createAction(actionTypes.CREATE, service.create);
+const _create = createAction(actionTypes.CREATE, service.create);
+export const create = (...args) => async dispatch => {
+  const action = await dispatch(_create(...args));
+  dispatch(view(action.payload.id));
+};
+
 export const update = createAction(actionTypes.UPDATE, service.update);
-export const remove = createAction(actionTypes.REMOVE, service.remove);
+
+const _remove = createAction(actionTypes.REMOVE, service.remove);
+export const remove = (...args) => async dispatch => {
+  await dispatch(_remove(...args));
+  dispatch(viewIndex());
+};
+
 export const fetchSingle = createAction(actionTypes.FETCH_SINGLE, service.fetchSingle);
 export const fetchMany = createAction(actionTypes.FETCH_MANY, service.fetchMany);
