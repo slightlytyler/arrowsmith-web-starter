@@ -65,8 +65,8 @@ import { createSelector, createStructuredSelector } from 'reselect';
 import {
   recordIdsSelector,
   recordsByIdSelector,
-  getRecordIdsByProjectId,
-  getRemainingRecordIds,
+  recordIdsByProjectIdDeriver,
+  remainingRecordIdsDeriver,
 } from 'modules/goals/selectors';
 
 const projectIdSelector = (state, props) => props.projectId;
@@ -74,8 +74,8 @@ const remainingGoalsCountSelector = createSelector(
   recordIdsSelector,
   recordsByIdSelector,
   projectIdSelector,
-  (recordIds, recordsById, projectId) => getRemainingRecordIds(
-    getRecordIdsByProjectId(recordIds, recordsById, projectId),
+  (recordIds, recordsById, projectId) => remainingRecordIdsDeriver(
+    recordIdsByProjectIdDeriver(recordIds, recordsById, projectId),
     recordsById
   ).length
 );

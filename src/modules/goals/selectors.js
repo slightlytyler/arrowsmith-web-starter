@@ -19,21 +19,21 @@ export const findRecord = createSelector(
   (recordsById, id) => recordsById[id]
 );
 
-export const getRemainingRecordIds = memoize((recordIds, recordsById) => (
+export const remainingRecordIdsDeriver = memoize((recordIds, recordsById) => (
   recordIds.filter(id => !recordsById[id].complete)
 ));
 
-export const getCompletedRecordIds = memoize((recordIds, recordsById) => (
+export const completedRecordIdsDeriver = memoize((recordIds, recordsById) => (
   recordIds.filter(id => recordsById[id].complete)
 ));
 
-export const getFilteredRecordIds = memoize((recordIds, recordsById, activeFilter) => {
+export const filteredRecordIdsDeriver = memoize((recordIds, recordsById, activeFilter) => {
   switch (activeFilter) {
     case filters.REMAINING_FILTER:
-      return getRemainingRecordIds(recordIds, recordsById);
+      return remainingRecordIdsDeriver(recordIds, recordsById);
 
     case filters.COMPLETED_FILTER:
-      return getCompletedRecordIds(recordIds, recordsById);
+      return completedRecordIdsDeriver(recordIds, recordsById);
 
     case filters.ALL_FILTER:
     default:
@@ -41,6 +41,6 @@ export const getFilteredRecordIds = memoize((recordIds, recordsById, activeFilte
   }
 });
 
-export const getRecordIdsByProjectId = memoize((recordIds, recordsById, projectId) => (
+export const recordIdsByProjectIdDeriver = memoize((recordIds, recordsById, projectId) => (
   recordIds.filter(id => recordsById[id].projectId === projectId)
 ));
