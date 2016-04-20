@@ -17,7 +17,7 @@ export const nameSelector = createSelector(
 );
 export const subscriptionIdSelector = createSelector(
   substateSelector,
-  user => user.subscription
+  user => user.subscriptionId
 );
 export const avatarSelector = createSelector(
   substateSelector,

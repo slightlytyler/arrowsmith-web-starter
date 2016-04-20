@@ -64,11 +64,12 @@ import { connect } from 'react-redux';
 import { createStructuredActions } from 'utils';
 import { findRecord } from 'modules/subscriptions/selectors';
 import { fetchSingle as fetchRecord } from 'modules/subscriptions/actions';
+import { selectors as userSelectors } from 'modules/user';
 
 export default connect(
   state => {
-    const id = state.user.subscription;
-    const subscription = findRecord(state, state.user.subscription);
+    const id = userSelectors.subscriptionIdSelector(state);
+    const subscription = findRecord(state, id);
 
     if (subscription) {
       return {

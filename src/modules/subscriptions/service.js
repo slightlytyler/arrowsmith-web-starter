@@ -12,7 +12,7 @@ export const create = async (userId, planId, card, address) => {
     { planId }
   );
 
-  await userService.updateUser(userId, { address, subscription: subscription.id });
+  await userService.update(userId, { address, subscriptionId: subscription.id });
 
   return subscription;
 };
