@@ -25,7 +25,7 @@ const buildHeaders = (headers = {}) => {
   return headers;
 };
 
-export default {
+export const request = {
   get: (resource, endpoint, queryParams) => axios.get(buildApiUrl(resource, endpoint), {
     headers: buildHeaders(),
     params: queryParams,
@@ -55,6 +55,42 @@ export default {
     headers: buildHeaders(),
   }),
 };
+
+// Request helpers
+export const createRecord = async (endpoint, payload) => {
+  const response = await request.post('cobject', endpoint, payload);
+  return response.data;
+};
+
+export const updateRecord = async (endpoint, id, payload) => {
+  const response = await request.patch('cobject', `${endpoint}/${id}`, payload);
+  return response.data;
+};
+
+export const removeRecord = async (endpoint, id) => {
+  const response = await request.delete('cobject', `${endpoint}/${id}`);
+  return response.data;
+};
+
+export const fetchRecord = async (endpoint, id) => {
+  const response = await request.get('cobject', `${endpoint}/${id}`);
+  return response.data;
+};
+
+export const fetchRecords = async endpoint => {
+  const response = await request.get('cobject', `${endpoint}/find/owner`);
+  return response.data.data;
+};
+
+export const helpers = {
+  createRecord,
+  updateRecord,
+  removeRecord,
+  fetchRecord,
+  fetchRecords,
+};
+
+export default { ...request, ...helpers };
 
 // Serializing / Deserializing
 import { mapValues } from 'lodash';

@@ -1,14 +1,14 @@
 import { createSelector } from 'reselect';
 
-export const projectsSelector = state => state.projects;
+export const substateSelector = state => state.projects;
 
 export const recordIdsSelector = createSelector(
-  projectsSelector,
+  substateSelector,
   projects => projects.recordIds,
 );
 
 export const recordsByIdSelector = createSelector(
-  projectsSelector,
+  substateSelector,
   projects => projects.recordsById,
 );
 
