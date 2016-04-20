@@ -7,10 +7,12 @@ import styles from './styles.styl';
 @cssModules(styles)
 export class Login extends Component {
   static propTypes = {
-    login: PropTypes.func.isRequired,
-  }
+    actions: PropTypes.shape({
+      login: PropTypes.func.isRequired,
+    }),
+  };
 
-  handleValidSubmit = user => this.props.login(user.email, user.password);
+  handleValidSubmit = user => this.props.actions.login(user.email, user.password);
 
   render() {
     return (
@@ -40,10 +42,10 @@ export class Login extends Component {
 }
 
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import { loginUser } from 'modules/user/actions';
+import { createStructuredActions } from 'utils';
+import { login } from 'modules/user/actions';
 
 export default connect(
   undefined,
-  dispatch => bindActionCreators({ login: loginUser }, dispatch),
+  createStructuredActions({ login })
 )(Login);

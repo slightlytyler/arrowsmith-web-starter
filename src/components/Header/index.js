@@ -12,8 +12,10 @@ export class Header extends Component {
     userHasSubscription: PropTypes.bool.isRequired,
     userName: PropTypes.string,
     userAvatarUrl: PropTypes.string,
-    logout: PropTypes.func.isRequired,
-  }
+    actions: PropTypes.shape({
+      logout: PropTypes.func.isRequired,
+    }),
+  };
 
   state = {
     showUserOptions: false,
@@ -21,7 +23,7 @@ export class Header extends Component {
 
   toggleUserOptions = () => {
     this.setState({ showUserOptions: !this.state.showUserOptions });
-  }
+  };
 
   userOptions = () => {
     if (this.props.userHasSubscription) {
@@ -36,7 +38,7 @@ export class Header extends Component {
         },
         {
           label: 'Logout',
-          action: this.props.logout,
+          action: this.props.actions.logout,
         },
       ];
     }
@@ -52,7 +54,7 @@ export class Header extends Component {
       },
       {
         label: 'Logout',
-        action: this.props.logout,
+        action: this.props.actions.logout,
       },
     ];
   };
@@ -118,15 +120,25 @@ export class Header extends Component {
 }
 
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import { logoutUser } from 'modules/user/actions';
+import { createStructuredSelector, createSelector } from 'reselect';
+import { createStructuredActions } from 'utils';
+import { selectors as userSelectors, actions as userActions } from 'modules/user';
+
+const isLoggedInSelector = createSelector(
+  userSelectors.idSelector,
+  id => !!id
+);
+const hasSubscriptionSelector = createSelector(
+  userSelectors.subscriptionIdSelector,
+  subscriptionId => !!subscriptionId
+);
 
 export default connect(
-  state => ({
-    userIsLoggedIn: !!state.user.id,
-    userHasSubscription: !!state.user.subscription,
-    userName: state.user.name || state.user.email,
-    userAvatarUrl: state.user.profileImg,
+  createStructuredSelector({
+    userIsLoggedIn: isLoggedInSelector,
+    userHasSubscription: hasSubscriptionSelector,
+    userName: userSelectors.nameSelector,
+    userAvatarUrl: userSelectors.avatarSelector,
   }),
-  dispatch => bindActionCreators({ logout: logoutUser }, dispatch),
+  createStructuredActions({ logout: userActions.logout })
 )(Header);

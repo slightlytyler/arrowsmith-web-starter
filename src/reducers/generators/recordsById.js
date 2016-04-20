@@ -1,6 +1,5 @@
 import { handleActions } from 'redux-actions';
-import * as mutations from 'utils/mutations';
-import { actionTypes as userActionTypes } from 'modules/user';
+import { mutations } from 'utils';
 
 export default (actionTypes, additionalCases = {}) => handleActions({
   [actionTypes.CREATE]: {
@@ -21,10 +20,6 @@ export default (actionTypes, additionalCases = {}) => handleActions({
   },
   [actionTypes.FETCH_MANY]: {
     next: mutations.fetchRecords,
-    throw: mutations.handleError,
-  },
-  [userActionTypes.UNAUTHORIZE_USER]: {
-    next: mutations.dropRecords,
     throw: mutations.handleError,
   },
   ...additionalCases,

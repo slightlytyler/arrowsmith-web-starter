@@ -3,48 +3,25 @@ import { push as pushRoute } from 'react-router-redux';
 import * as actionTypes from './actionTypes';
 import * as service from './service';
 
-export const createUser = createAction(
-  actionTypes.CREATE_USER,
-  service.createUser
-);
+export const create = createAction(actionTypes.CREATE, service.create);
+export const update = createAction(actionTypes.UPDATE, service.update);
+export const remove = createAction(actionTypes.DELETE, service.delete);
+export const fetch = createAction(actionTypes.FETCH, service.fetch);
+export const authorize = createAction(actionTypes.AUTHORIZE, service.authorize);
+export const unauthorize = createAction(actionTypes.UNAUTHORIZE, service.unauthorize);
 
-export const updateUser = createAction(
-  actionTypes.UPDATE_USER,
-  service.updateUser
-);
-
-export const deleteUser = createAction(
-  actionTypes.DELETE_USER,
-  service.deleteUser
-);
-
-export const fetchUser = createAction(
-  actionTypes.FETCH_USER,
-  service.fetchUser
-);
-
-export const authorizeUser = createAction(
-  actionTypes.AUTHORIZE_USER,
-  service.authorizeUser
-);
-
-export const unauthorizeUser = createAction(
-  actionTypes.UNAUTHORIZE_USER,
-  service.unauthorizeUser
-);
-
-export const loginUser = (email, password) => async dispatch => {
-  await dispatch(authorizeUser(email, password));
+export const login = (email, password) => async dispatch => {
+  await dispatch(authorize(email, password));
   dispatch(pushRoute(`/projects`));
 };
 
-export const logoutUser = () => async dispatch => {
-  await dispatch(unauthorizeUser());
+export const logout = () => async dispatch => {
+  await dispatch(unauthorize());
   dispatch(pushRoute('/auth/login'));
 };
 
-export const signupUser = payload => async dispatch => {
-  await dispatch(createUser(payload));
-  await dispatch(loginUser(payload.email, payload.password));
+export const signUp = payload => async dispatch => {
+  await dispatch(create(payload));
+  await dispatch(login(payload.email, payload.password));
   dispatch(pushRoute(`/projects`));
 };

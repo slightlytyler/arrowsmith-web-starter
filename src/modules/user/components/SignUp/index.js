@@ -7,14 +7,16 @@ import styles from './styles.styl';
 @cssModules(styles)
 export class SignUp extends Component {
   static propTypes = {
-    signUp: PropTypes.func.isRequired,
+    actions: PropTypes.shape({
+      signUp: PropTypes.func.isRequired,
+    }),
   };
 
   state = {
     errorMessage: undefined,
   };
 
-  handleValidSubmit = user => this.props.signUp(user);
+  handleValidSubmit = user => this.props.actions.signUp(user);
 
   handleInvalidSubmit = () => {
     // Show error message
@@ -65,10 +67,10 @@ export class SignUp extends Component {
 }
 
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import { signupUser } from 'modules/user/actions';
+import { createStructuredActions } from 'utils';
+import { signUp } from 'modules/user/actions';
 
 export default connect(
   undefined,
-  dispatch => bindActionCreators({ signUp: signupUser }, dispatch),
+  createStructuredActions({ signUp })
 )(SignUp);

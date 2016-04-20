@@ -1,34 +1,34 @@
 import { handleActions } from 'redux-actions';
-import * as mutations from 'utils/mutations';
+import { mutations } from 'utils';
 import * as actionTypes from './actionTypes';
 
-const setUser = (state, { payload }) => payload;
-const updateUser = (state, { payload }) => Object.assign({}, state, payload);
-const dropUser = () => ({});
+const set = (state, { payload }) => payload;
+const update = (state, { payload }) => Object.assign({}, state, payload);
+const drop = () => ({});
 
 export default handleActions({
-  [actionTypes.CREATE_USER]: {
-    next: setUser,
+  [actionTypes.CREATE]: {
+    next: set,
     throw: mutations.handleError,
   },
-  [actionTypes.UPDATE_USER]: {
-    next: updateUser,
+  [actionTypes.UPDATE]: {
+    next: update,
     throw: mutations.handleError,
   },
-  [actionTypes.DELETE_USER]: {
-    next: dropUser,
+  [actionTypes.DELETE]: {
+    next: drop,
     throw: mutations.handleError,
   },
-  [actionTypes.FETCH_USER]: {
-    next: updateUser,
+  [actionTypes.FETCH]: {
+    next: update,
     throw: mutations.handleError,
   },
-  [actionTypes.AUTHORIZE_USER]: {
-    next: setUser,
+  [actionTypes.AUTHORIZE]: {
+    next: set,
     throw: mutations.handleError,
   },
-  [actionTypes.UNAUTHORIZE_USER]: {
-    next: dropUser,
+  [actionTypes.UNAUTHORIZE]: {
+    next: drop,
     throw: mutations.handleError,
   },
 }, {});

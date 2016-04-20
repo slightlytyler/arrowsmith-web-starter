@@ -10,7 +10,7 @@ export const create = (plan, card, address) => async (dispatch, getState) => {
   const { user } = getState();
 
   await dispatch(_create(user.id, planId, card, address));
-  await dispatch(userActions.fetchUser());
+  await dispatch(userActions.fetch());
   dispatch(pushRoute('/projects'));
 };
 

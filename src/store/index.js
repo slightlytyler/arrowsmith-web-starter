@@ -53,7 +53,7 @@ export default function configureStore(initialState = {}, routerMiddleware) {
 
     if (user.id) {
       if (user.token) registerToken(user.token);
-      dispatch(userActions.fetchUser());
+      dispatch(userActions.fetch());
     }
 
     dispatch({ type: 'LOAD_COMPLETE' });

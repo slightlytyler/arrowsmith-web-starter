@@ -1,6 +1,8 @@
-export const CREATE_USER = 'user/CREATE';
-export const UPDATE_USER = 'user/UPDATE';
-export const DELETE_USER = 'user/DELETE';
-export const FETCH_USER = 'user/FETCH';
-export const AUTHORIZE_USER = 'user/AUTHORIZE';
-export const UNAUTHORIZE_USER = 'user/UNAUTHORIZE';
+import { NAME } from 'constants';
+
+export const CREATE = `${NAME}/CREATE`;
+export const UPDATE = `${NAME}/UPDATE`;
+export const REMOVE = `${NAME}/DELETE`;
+export const FETCH = `${NAME}/FETCH`;
+export const AUTHORIZE = `${NAME}/AUTHORIZE`;
+export const UNAUTHORIZE = `${NAME}/UNAUTHORIZE`;
