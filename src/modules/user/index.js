@@ -5,6 +5,7 @@ import * as constants from './constants';
 import reducer from './reducer';
 import * as selectors from './selectors';
 import * as service from './service';
+import * as middleware from './middleware';
 const { NAME } = constants;
 const { Root } = components;
 
@@ -16,6 +17,7 @@ export {
   reducer,
   selectors,
   service,
+  middleware,
   NAME,
   Root,
 };

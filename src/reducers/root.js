@@ -1,5 +1,7 @@
 import { combineReducers } from 'redux';
 import { routerReducer as router } from 'react-router-redux';
+import { without, mapValues } from 'lodash';
+import { CLEAR_STORE } from 'constants/actionTypes';
 import storage from './storage';
 import {
   NAME as USER_KEY,
@@ -22,7 +24,7 @@ import {
   reducer as goalsReducer,
 } from 'modules/goals';
 
-export default combineReducers({
+const reducer = combineReducers({
   router,
   storage,
   [USER_KEY]: userReducer,
@@ -31,3 +33,20 @@ export default combineReducers({
   [PROJECTS_KEY]: projectsReducer,
   [GOALS_KEY]: goalsReducer,
 });
+
+const staticModules = ['router', 'storage'];
+
+export default (state = {}, action) => {
+  switch (action.type) {
+    case CLEAR_STORE: {
+      const keysToClear = without(Object.keys(state), ...staticModules);
+      return mapValues(state, (value, key) => {
+        if (keysToClear.indexOf(key) !== -1) return {};
+        return value;
+      });
+    }
+
+    default:
+      return reducer(state, action);
+  }
+};
