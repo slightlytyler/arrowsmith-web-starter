@@ -7,13 +7,13 @@ import GoalItem from '../Item';
 @cssModules(styles)
 export class GoalsList extends Component {
   static propTypes = {
-    goals: PropTypes.array.isRequired,
+    goalIds: PropTypes.array.isRequired,
   };
 
   render() {
     return (
       <div styleName="list">
-        {this.props.goals.map(id => <GoalItem key={id} id={id} />)}
+        {this.props.goalIds.map(id => <GoalItem key={id} id={id} />)}
       </div>
     );
   }
@@ -43,5 +43,5 @@ const goalsSelector = createSelector(
 );
 
 export default connect(
-  createStructuredSelector({ goals: goalsSelector })
+  createStructuredSelector({ goalIds: goalsSelector })
 )(GoalsList);

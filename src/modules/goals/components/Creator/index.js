@@ -9,6 +9,7 @@ import Input from './Input';
 @cssModules(styles)
 export class GoalsCreator extends Component {
   static propTypes = {
+    projectId: PropTypes.string.isRequired,
     actions: PropTypes.shape({
       create: PropTypes.func.isRequired,
     }),
@@ -28,7 +29,7 @@ export class GoalsCreator extends Component {
 
   create = text => {
     if (text) {
-      this.props.actions.create({ text });
+      this.props.actions.create(this.props.projectId, { text });
     }
 
     this.setState({ active: false });
@@ -70,5 +71,5 @@ import { createStructuredActions } from 'utils';
 
 export default connect(
   undefined,
-  createStructuredActions({ create }, 'projectId')
+  createStructuredActions({ create })
 )(GoalsCreator);

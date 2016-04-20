@@ -7,21 +7,22 @@ import ProjectItem from '../Item';
 @cssModules(styles)
 export class ProjectsList extends Component {
   static propTypes = {
-    projects: PropTypes.array.isRequired,
+    projectIds: PropTypes.array.isRequired,
   };
 
   render() {
     return (
       <div styleName="list">
-        {this.props.projects.map(id => <ProjectItem key={id} id={id} />)}
+        {this.props.projectIds.map(id => <ProjectItem key={id} id={id} />)}
       </div>
     );
   }
 }
 
 import { connect } from 'react-redux';
+import { createStructuredSelector } from 'reselect';
 import { recordIdsSelector } from 'modules/projects/selectors';
 
 export default connect(
-  state => ({ projects: recordIdsSelector(state) }),
+  createStructuredSelector({ projectIds: recordIdsSelector })
 )(ProjectsList);

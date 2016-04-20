@@ -7,17 +7,19 @@ import styles from './styles.styl';
 @cssModules(styles)
 export class ProjectsCreator extends Component {
   static propTypes = {
-    createProject: PropTypes.func.isRequired,
-  }
+    actions: PropTypes.shape({
+      create: PropTypes.func.isRequired,
+    }),
+  };
 
   handleKeyDown = e => {
     const { which, target } = e;
 
     if (keycode(which) === 'enter') {
-      this.props.createProject(target.value);
+      this.props.actions.create({ name: target.value });
       target.value = '';
     }
-  }
+  };
 
   render() {
     return (
@@ -34,10 +36,10 @@ export class ProjectsCreator extends Component {
 }
 
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import { createProject } from 'modules/projects/actions';
+import { createStructuredActions } from 'utils';
+import { create } from 'modules/projects/actions';
 
 export default connect(
   undefined,
-  dispatch => bindActionCreators({ createProject }, dispatch),
+  createStructuredActions({ create })
 )(ProjectsCreator);

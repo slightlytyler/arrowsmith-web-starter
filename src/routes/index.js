@@ -9,11 +9,7 @@ import { SignUp, Login } from 'modules/user/components';
 import { SelectPlan, Checkout } from 'modules/subscriptions/components';
 import Editor from 'components/Editor';
 import { Root as GoalsRoot } from 'modules/goals';
-import {
-  REMAINING_FILTER,
-  COMPLETED_FILTER,
-  ALL_FILTER,
-} from 'modules/goals/constants';
+import { filters as goalsFilters } from 'modules/goals/constants';
 import { Dashboard, Billing } from 'modules/user/components';
 
 export default (store) => (
@@ -26,9 +22,9 @@ export default (store) => (
     <Route path="projects" component={Editor}>
       <Route path=":projectId">
         <Route path="goals">
-          <Route path="active" component={GoalsRoot} filter={REMAINING_FILTER} />
-          <Route path="complete" component={GoalsRoot} filter={COMPLETED_FILTER} />
-          <Route path="all" component={GoalsRoot} filter={ALL_FILTER} />
+          <Route path="active" component={GoalsRoot} filter={goalsFilters.REMAINING_FILTER} />
+          <Route path="complete" component={GoalsRoot} filter={goalsFilters.COMPLETED_FILTER} />
+          <Route path="all" component={GoalsRoot} filter={goalsFilters.ALL_FILTER} />
         </Route>
       </Route>
     </Route>

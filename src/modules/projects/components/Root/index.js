@@ -8,11 +8,13 @@ import ProjectList from '../List';
 @cssModules(styles)
 export class ProjectsRoot extends Component {
   static propTypes = {
-    fetchProjects: PropTypes.func.isRequired,
+    actions: PropTypes.shape({
+      fetchRecords: PropTypes.func.isRequired,
+    }),
   };
 
   componentWillMount() {
-    this.props.fetchProjects();
+    this.props.actions.fetchRecords();
   }
 
   render() {
@@ -26,10 +28,10 @@ export class ProjectsRoot extends Component {
 }
 
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import { fetchProjects } from 'modules/projects/actions';
+import { createStructuredActions } from 'utils';
+import { fetchMany as fetchRecords } from 'modules/projects/actions';
 
 export default connect(
   undefined,
-  dispatch => bindActionCreators({ fetchProjects }, dispatch),
+  createStructuredActions({ fetchRecords }),
 )(ProjectsRoot);
