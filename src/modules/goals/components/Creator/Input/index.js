@@ -9,18 +9,20 @@ import styles from '../styles.styl';
 export default class GoalsCreatorInput extends Component {
   static propTypes = {
     placeholder: PropTypes.string.isRequired,
-    handleSubmit: PropTypes.func.isRequired,
+    actions: PropTypes.shape({
+      submit: PropTypes.func.isRequired,
+    }),
   };
 
   handleClickOutside = () => {
-    this.handleSubmit();
+    this.submit();
   }
 
-  handleSubmit = () => {
-    this.props.handleSubmit(findDOMNode(this.refs.input).value);
+  submit = () => {
+    this.props.actions.submit(findDOMNode(this.refs.input).value);
   }
 
-  handleKeyDown = e => e.which === 13 && this.handleSubmit();
+  handleKeyDown = e => e.which === 13 && this.submit();
 
   render() {
     return (
@@ -34,7 +36,7 @@ export default class GoalsCreatorInput extends Component {
         />
         <section
           styleName="add--button"
-          onClick={this.handleSubmit}
+          onClick={this.submit}
         >
           Add
         </section>

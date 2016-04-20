@@ -24,9 +24,9 @@ export class GoalsItem extends Component {
     editing: false,
   };
 
-  handleEdit = () => this.setState({ editing: true });
+  edit = () => this.setState({ editing: true });
 
-  handleSave = text => {
+  save = text => {
     if (text) {
       this.props.actions.update({ text });
       this.setState({ editing: false });
@@ -35,20 +35,20 @@ export class GoalsItem extends Component {
     }
   }
 
-  handleRemove = () => this.props.actions.remove();
+  remove = () => this.props.actions.remove();
 
-  handleToggle = () => this.props.actions.toggle();
+  toggle = () => this.props.actions.toggle();
 
   renderContent() {
     return (
-      <div styleName="content" onDoubleClick={this.handleEdit}>
+      <div styleName="content" onDoubleClick={this.edit}>
         <div styleName="checkbox">
           <input
             styleName="input"
             type="checkbox"
             id={`${this.props.id}-checkbox`}
             checked={this.props.complete}
-            onChange={this.handleToggle}
+            onChange={this.toggle}
           />
           <label
             styleName="label"
@@ -62,7 +62,7 @@ export class GoalsItem extends Component {
         <div>
           {this.props.text}
         </div>
-        <div styleName="remove" onClick={this.handleRemove}>
+        <div styleName="remove" onClick={this.remove}>
           <Icon path={removeIcon} color="currentColor" width="1em" />
         </div>
       </div>
@@ -75,7 +75,7 @@ export class GoalsItem extends Component {
         <div styleName="item">
           <Input
             value={this.props.text}
-            handleSave={this.handleSave}
+            actions={{ save: this.save }}
           />
         </div>
       );

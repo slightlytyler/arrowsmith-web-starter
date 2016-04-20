@@ -26,7 +26,7 @@ export class GoalsCreator extends Component {
     }
   }
 
-  handleCreate = text => {
+  create = text => {
     if (text) {
       this.props.actions.create({ text });
     }
@@ -51,7 +51,7 @@ export class GoalsCreator extends Component {
     if (this.state.active) {
       return (
         <div styleName="creator--editing">
-          <Input placeholder={this.placeholder} handleSubmit={this.handleCreate} />
+          <Input placeholder={this.placeholder} actions={{ submit: this.create }} />
         </div>
       );
     }

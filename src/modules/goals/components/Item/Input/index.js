@@ -6,28 +6,30 @@ import styles from './styles.styl';
 
 @listensToClickOutside()
 @cssModules(styles)
-export default class GoalsInput extends Component {
+export default class GoalsItemInput extends Component {
   static propTypes = {
     value: PropTypes.string,
     placeholder: PropTypes.string,
     saveLabel: PropTypes.string,
-    handleSave: PropTypes.func.isRequired,
+    actions: PropTypes.shape({
+      save: PropTypes.func.isRequired,
+    }),
   };
 
   static defaultProps = {
     saveLabel: 'Save',
   };
 
-  handleClickOutside = () => this.handleSave();
+  handleClickOutside = () => this.save();
 
   handleFocus = e => {
     const { target } = e;
     target.value = target.value;
   }
 
-  handleSave = () => this.props.handleSave(findDOMNode(this.refs.input).value);
+  save = () => this.props.actions.save(findDOMNode(this.refs.input).value);
 
-  handleKeyDown = e => e.which === 13 && this.handleSave();
+  handleKeyDown = e => e.which === 13 && this.save();
 
   render() {
     return (
@@ -43,7 +45,7 @@ export default class GoalsInput extends Component {
         />
         <section
           styleName="save-button"
-          onClick={this.handleSave}
+          onClick={this.save}
         >
           {this.props.saveLabel}
         </section>
