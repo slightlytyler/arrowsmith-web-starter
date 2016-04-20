@@ -2,7 +2,7 @@ import { applyMiddleware, compose, createStore } from 'redux';
 import thunkMiddleware from 'redux-thunk';
 import promiseMiddleware from 'redux-promise';
 import * as storage from 'redux-storage';
-import rootReducer from 'reducers';
+import { root as rootReducer } from 'reducers';
 import createEngine from 'redux-storage-engine-localstorage';
 import filter from 'redux-storage-decorator-filter';
 import { LOCAL_STORAGE_KEY } from 'config';
