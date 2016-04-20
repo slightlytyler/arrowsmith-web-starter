@@ -56,42 +56,6 @@ export const request = {
   }),
 };
 
-// Request helpers
-export const createRecord = async (endpoint, payload) => {
-  const response = await request.post('cobject', endpoint, payload);
-  return response.data;
-};
-
-export const updateRecord = async (endpoint, id, payload) => {
-  const response = await request.patch('cobject', `${endpoint}/${id}`, payload);
-  return response.data;
-};
-
-export const removeRecord = async (endpoint, id) => {
-  const response = await request.delete('cobject', `${endpoint}/${id}`);
-  return response.data;
-};
-
-export const fetchRecord = async (endpoint, id) => {
-  const response = await request.get('cobject', `${endpoint}/${id}`);
-  return response.data;
-};
-
-export const fetchRecords = async endpoint => {
-  const response = await request.get('cobject', `${endpoint}/find/owner`);
-  return response.data.data;
-};
-
-export const helpers = {
-  createRecord,
-  updateRecord,
-  removeRecord,
-  fetchRecord,
-  fetchRecords,
-};
-
-export default { ...request, ...helpers };
-
 // Serializing / Deserializing
 import { mapValues } from 'lodash';
 
@@ -106,3 +70,37 @@ export const deserialize = payload => {
   if (Array.isArray(payload)) return payload.map(deserializeRecord);
   return deserializeRecord(payload);
 };
+
+// Request helpers
+export const helpers = {
+  createRecord: async (endpoint, payload) => {
+    const response = await request.post('cobject', endpoint, payload);
+    return deserialize(response.data);
+  },
+  updateRecord: async (endpoint, id, payload) => {
+    const response = await request.patch('cobject', `${endpoint}/${id}`, payload);
+    return deserialize(response.data);
+  },
+  removeRecord: async (endpoint, id) => {
+    const response = await request.delete('cobject', `${endpoint}/${id}`);
+    return deserialize(response.data);
+  },
+  fetchRecord: async (endpoint, id) => {
+    const response = await request.get('cobject', `${endpoint}/${id}`);
+    return deserialize(response.data);
+  },
+  fetchRecords: async (endpoint, query) => {
+    const response = await request.get('cobject', `${endpoint}/find/owner`, query);
+    return deserialize(response.data.data);
+  },
+};
+
+export const createEndpoint = endpoint => ({
+  createRecord: payload => helpers.createRecord(endpoint, payload),
+  updateRecord: (id, payload) => helpers.updateRecord(endpoint, id, payload),
+  removeRecord: id => helpers.removeRecord(endpoint, id),
+  fetchRecord: id => helpers.fetchRecord(endpoint, id),
+  fetchRecords: query => helpers.fetchRecords(endpoint, query),
+});
+
+export default { ...request, ...helpers, createEndpoint };

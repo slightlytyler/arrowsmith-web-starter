@@ -29,7 +29,7 @@ export class GoalsCreator extends Component {
 
   create = text => {
     if (text) {
-      this.props.actions.create(this.props.projectId, { text });
+      this.props.actions.create(this.props.projectId, text);
     }
 
     this.setState({ active: false });

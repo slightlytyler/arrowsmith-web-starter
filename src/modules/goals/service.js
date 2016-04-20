@@ -1,30 +1,14 @@
-import request, { deserialize } from 'utils/request';
+import request from 'utils/request';
+import { NAME } from './constants';
 
-export const create = async (projectId, { text }) => {
-  const response = await request.post('cobject', 'goals', {
-    text,
-    projectId,
-    complete: false,
-  });
-  return deserialize(response.data);
-};
+const endpoint = request.createEndpoint(NAME);
 
-export const update = async (id, payload) => {
-  const response = await request.patch('cobject', `goals/${id}`, payload);
-  return deserialize(response.data);
-};
-
-export const remove = async id => {
-  const response = await request.delete('cobject', `goals/${id}`);
-  return deserialize(response.data);
-};
-
-export const fetchSingle = async id => {
-  const response = await request.get('cobject', `goals/${id}`);
-  return deserialize(response.data);
-};
-
-export const fetchMany = async projectId => {
-  const response = await request.get('cobject', 'goals/find/owner', { projectId });
-  return deserialize(response.data.data);
-};
+export const create = (projectId, text) => endpoint.createRecord({
+  text,
+  projectId,
+  complete: false,
+});
+export const update = (id, payload) => endpoint.updateRecord(id, payload);
+export const remove = id => endpoint.removeRecord(id);
+export const fetchSingle = id => endpoint.fetchRecord(id);
+export const fetchMany = async projectId => endpoint.fetchRecords({ projectId });

@@ -16,7 +16,7 @@ export class ProjectsCreator extends Component {
     const { which, target } = e;
 
     if (keycode(which) === 'enter') {
-      this.props.actions.create({ name: target.value });
+      this.props.actions.create(target.value);
       target.value = '';
     }
   };
