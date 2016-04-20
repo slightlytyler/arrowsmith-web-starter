@@ -7,7 +7,9 @@ import Options from '../Options';
 @cssModules(styles)
 export class SubscriptionsSelectPlan extends Component {
   static propTypes = {
-    checkout: PropTypes.func.isRequired,
+    actions: PropTypes.shape({
+      checkout: PropTypes.func.isRequired,
+    }),
   };
 
   render() {
@@ -21,7 +23,7 @@ export class SubscriptionsSelectPlan extends Component {
             Priced just right for companies of every size.
           </section>
         </header>
-        <Options checkout={this.props.checkout} />
+        <Options checkout={this.props.actions.checkout} />
       </div>
     );
   }
@@ -33,9 +35,11 @@ import { push } from 'react-router-redux';
 export default connect(
   undefined,
   dispatch => ({
-    checkout: plan => dispatch(push({
-      pathname: '/start-subscription/checkout',
-      query: { plan },
-    })),
+    actions: {
+      checkout: plan => dispatch(push({
+        pathname: '/start-subscription/checkout',
+        query: { plan },
+      })),
+    },
   }),
 )(SubscriptionsSelectPlan);

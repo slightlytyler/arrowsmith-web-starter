@@ -14,11 +14,13 @@ export class SubscriptionsRoot extends Component {
     start: PropTypes.number,
     periodStart: PropTypes.number,
     periodEnd: PropTypes.number,
-    fetchSubscription: PropTypes.func.isRequired,
+    actions: PropTypes.shape({
+      fetchRecord: PropTypes.func.isRequired,
+    }),
   };
 
   componentWillMount() {
-    this.props.fetchSubscription(this.props.id);
+    this.props.actions.fetchRecord(this.props.id);
   }
 
   formatDate = date => moment.unix(date).format('MMM Do YY');
@@ -59,9 +61,9 @@ export class SubscriptionsRoot extends Component {
 }
 
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
+import { createStructuredActions } from 'utils';
 import { findRecord } from 'modules/subscriptions/selectors';
-import { fetchSubscription } from 'modules/subscriptions/actions';
+import { fetchSingle as fetchRecord } from 'modules/subscriptions/actions';
 
 export default connect(
   state => {
@@ -82,5 +84,5 @@ export default connect(
 
     return { id };
   },
-  dispatch => bindActionCreators({ fetchSubscription }, dispatch)
+  createStructuredActions({ fetchRecord })
 )(SubscriptionsRoot);

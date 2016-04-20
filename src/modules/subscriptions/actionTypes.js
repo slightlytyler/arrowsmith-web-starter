@@ -1,5 +1,7 @@
-export const CREATE_SUBSCRIPTION = 'subscriptions/CREATE';
-export const UPDATE_SUBSCRIPTION = 'subscriptions/UPDATE';
-export const DELETE_SUBSCRIPTION = 'subscriptions/DELETE';
-export const FETCH_SUBSCRIPTION = 'subscriptions/FETCH_SINGLE';
-export const FETCH_SUBSCRIPTIONS = 'subscriptions/FETCH_MANY';
+import { NAME } from './constants';
+
+export const CREATE = `${NAME}/CREATE`;
+export const UPDATE = `${NAME}/UPDATE`;
+export const REMOVE = `${NAME}/REMOVE`;
+export const FETCH_SINGLE = `${NAME}/FETCH_SINGLE`;
+export const FETCH_MANY = `${NAME}/FETCH_MANY`;

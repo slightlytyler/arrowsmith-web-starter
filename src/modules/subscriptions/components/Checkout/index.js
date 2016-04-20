@@ -9,7 +9,9 @@ import styles from './styles.styl';
 export class SubscriptionsCheckout extends Component {
   static propTypes = {
     plan: PropTypes.string.isRequired,
-    createSubscription: PropTypes.func.isRequired,
+    actions: PropTypes.shape({
+      create: PropTypes.func.isRequired,
+    }),
   };
 
   cardAttributes = ['number', 'expMonth', 'expYear', 'cvs'];
@@ -20,7 +22,7 @@ export class SubscriptionsCheckout extends Component {
     const card = pick(billing, this.cardAttributes);
     const address = pick(billing, this.addressAttributes);
 
-    this.props.createSubscription(this.props.plan, card, address);
+    this.props.actions.create(this.props.plan, card, address);
   };
 
   render() {
@@ -101,10 +103,12 @@ export class SubscriptionsCheckout extends Component {
 }
 
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import { createSubscription } from 'modules/subscriptions/actions';
+import { createStructuredSelector } from 'reselect';
+import { createStructuredActions } from 'utils';
+import { create } from 'modules/subscriptions/actions';
 
+const planSelector = (state, props) => props.location.query.plan;
 export default connect(
-  (state, props) => ({ plan: props.location.query.plan }),
-  dispatch => bindActionCreators({ createSubscription }, dispatch),
+  createStructuredSelector({ plan: planSelector }),
+  createStructuredActions({ create }),
 )(SubscriptionsCheckout);
