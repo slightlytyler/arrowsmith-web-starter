@@ -4,7 +4,7 @@ import { service as cardsService } from 'modules/cards';
 
 export const create = async (userId, planId, card, address) => {
   await userService.createCustomer(userId);
-  await cardsService.createCard(userId, card);
+  await cardsService.create(userId, card);
 
   const { data: subscription } = await request.post(
     'stripe',

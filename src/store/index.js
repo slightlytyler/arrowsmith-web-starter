@@ -20,13 +20,13 @@ const engine = filter(
 const storageMiddleware = storage.createMiddleware(
   engine,
   [LOCATION_CHANGE],
-  [userActionTypes.CREATE_USER, userActionTypes.AUTHORIZE_USER, userActionTypes.UNAUTHORIZE_USER],
+  [...Object.values(userActionTypes)],
 );
 
 const load = storage.createLoader(engine);
 
 export default function configureStore(initialState = {}, routerMiddleware) {
-  // Compose final middleware and use devtools in debug environment
+  // Compose final middleware
   const middleware = applyMiddleware(
     thunkMiddleware,
     promiseMiddleware,

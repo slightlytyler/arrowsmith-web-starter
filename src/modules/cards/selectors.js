@@ -1,6 +1,6 @@
 import { createSelector } from 'reselect';
 
-export const substateSelector = state => state.subscriptions;
+export const substateSelector = state => state.cards;
 
 export const recordIdsSelector = createSelector(
   substateSelector,
