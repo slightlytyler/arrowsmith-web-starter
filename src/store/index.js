@@ -57,8 +57,9 @@ export default function configureStore(initialState = {}, routerMiddleware) {
     });
   }
 
-  load(store).then(({ user }) => {
-    const { dispatch } = store;
+  load(store).then(() => {
+    const { dispatch, getState } = store;
+    const { user } = getState();
 
     if (user.id) {
       if (user.token) registerToken(user.token);
