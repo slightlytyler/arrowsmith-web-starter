@@ -14,12 +14,12 @@ export const updateRecord = (state, { payload }) => {
   return assoc(state, payload.id, payload);
 };
 
-export const deleteRecord = (state, { payload }) => {
+export const destroyRecord = (state, { payload }) => {
   if (Array.isArray(state)) return dissoc(state, state.indexOf(payload.id));
   return dissoc(state, payload.id);
 };
 
-export const fetchRecord = (state, { payload }) => {
+export const getRecord = (state, { payload }) => {
   if (Array.isArray(state)) {
     if (state.indexOf(payload.id) === -1) return push(state, [payload.id]);
     return state;

@@ -22,7 +22,7 @@ export const update = async (id, payload) => {
   return response.data;
 };
 
-export const remove = async id => {
+export const destroy = async id => {
   const response = await request.delete('stripe', `subscriptions/${id}`);
   return response.data;
 };

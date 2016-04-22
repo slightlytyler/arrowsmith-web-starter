@@ -10,12 +10,12 @@ export const create = (plan, card, address) => async (dispatch, getState) => {
   const { user } = getState();
 
   await dispatch(_create(user.id, planId, card, address));
-  await dispatch(userActions.fetch());
+  await dispatch(userActions.get());
   dispatch(pushRoute('/projects'));
 };
 
 export const update = createAction(actionTypes.UPDATE, service.update);
-export const remove = createAction(actionTypes.REMOVE, service.remove);
+export const destroy = createAction(actionTypes.DESTROY, service.destroy);
 
 const _get = createAction(actionTypes.GET, service.get);
 export const get = subscriptionId => (dispatch, getState) => (

@@ -81,11 +81,11 @@ export const helpers = {
     const response = await request.patch('cobject', `${endpoint}/${id}`, payload);
     return deserialize(response.data);
   },
-  removeRecord: async (endpoint, id) => {
+  destroyRecord: async (endpoint, id) => {
     const response = await request.delete('cobject', `${endpoint}/${id}`);
     return deserialize(response.data);
   },
-  fetchRecord: async (endpoint, id) => {
+  getRecord: async (endpoint, id) => {
     const response = await request.get('cobject', `${endpoint}/${id}`);
     return deserialize(response.data);
   },
@@ -98,8 +98,8 @@ export const helpers = {
 export const createEndpoint = endpoint => ({
   createRecord: payload => helpers.createRecord(endpoint, payload),
   updateRecord: (id, payload) => helpers.updateRecord(endpoint, id, payload),
-  removeRecord: id => helpers.removeRecord(endpoint, id),
-  fetchRecord: id => helpers.fetchRecord(endpoint, id),
+  destroyRecord: id => helpers.destroyRecord(endpoint, id),
+  getRecord: id => helpers.getRecord(endpoint, id),
   fetchRecords: query => helpers.fetchRecords(endpoint, query),
 });
 

@@ -10,12 +10,12 @@ export default (actionTypes, additionalCases = {}) => handleActions({
     next: mutations.updateRecord,
     throw: mutations.handleError,
   },
-  [actionTypes.REMOVE]: {
-    next: mutations.deleteRecord,
+  [actionTypes.DESTROY]: {
+    next: mutations.destroyRecord,
     throw: mutations.handleError,
   },
   [actionTypes.GET]: {
-    next: mutations.fetchRecord,
+    next: mutations.getRecord,
     throw: mutations.handleError,
   },
   [actionTypes.FETCH]: {

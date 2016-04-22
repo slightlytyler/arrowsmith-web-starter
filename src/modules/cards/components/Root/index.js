@@ -8,12 +8,12 @@ export class CardsRoot extends Component {
   static propTypes = {
     card: PropTypes.string,
     actions: PropTypes.shape({
-      fetchRecord: PropTypes.func.isRequired,
+      getRecord: PropTypes.func.isRequired,
     }),
   };
 
   componentWillMount() {
-    this.props.actions.fetchRecord();
+    this.props.actions.getRecord();
   }
 
   render() {
@@ -31,11 +31,11 @@ export class CardsRoot extends Component {
 import { connect } from 'react-redux';
 import { createStructuredActions } from 'utils';
 import { recordIdsSelector } from 'modules/cards/selectors';
-import { get as fetchRecord } from 'modules/cards/actions';
+import { get as getRecord } from 'modules/cards/actions';
 
 export default connect(
   state => ({
     card: recordIdsSelector(state)[0],
   }),
-  createStructuredActions({ fetchRecord })
+  createStructuredActions({ getRecord })
 )(CardsRoot);

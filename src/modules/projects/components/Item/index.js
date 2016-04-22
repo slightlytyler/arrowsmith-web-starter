@@ -6,7 +6,7 @@ import SweetAlert from 'sweetalert-react';
 
 import styles from './styles.styl';
 import editIcon from 'assets/icons/edit.svg';
-import removeIcon from 'assets/icons/remove.svg';
+import destroyIcon from 'assets/icons/destroy.svg';
 
 @cssModules(styles)
 export class ProjectsItem extends Component {
@@ -17,7 +17,7 @@ export class ProjectsItem extends Component {
     remainingGoalsCount: PropTypes.number.isRequired,
     actions: PropTypes.shape({
       update: PropTypes.func.isRequired,
-      remove: PropTypes.func.isRequired,
+      destroy: PropTypes.func.isRequired,
       view: PropTypes.func.isRequired,
     }),
   };
@@ -25,7 +25,7 @@ export class ProjectsItem extends Component {
   state = {
     editing: false,
     confirmingRemove: false,
-    removeConfirmed: false,
+    destroyConfirmed: false,
   };
 
   edit = () => this.setState({ editing: true });
@@ -35,19 +35,19 @@ export class ProjectsItem extends Component {
     this.setState({ editing: false });
   };
 
-  remove = () => {
-    if (this.props.remainingGoalsCount && !this.state.removeConfirmed) {
+  destroy = () => {
+    if (this.props.remainingGoalsCount && !this.state.destroyConfirmed) {
       this.showRemoveConfirmation();
     } else {
-      this.props.actions.remove(this.props.id, this.props.active);
+      this.props.actions.destroy(this.props.id, this.props.active);
     }
   };
 
   showRemoveConfirmation = () => this.setState({ confirmingRemove: true });
 
   confirmRemove = () => {
-    this.setState({ confirmingRemove: false, removeConfirmed: true });
-    this.remove();
+    this.setState({ confirmingRemove: false, destroyConfirmed: true });
+    this.destroy();
   };
 
   cancelRemove = () => this.setState({ confirmingRemove: false });
@@ -98,19 +98,19 @@ export class ProjectsItem extends Component {
         <div styleName="name" onClick={this.view}>
           {this.props.name}
         </div>
-        <div styleName="remove" onClick={this.remove}>
-          <Icon path={removeIcon} color="currentColor" width="1em" />
+        <div styleName="destroy" onClick={this.destroy}>
+          <Icon path={destroyIcon} color="currentColor" width="1em" />
         </div>
         <div styleName="edit" onClick={this.edit}>
           <Icon path={editIcon} color="currentColor" width="1em" />
         </div>
         <SweetAlert
           show={this.state.confirmingRemove}
-          title="Confirm remove"
+          title="Confirm destroy"
           text={`
             This project has ${this.props.remainingGoalsCount} unfinished \
             ${this.props.remainingGoalsCount === 1 ? 'goal' : 'goals'}.
-            Are you sure you want to remove it?
+            Are you sure you want to destroy it?
           `}
           showCancelButton
           onConfirm={this.confirmRemove}
@@ -125,7 +125,7 @@ import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
 import { createStructuredActions } from 'utils';
 import { findRecord } from 'modules/projects/selectors';
-import { update, remove, view } from 'modules/projects/actions';
+import { update, destroy, view } from 'modules/projects/actions';
 import {
   recordIdsSelector as goalIdsSelector,
   recordsByIdSelector as goalsByIdSelector,
@@ -152,7 +152,7 @@ export default connect(
   }),
   createStructuredActions({
     update,
-    remove,
+    destroy,
     view,
   })
 )(ProjectsItem);

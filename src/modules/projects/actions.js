@@ -14,9 +14,9 @@ export const create = (...args) => async dispatch => {
 
 export const update = createAction(actionTypes.UPDATE, service.update);
 
-const _remove = createAction(actionTypes.REMOVE, service.remove);
-export const remove = (...args) => async dispatch => {
-  await dispatch(_remove(...args));
+const _destroy = createAction(actionTypes.DESTROY, service.destroy);
+export const destroy = (...args) => async dispatch => {
+  await dispatch(_destroy(...args));
   dispatch(viewIndex());
 };
 

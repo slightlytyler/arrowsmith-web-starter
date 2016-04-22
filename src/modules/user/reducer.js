@@ -19,7 +19,7 @@ export default handleActions({
     next: drop,
     throw: mutations.handleError,
   },
-  [actionTypes.FETCH]: {
+  [actionTypes.GET]: {
     next: update,
     throw: mutations.handleError,
   },

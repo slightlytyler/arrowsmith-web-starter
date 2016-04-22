@@ -4,7 +4,7 @@ import Icon from 'react-svgcon';
 
 import styles from './styles.styl';
 import checkIcon from 'assets/icons/check.svg';
-import removeIcon from 'assets/icons/remove.svg';
+import destroyIcon from 'assets/icons/destroy.svg';
 import Input from './Input';
 
 @cssModules(styles)
@@ -15,7 +15,7 @@ export class GoalsItem extends Component {
     complete: PropTypes.bool.isRequired,
     actions: PropTypes.shape({
       update: PropTypes.func.isRequired,
-      remove: PropTypes.func.isRequired,
+      destroy: PropTypes.func.isRequired,
       toggle: PropTypes.func.isRequired,
     }),
   };
@@ -31,11 +31,11 @@ export class GoalsItem extends Component {
       this.props.actions.update({ text });
       this.setState({ editing: false });
     } else {
-      this.props.actions.remove();
+      this.props.actions.destroy();
     }
   }
 
-  remove = () => this.props.actions.remove();
+  destroy = () => this.props.actions.destroy();
 
   toggle = () => this.props.actions.toggle();
 
@@ -62,8 +62,8 @@ export class GoalsItem extends Component {
         <div>
           {this.props.text}
         </div>
-        <div styleName="remove" onClick={this.remove}>
-          <Icon path={removeIcon} color="currentColor" width="1em" />
+        <div styleName="destroy" onClick={this.destroy}>
+          <Icon path={destroyIcon} color="currentColor" width="1em" />
         </div>
       </div>
     );
@@ -92,9 +92,9 @@ export class GoalsItem extends Component {
 import { connect } from 'react-redux';
 import { createStructuredActions } from 'utils';
 import { findRecord } from 'modules/goals/selectors';
-import { update, remove, toggle } from 'modules/goals/actions';
+import { update, destroy, toggle } from 'modules/goals/actions';
 
 export default connect(
   findRecord,
-  createStructuredActions({ update, remove, toggle }, 'id')
+  createStructuredActions({ update, destroy, toggle }, 'id')
 )(GoalsItem);

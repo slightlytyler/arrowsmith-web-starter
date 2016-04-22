@@ -9,6 +9,6 @@ export const create = (projectId, text) => endpoint.createRecord({
   complete: false,
 });
 export const update = (id, payload) => endpoint.updateRecord(id, payload);
-export const remove = id => endpoint.removeRecord(id);
-export const get = id => endpoint.fetchRecord(id);
+export const destroy = id => endpoint.destroyRecord(id);
+export const get = id => endpoint.getRecord(id);
 export const fetch = async projectId => endpoint.fetchRecords({ projectId });
