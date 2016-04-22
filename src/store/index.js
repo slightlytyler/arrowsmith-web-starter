@@ -5,14 +5,13 @@ import * as storage from 'redux-storage';
 import { root as rootReducer } from 'reducers';
 import createEngine from 'redux-storage-engine-localstorage';
 import filter from 'redux-storage-decorator-filter';
-import { map, flatten } from 'lodash';
+import { getModuleAtoms } from 'utils';
 import { LOCAL_STORAGE_KEY } from 'config';
-import { registerToken } from 'utils/request';
 import { CLEAR_STORE, LOAD_COMPLETE } from 'constants/actionTypes';
 import { LOCATION_CHANGE } from 'react-router-redux';
 import * as modules from 'modules';
 
-const { actionTypes: userActionTypes, actions: userActions } = modules.user;
+const { actionTypes: userActionTypes } = modules.user;
 
 const reducer = storage.reducer(rootReducer);
 
@@ -39,7 +38,7 @@ export default function configureStore(initialState = {}, routerMiddleware) {
     promiseMiddleware,
     routerMiddleware,
     storageMiddleware,
-    ...flatten(map(modules, m => m.middleware ? Object.values(m.middleware) : []))
+    ...getModuleAtoms(modules, 'middleware')
   );
 
   // Create final store and subscribe router in debug env ie. for devtools
@@ -58,12 +57,9 @@ export default function configureStore(initialState = {}, routerMiddleware) {
 
   load(store).then(() => {
     const { dispatch, getState } = store;
-    const { user } = getState();
 
-    if (user.id) {
-      if (user.token) registerToken(user.token);
-      dispatch(userActions.get());
-    }
+    // Handle hooks
+    getModuleAtoms(modules, 'hooks').forEach(hook => hook(dispatch, getState));
 
     dispatch({ type: LOAD_COMPLETE });
   });

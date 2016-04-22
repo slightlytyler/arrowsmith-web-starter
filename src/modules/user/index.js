@@ -6,6 +6,7 @@ import reducer from './reducer';
 import * as selectors from './selectors';
 import * as service from './service';
 import * as middleware from './middleware';
+import * as hooks from './hooks';
 const { NAME } = constants;
 const { Root } = components;
 
@@ -18,6 +19,7 @@ export {
   selectors,
   service,
   middleware,
+  hooks,
   NAME,
   Root,
 };

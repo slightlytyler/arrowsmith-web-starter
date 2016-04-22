@@ -103,4 +103,4 @@ export const createEndpoint = endpoint => ({
   fetchRecords: query => helpers.fetchRecords(endpoint, query),
 });
 
-export default { ...request, ...helpers, createEndpoint };
+export default { ...request, ...helpers, createEndpoint, registerToken, unregisterToken };
