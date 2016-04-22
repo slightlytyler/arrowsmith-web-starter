@@ -11,15 +11,12 @@ import { CLEAR_STORE, LOAD_COMPLETE } from 'constants/actionTypes';
 import { LOCATION_CHANGE } from 'react-router-redux';
 import * as modules from 'modules';
 
-const { actionTypes: userActionTypes } = modules.user;
-
-const reducer = storage.reducer(rootReducer);
-
 const engine = filter(
   createEngine(LOCAL_STORAGE_KEY),
   ['user'],
 );
 
+const { actionTypes: userActionTypes } = modules.user;
 const storageMiddleware = storage.createMiddleware(
   engine,
   [LOCATION_CHANGE],
@@ -30,6 +27,7 @@ const storageMiddleware = storage.createMiddleware(
 );
 
 const load = storage.createLoader(engine);
+const reducer = storage.reducer(rootReducer);
 
 export default function configureStore(initialState = {}, routerMiddleware) {
   // Compose final middleware

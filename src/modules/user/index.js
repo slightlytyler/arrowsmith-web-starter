@@ -1,25 +1,11 @@
-import * as actions from './actions';
-import * as actionTypes from './actionTypes';
-import * as components from './components';
-import * as constants from './constants';
-import reducer from './reducer';
-import * as selectors from './selectors';
-import * as service from './service';
-import * as middleware from './middleware';
-import * as hooks from './hooks';
-const { NAME } = constants;
-const { Root } = components;
-
-export {
-  actions,
-  actionTypes,
-  components,
-  constants,
-  reducer,
-  selectors,
-  service,
-  middleware,
-  hooks,
-  NAME,
-  Root,
-};
+export * as actions from './actions';
+export * as actionTypes from './actionTypes';
+export * as components from './components';
+export * as constants from './constants';
+export reducer from './reducer';
+export * as selectors from './selectors';
+export * as service from './service';
+export * as middleware from './middleware';
+export * as hooks from './hooks';
+export { NAME } from './constants';
+export { Root } from './components';
