@@ -17,9 +17,9 @@ export const create = (plan, card, address) => async (dispatch, getState) => {
 export const update = createAction(actionTypes.UPDATE, service.update);
 export const remove = createAction(actionTypes.REMOVE, service.remove);
 
-const _fetchSingle = createAction(actionTypes.FETCH_SINGLE, service.fetchSingle);
-export const fetchSingle = subscriptionId => (dispatch, getState) => (
-  dispatch(_fetchSingle(subscriptionId, getState().user.id))
+const _get = createAction(actionTypes.GET, service.get);
+export const get = subscriptionId => (dispatch, getState) => (
+  dispatch(_get(subscriptionId, getState().user.id))
 );
 
-export const fetchMany = createAction(actionTypes.FETCH_MANY, service.fetchMany);
+export const fetch = createAction(actionTypes.FETCH, service.fetch);

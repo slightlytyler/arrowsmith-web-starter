@@ -5,7 +5,5 @@ import * as service from './service';
 export const create = createAction(actionTypes.CREATE, service.create);
 export const update = createAction(actionTypes.UPDATE, service.update);
 
-const _fetchSingle = createAction(actionTypes.FETCH_SINGLE, service.fetchSingle);
-export const fetchSingle = () => (dispatch, getState) => (
-  dispatch(_fetchSingle(getState().user.id))
-);
+const _get = createAction(actionTypes.GET, service.get);
+export const get = () => (dispatch, getState) => dispatch(_get(getState().user.id));

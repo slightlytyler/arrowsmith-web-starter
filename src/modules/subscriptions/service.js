@@ -27,7 +27,7 @@ export const remove = async id => {
   return response.data;
 };
 
-export const fetchSingle = async (subscriptionId, userId) => {
+export const get = async (subscriptionId, userId) => {
   const response = await request.get(
     'stripe',
     `customers/${userId}/subscriptions/${subscriptionId}`
@@ -35,7 +35,7 @@ export const fetchSingle = async (subscriptionId, userId) => {
   return response.data;
 };
 
-export const fetchMany = async userId => {
+export const fetch = async userId => {
   const response = await request.get(
     'stripe',
     `customers/${userId}/subscriptions`

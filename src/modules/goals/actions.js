@@ -6,8 +6,8 @@ import { recordsByIdSelector } from './selectors';
 export const create = createAction(actionTypes.CREATE, service.create);
 export const update = createAction(actionTypes.UPDATE, service.update);
 export const remove = createAction(actionTypes.REMOVE, service.remove);
-export const fetchSingle = createAction(actionTypes.FETCH_SINGLE, service.fetchSingle);
-export const fetchMany = createAction(actionTypes.FETCH_MANY, service.fetchMany);
+export const get = createAction(actionTypes.GET, service.get);
+export const fetch = createAction(actionTypes.FETCH, service.fetch);
 
 export const toggle = id => async (dispatch, getState) => {
   const record = recordsByIdSelector(getState())[id];

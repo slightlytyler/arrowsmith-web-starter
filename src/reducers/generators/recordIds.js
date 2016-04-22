@@ -14,11 +14,11 @@ export default (actionTypes, additionalCases = {}) => handleActions({
     next: mutations.deleteRecord,
     throw: mutations.handleError,
   },
-  [actionTypes.FETCH_SINGLE]: {
+  [actionTypes.GET]: {
     next: mutations.fetchRecord,
     throw: mutations.handleError,
   },
-  [actionTypes.FETCH_MANY]: {
+  [actionTypes.FETCH]: {
     next: mutations.fetchRecords,
     throw: mutations.handleError,
   },

@@ -20,5 +20,5 @@ export const remove = (...args) => async dispatch => {
   dispatch(viewIndex());
 };
 
-export const fetchSingle = createAction(actionTypes.FETCH_SINGLE, service.fetchSingle);
-export const fetchMany = createAction(actionTypes.FETCH_MANY, service.fetchMany);
+export const get = createAction(actionTypes.GET, service.get);
+export const fetch = createAction(actionTypes.FETCH, service.fetch);

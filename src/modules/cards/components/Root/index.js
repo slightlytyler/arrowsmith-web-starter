@@ -31,7 +31,7 @@ export class CardsRoot extends Component {
 import { connect } from 'react-redux';
 import { createStructuredActions } from 'utils';
 import { recordIdsSelector } from 'modules/cards/selectors';
-import { fetchSingle as fetchRecord } from 'modules/cards/actions';
+import { get as fetchRecord } from 'modules/cards/actions';
 
 export default connect(
   state => ({

@@ -15,7 +15,7 @@ export const remove = async id => {
   return response.data;
 };
 
-export const fetch = async () => {
+export const get = async () => {
   const response = await request.get('user', 'getstatus');
   return response.data.user;
 };

@@ -29,7 +29,7 @@ export class ProjectsRoot extends Component {
 
 import { connect } from 'react-redux';
 import { createStructuredActions } from 'utils';
-import { fetchMany as fetchRecords } from 'modules/projects/actions';
+import { fetch as fetchRecords } from 'modules/projects/actions';
 
 export default connect(
   undefined,

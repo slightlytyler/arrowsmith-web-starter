@@ -63,7 +63,7 @@ export class SubscriptionsRoot extends Component {
 import { connect } from 'react-redux';
 import { createStructuredActions } from 'utils';
 import { findRecord } from 'modules/subscriptions/selectors';
-import { fetchSingle as fetchRecord } from 'modules/subscriptions/actions';
+import { get as fetchRecord } from 'modules/subscriptions/actions';
 import { selectors as userSelectors } from 'modules/user';
 
 export default connect(

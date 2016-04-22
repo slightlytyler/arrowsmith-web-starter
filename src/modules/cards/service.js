@@ -21,7 +21,7 @@ export const update = async (userId, payload) => {
   return response.data;
 };
 
-export const fetchSingle = async userId => {
+export const get = async userId => {
   const response = await request.get(
     'stripe',
     `customers/${userId}/cards`

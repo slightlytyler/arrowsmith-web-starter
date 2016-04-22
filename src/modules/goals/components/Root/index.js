@@ -46,7 +46,7 @@ export class GoalsRoot extends Component {
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { createStructuredActions } from 'utils';
-import { fetchMany as fetchRecords } from 'modules/goals/actions';
+import { fetch as fetchRecords } from 'modules/goals/actions';
 
 const activeFilterSelector = (state, props) => props.route.filter;
 const projectIdSelector = (state, props) => props.params.projectId;
