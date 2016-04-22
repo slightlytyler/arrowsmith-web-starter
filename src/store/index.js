@@ -5,15 +5,14 @@ import * as storage from 'redux-storage';
 import { root as rootReducer } from 'reducers';
 import createEngine from 'redux-storage-engine-localstorage';
 import filter from 'redux-storage-decorator-filter';
+import { map, flatten } from 'lodash';
 import { LOCAL_STORAGE_KEY } from 'config';
 import { registerToken } from 'utils/request';
 import { CLEAR_STORE, LOAD_COMPLETE } from 'constants/actionTypes';
 import { LOCATION_CHANGE } from 'react-router-redux';
-import {
-  actionTypes as userActionTypes,
-  actions as userActions,
-  middleware as userMiddleware,
-} from 'modules/user';
+import * as modules from 'modules';
+
+const { actionTypes: userActionTypes, actions: userActions } = modules.user;
 
 const reducer = storage.reducer(rootReducer);
 
@@ -40,7 +39,7 @@ export default function configureStore(initialState = {}, routerMiddleware) {
     promiseMiddleware,
     routerMiddleware,
     storageMiddleware,
-    userMiddleware.handleAuth
+    ...flatten(map(modules, m => m.middleware ? Object.values(m.middleware) : []))
   );
 
   // Create final store and subscribe router in debug env ie. for devtools
