@@ -4,6 +4,6 @@ import { reduce } from 'lodash';
 // Returns an array of all the module atoms i.e. all the hooks
 export default (modules, key) => reduce(
   modules,
-  (result, m) => m[key] ? [...result, ...Object.values(m[key])] : result,
+  (result, m) => m[key] ? result.concat(Object.values(m[key])) : result,
   []
 );

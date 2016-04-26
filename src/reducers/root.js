@@ -1,14 +1,20 @@
 import { combineReducers } from 'redux';
 import { routerReducer as router } from 'react-router-redux';
-import { map, mapValues, zipObject, without } from 'lodash';
+import { reduce, mapValues, without } from 'lodash';
 import { CLEAR_STORE } from 'constants/actionTypes';
 import storage from './storage';
 import * as modules from 'modules';
 
+const moduleReducers = reduce(
+  modules,
+  (result, m) => Object.assign(result, { [m.NAME]: m.reducer }),
+  {}
+);
+
 const reducer = combineReducers({
   router,
   storage,
-  ...zipObject(map(modules, m => m.NAME), map(modules, m => m.reducer)),
+  ...moduleReducers,
 });
 
 const staticModules = ['router', 'storage'];
