@@ -5,12 +5,11 @@ import { Route, Redirect, IndexRoute } from 'react-router';
 
 import Page from 'components/Page';
 import Landing from 'modules/landing/components/Layout';
-import { SignUp, Login } from 'modules/user/components';
+import { SignUp, Login, Dashboard, Billing } from 'modules/user/components';
 import { SelectPlan, Checkout } from 'modules/subscriptions/components';
 import Editor from 'components/Editor';
 import { Root as GoalsRoot } from 'modules/goals';
 import { filters as goalsFilters } from 'modules/goals/constants';
-import { Dashboard, Billing } from 'modules/user/components';
 
 export default (store) => (
   <Route path="/" component={Page}>
@@ -31,7 +30,7 @@ export default (store) => (
     <Redirect from="start-subscription" to="start-subscription/select-plan" />
     <Route path="start-subscription">
       <Route path="select-plan" component={SelectPlan} />
-      <Route path="checkout" component={Checkout}/>
+      <Route path="checkout" component={Checkout} />
     </Route>
     <Route path="dashboard" component={Dashboard}>
       <Route path="user" />

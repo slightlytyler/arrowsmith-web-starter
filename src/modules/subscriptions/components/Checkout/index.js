@@ -29,7 +29,7 @@ export class SubscriptionsCheckout extends Component {
     return (
       <div styleName="form-container">
         <Form onValidSubmit={this.handleValidSubmit}>
-            <section styleName="section">
+          <section styleName="section">
             <header styleName="header">Payment Info</header>
             <div styleName="row">
               <Input

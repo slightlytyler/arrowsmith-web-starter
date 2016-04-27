@@ -80,7 +80,7 @@ export class Header extends Component {
 
   renderAvatar() {
     if (this.props.userAvatarUrl) {
-      return <img src={this.props.userAvatarUrl} styleName="avatar" />;
+      return <img src={this.props.userAvatarUrl} styleName="avatar" alt="avatar" />;
     }
 
     return undefined;
@@ -93,8 +93,9 @@ export class Header extends Component {
           <div styleName="content">
             {this.renderAvatar()}
             <span styleName="name">
-              {this.props.userName}</span> <span styleName="caret">&#9660;
+              {this.props.userName}
             </span>
+            <span styleName="caret">&#9660;</span>
           </div>
           {this.renderUserOptions()}
         </section>
@@ -112,7 +113,7 @@ export class Header extends Component {
   render() {
     return (
       <div styleName="header">
-        <img src={logo} styleName="logo" />
+        <img src={logo} styleName="logo" alt="logo" />
         {this.renderAuthSection()}
       </div>
     );

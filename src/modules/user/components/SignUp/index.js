@@ -26,6 +26,7 @@ export class SignUp extends Component {
     if (this.state.errorMessage) {
       return <div>{this.state.errorMessage}</div>;
     }
+    return null;
   }
 
   render() {
