@@ -1,6 +1,7 @@
 import { applyMiddleware, compose, createStore } from 'redux';
 import thunkMiddleware from 'redux-thunk';
 import promiseMiddleware from 'redux-promise';
+import { apiMiddleware } from 'redux-api-middleware';
 import * as storage from 'redux-storage';
 import { root as rootReducer } from 'reducers';
 import createEngine from 'redux-storage-engine-localstorage';
@@ -33,6 +34,7 @@ export default function configureStore(initialState = {}, routerMiddleware) {
   // Compose final middleware
   const middleware = applyMiddleware(
     thunkMiddleware,
+    apiMiddleware,
     promiseMiddleware,
     routerMiddleware,
     storageMiddleware,

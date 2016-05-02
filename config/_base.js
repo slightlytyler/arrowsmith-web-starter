@@ -118,6 +118,7 @@ config.utils_paths = (() => {
     layouts: base.bind(null, 'src/layouts'),
     components: base.bind(null, 'src/components'),
     reducers: base.bind(null, 'src/reducers'),
+    api: base.bind(null, 'src/api'),
     utils: base.bind(null, 'src/utils'),
     config: base.bind(null, 'src/config'),
   }

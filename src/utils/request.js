@@ -15,9 +15,12 @@ const authBaseUrl = path.join(baseUrl, 'auth');
 export const buildApiUrl = (resource, endpoint) => (
   path.join(apiBaseUrl, resource, API_VERSION, endpoint)
 );
+
+export const buildResourceUrl = endpoint => buildApiUrl('cobject', endpoint);
+
 export const buildAuthUrl = endpoint => path.join(authBaseUrl, API_VERSION, endpoint);
 
-const buildHeaders = (headers = {}) => {
+export const buildHeaders = (headers = {}) => {
   if (token) {
     return { 'x-stamplay-jwt': token, ...headers };
   }

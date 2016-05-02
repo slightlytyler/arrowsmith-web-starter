@@ -6,7 +6,7 @@ import SweetAlert from 'sweetalert-react';
 
 import styles from './styles.styl';
 import editIcon from 'assets/icons/edit.svg';
-import destroyIcon from 'assets/icons/destroy.svg';
+import deleteIcon from 'assets/icons/delete.svg';
 
 @cssModules(styles)
 export class ProjectsItem extends Component {
@@ -16,45 +16,45 @@ export class ProjectsItem extends Component {
     active: PropTypes.bool.isRequired,
     remainingGoalsCount: PropTypes.number.isRequired,
     actions: PropTypes.shape({
-      update: PropTypes.func.isRequired,
-      destroy: PropTypes.func.isRequired,
-      view: PropTypes.func.isRequired,
+      updateRecord: PropTypes.func.isRequired,
+      deleteRecord: PropTypes.func.isRequired,
+      viewRecord: PropTypes.func.isRequired,
     }),
   };
 
   state = {
     editing: false,
     confirmingRemove: false,
-    destroyConfirmed: false,
+    deleteConfirmed: false,
   };
 
   edit = () => this.setState({ editing: true });
 
   update = () => {
-    this.props.actions.update(this.props.id, { name: this.refs.input.value });
+    this.props.actions.updateRecord(this.props.id, { name: this.refs.input.value });
     this.setState({ editing: false });
   };
 
-  destroy = () => {
-    if (this.props.remainingGoalsCount && !this.state.destroyConfirmed) {
+  delete = () => {
+    if (this.props.remainingGoalsCount && !this.state.deleteConfirmed) {
       this.showRemoveConfirmation();
     } else {
-      this.props.actions.destroy(this.props.id, this.props.active);
+      this.props.actions.deleteRecord(this.props.id, this.props.active);
     }
   };
 
   showRemoveConfirmation = () => this.setState({ confirmingRemove: true });
 
   confirmRemove = () => {
-    this.setState({ confirmingRemove: false, destroyConfirmed: true });
-    this.destroy();
+    this.setState({ confirmingRemove: false, deleteConfirmed: true });
+    this.delete();
   };
 
   cancelRemove = () => this.setState({ confirmingRemove: false });
 
   view = () => {
     if (!this.props.active) {
-      this.props.actions.view(this.props.id);
+      this.props.actions.viewRecord(this.props.id);
     }
   };
 
@@ -98,19 +98,19 @@ export class ProjectsItem extends Component {
         <div styleName="name" onClick={this.view}>
           {this.props.name}
         </div>
-        <div styleName="destroy" onClick={this.destroy}>
-          <Icon path={destroyIcon} color="currentColor" width="1em" />
+        <div styleName="delete" onClick={this.delete}>
+          <Icon path={deleteIcon} color="currentColor" width="1em" />
         </div>
         <div styleName="edit" onClick={this.edit}>
           <Icon path={editIcon} color="currentColor" width="1em" />
         </div>
         <SweetAlert
           show={this.state.confirmingRemove}
-          title="Confirm destroy"
+          title="Confirm delete"
           text={`
             This project has ${this.props.remainingGoalsCount} unfinished \
             ${this.props.remainingGoalsCount === 1 ? 'goal' : 'goals'}.
-            Are you sure you want to destroy it?
+            Are you sure you want to delete it?
           `}
           showCancelButton
           onConfirm={this.confirmRemove}
@@ -125,7 +125,7 @@ import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
 import { createStructuredActions } from 'utils';
 import { findRecord } from 'modules/projects/selectors';
-import { update, destroy, view } from 'modules/projects/actions';
+import { updateRecord, deleteRecord, viewRecord } from 'modules/projects/actions';
 import {
   recordIdsSelector as goalIdsSelector,
   recordsByIdSelector as goalsByIdSelector,
@@ -151,8 +151,8 @@ export default connect(
     remainingGoalsCount: remainingGoalsCountSelector(state, props),
   }),
   createStructuredActions({
-    update,
-    destroy,
-    view,
+    updateRecord,
+    deleteRecord,
+    viewRecord,
   })
 )(ProjectsItem);

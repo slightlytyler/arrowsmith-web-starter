@@ -4,7 +4,7 @@ import Icon from 'react-svgcon';
 
 import styles from './styles.styl';
 import checkIcon from 'assets/icons/check.svg';
-import destroyIcon from 'assets/icons/destroy.svg';
+import destroyIcon from 'assets/icons/delete.svg';
 import Input from './Input';
 
 @cssModules(styles)

@@ -8,7 +8,7 @@ import styles from './styles.styl';
 export class ProjectsCreator extends Component {
   static propTypes = {
     actions: PropTypes.shape({
-      create: PropTypes.func.isRequired,
+      createRecord: PropTypes.func.isRequired,
     }),
   };
 
@@ -16,7 +16,7 @@ export class ProjectsCreator extends Component {
     const { which, target } = e;
 
     if (keycode(which) === 'enter') {
-      this.props.actions.create(target.value);
+      this.props.actions.createRecord(target.value);
       target.value = '';
     }
   };
@@ -37,9 +37,9 @@ export class ProjectsCreator extends Component {
 
 import { connect } from 'react-redux';
 import { createStructuredActions } from 'utils';
-import { create } from 'modules/projects/actions';
+import { createRecord } from 'modules/projects/actions';
 
 export default connect(
   undefined,
-  createStructuredActions({ create })
+  createStructuredActions({ createRecord })
 )(ProjectsCreator);

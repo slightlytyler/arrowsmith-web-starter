@@ -9,12 +9,12 @@ import ProjectList from '../List';
 export class ProjectsRoot extends Component {
   static propTypes = {
     actions: PropTypes.shape({
-      fetchRecords: PropTypes.func.isRequired,
+      fetchCollection: PropTypes.func.isRequired,
     }),
   };
 
   componentWillMount() {
-    this.props.actions.fetchRecords();
+    this.props.actions.fetchCollection();
   }
 
   render() {
@@ -29,9 +29,9 @@ export class ProjectsRoot extends Component {
 
 import { connect } from 'react-redux';
 import { createStructuredActions } from 'utils';
-import { fetch as fetchRecords } from 'modules/projects/actions';
+import { fetchCollection } from 'modules/projects/actions';
 
 export default connect(
   undefined,
-  createStructuredActions({ fetchRecords }),
+  createStructuredActions({ fetchCollection })
 )(ProjectsRoot);
