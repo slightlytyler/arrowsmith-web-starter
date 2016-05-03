@@ -7,10 +7,14 @@ export const viewRecord = id => pushRoute(`/projects/${id}/goals/active`);
 
 export const viewIndex = () => pushRoute('/projects');
 
-export const createRecord = name => createAction(
-  actionTypes.api.createRecord,
-  service.createRecord,
-)(name);
+export const createRecord = name => async dispatch => {
+  const action = await dispatch(createAction(
+    actionTypes.api.createRecord,
+    service.createRecord,
+  )(name));
+
+  dispatch(viewRecord(action.payload.id));
+};
 
 export const updateRecord = (id, payload) => createAction(
   actionTypes.api.updateRecord,
@@ -22,10 +26,14 @@ export const replaceRecord = (id, payload) => createAction(
   service.replaceRecord,
 )(id, payload);
 
-export const deleteRecord = id => createAction(
-  actionTypes.api.deleteRecord,
-  service.deleteRecord,
-)(id);
+export const deleteRecord = id => async dispatch => {
+  await dispatch(createAction(
+    actionTypes.api.deleteRecord,
+    service.deleteRecord,
+  )(id));
+
+  dispatch(viewIndex());
+};
 
 export const fetchRecord = id => createAction(
   actionTypes.api.fetchRecord,
