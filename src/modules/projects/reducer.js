@@ -15,10 +15,11 @@ export default combineReducers({
         }];
 
       case actionTypes.api.FETCH_COLLECTION_SUCCESS:
-        return state.map(collection => isEqual(collection.query, payload.query)
-          ? { ...collection, loading: false, ids: payload.data.map(record => record.id) }
-          : collection
-        );
+        return state.map(collection => (
+          isEqual(collection.query, payload.query)
+            ? { ...collection, loading: false, ids: payload.data.map(record => record.id) }
+            : collection
+        ));
 
       default:
         return state;

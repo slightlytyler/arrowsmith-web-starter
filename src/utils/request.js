@@ -1,7 +1,7 @@
 // JWT Handling
 let token;
-export const registerToken = newToken => token = newToken;
-export const unregisterToken = () => token = undefined;
+export const registerToken = newToken => { token = newToken; };
+export const unregisterToken = () => { token = undefined; };
 
 // HTTP Request config
 import path from 'path';

@@ -18,5 +18,8 @@
     "__BASENAME__" : false
   },
   "rules": {
+    "import/no-unresolved": "off",
+    "no-underscore-dangle": "off",
+    "react/prefer-stateless-function": "off"
   }
 }
