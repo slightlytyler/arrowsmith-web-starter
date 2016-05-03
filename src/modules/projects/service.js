@@ -7,7 +7,7 @@ const endpoint = buildResourceUrl(NAME);
 export const createRecord = name => ({
   method: 'POST',
   endpoint,
-  body: { name },
+  body: { names: name },
 });
 
 export const updateRecord = (id, payload) => ({

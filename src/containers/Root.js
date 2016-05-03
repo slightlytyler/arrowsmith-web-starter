@@ -1,6 +1,7 @@
 import React, { PropTypes } from 'react';
 import { Provider } from 'react-redux';
 import { Router } from 'react-router';
+import { Root as NotificationsRoot } from 'modules/notifications';
 
 import 'styles/app.styl';
 import 'sweetalert/dist/sweetalert.css';
@@ -24,7 +25,10 @@ export default class Root extends React.Component {
   render() {
     return (
       <Provider store={this.props.store}>
-        {this.content}
+        <div>
+          {this.content}
+          <NotificationsRoot />
+        </div>
       </Provider>
     );
   }

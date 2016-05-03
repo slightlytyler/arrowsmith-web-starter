@@ -4,6 +4,7 @@ import generateId from 'shortid';
 import { createAction } from 'api/client';
 import * as actionTypes from './actionTypes';
 import * as service from './service';
+import { actions as notificationActions } from 'modules/notifications';
 
 export const viewRecord = id => pushRoute(`/projects/${id}/goals/active`);
 
@@ -43,7 +44,14 @@ export const createRecord = name => async dispatch => {
     )(name)
   );
 
-  dispatch(viewRecord(response.payload.id));
+  if (response.error) {
+    return dispatch(notificationActions.push({
+      message: `Could not create project. ${response.payload.name}`,
+      level: 'error',
+    }));
+  }
+
+  return dispatch(viewRecord(response.payload.id));
 };
 
 export const updateRecord = (id, payload) => {
