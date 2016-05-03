@@ -95,6 +95,7 @@ if (!__TEST__) {
 webpackConfig.module.preLoaders = [{
   test: /\.(js|jsx)$/,
   loader: 'eslint',
+  include: paths.base(config.dir_client),
   exclude: /node_modules/
 }]
 
@@ -109,6 +110,7 @@ webpackConfig.eslint = {
 // JavaScript / JSON
 webpackConfig.module.loaders = [{
   test: /\.(js|jsx)$/,
+  include: paths.base(config.dir_client),
   exclude: /node_modules/,
   loader: 'babel',
   query: {

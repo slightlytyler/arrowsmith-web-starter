@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux';
 import { isEqual } from 'lodash';
-import { assoc, dissoc } from 'react-update-in';
+import { updateIn, assoc, dissoc, merge } from 'react-update-in';
 import { createRecordsById } from 'utils';
 import * as actionTypes from './actionTypes';
 
@@ -25,8 +25,18 @@ export default combineReducers({
         return state;
     }
   },
-  recordsById: (state = {}, { type, payload }) => {
+  recordsById: (state = {}, { type, payload, meta }) => {
     switch (type) {
+      case actionTypes.api.CREATE_RECORD_REQUEST:
+      case actionTypes.api.REPLACE_RECORD_REQUEST:
+        return assoc(state, meta.optimistic.payload.id, meta.optimistic.payload);
+
+      case actionTypes.api.UPDATE_RECORD_REQUEST:
+        return updateIn(state, [meta.optimistic.payload.id], merge, meta.optimistic.payload);
+
+      case actionTypes.api.DELETE_RECORD_REQUEST:
+        return dissoc(state, meta.optimistic.payload.id);
+
       case actionTypes.api.CREATE_RECORD_SUCCESS:
       case actionTypes.api.UPDATE_RECORD_SUCCESS:
       case actionTypes.api.REPLACE_RECORD_SUCCESS:

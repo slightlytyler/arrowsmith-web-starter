@@ -1,4 +1,5 @@
 import { combineReducers } from 'redux';
+import optimist from 'redux-optimist';
 import { routerReducer as router } from 'react-router-redux';
 import { reduce, mapValues, without } from 'lodash';
 import { CLEAR_STORE } from 'constants/actionTypes';
@@ -19,7 +20,7 @@ const reducer = combineReducers({
 
 const staticModules = ['router', 'storage'];
 
-export default (state = {}, action) => {
+const rootReducer = (state = {}, action) => {
   switch (action.type) {
     case CLEAR_STORE: {
       const keysToClear = without(Object.keys(state), ...staticModules);
@@ -33,3 +34,5 @@ export default (state = {}, action) => {
       return reducer(state, action);
   }
 };
+
+export default optimist(rootReducer, action => (action.meta ? action.meta.optimistic : false));
