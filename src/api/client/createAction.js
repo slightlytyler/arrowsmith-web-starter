@@ -2,7 +2,7 @@ import { CALL_API } from 'redux-api-middleware';
 import { buildHeaders } from 'utils/request';
 
 // actionTypes must be a an array ordered [REQUEST, SUCCESS, FAILURE]
-export const createApiAction = (actionTypes, service, config = {}) => (...args) => {
+export default (actionTypes, service, config = {}) => (...args) => {
   const [REQUEST, SUCCESS, FAILURE] = actionTypes;
   const { method, endpoint, body } = service(...args);
 

@@ -7,14 +7,14 @@ import * as actionTypes from './actionTypes';
 export default combineReducers({
   collections: (state = [], { type, payload }) => {
     switch (type) {
-      case actionTypes.FETCH_COLLECTION_REQUEST:
+      case actionTypes.api.FETCH_COLLECTION_REQUEST:
         return [...state, {
           query: payload.query,
           loading: true,
           ids: [],
         }];
 
-      case actionTypes.FETCH_COLLECTION_SUCCESS:
+      case actionTypes.api.FETCH_COLLECTION_SUCCESS:
         return state.map(collection => isEqual(collection.query, payload.query)
           ? { ...collection, loading: false, ids: payload.data.map(record => record.id) }
           : collection
@@ -26,16 +26,16 @@ export default combineReducers({
   },
   recordsById: (state = {}, { type, payload }) => {
     switch (type) {
-      case actionTypes.CREATE_RECORD_SUCCESS:
-      case actionTypes.UPDATE_RECORD_SUCCESS:
-      case actionTypes.REPLACE_RECORD_SUCCESS:
-      case actionTypes.FETCH_RECORD_SUCCESS:
+      case actionTypes.api.CREATE_RECORD_SUCCESS:
+      case actionTypes.api.UPDATE_RECORD_SUCCESS:
+      case actionTypes.api.REPLACE_RECORD_SUCCESS:
+      case actionTypes.api.FETCH_RECORD_SUCCESS:
         return assoc(state, payload.id, payload);
 
-      case actionTypes.DELETE_RECORD_SUCCESS:
+      case actionTypes.api.DELETE_RECORD_SUCCESS:
         return dissoc(state, payload.id);
 
-      case actionTypes.FETCH_COLLECTION_SUCCESS:
+      case actionTypes.api.FETCH_COLLECTION_SUCCESS:
         return { ...state, ...createRecordsById(payload.data) };
 
       default:
