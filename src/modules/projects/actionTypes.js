@@ -1,4 +1,4 @@
-import { createActionTypes } from 'api/client';
+import { createApiActionTypes } from 'api/helpers';
 import { NAME } from './constants';
 
-export const api = createActionTypes(NAME);
+export const api = createApiActionTypes(NAME);
