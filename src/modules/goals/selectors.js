@@ -1,40 +1,28 @@
 import { createSelector, defaultMemoize as memoize } from 'reselect';
-import { isEqual } from 'lodash';
+import {
+  createFindCollectionSelector,
+  createAllRecordIdsSelector,
+  createFindRecordSelector,
+} from 'api/helpers';
 import { NAME, filters } from './constants';
 
-export const substateSelector = state => state[NAME];
+export const getSubstate = state => state[NAME];
 
-export const collectionsSelector = createSelector(
-  substateSelector,
+export const getCollections = createSelector(
+  getSubstate,
   substate => substate.collections
 );
 
-export const findCollection = createSelector(
-  collectionsSelector,
-  (state, query) => query,
-  (collections, query) => collections.find(c => isEqual(c.query, query))
+export const getRecordsById = createSelector(
+  getSubstate,
+  substate => substate.recordsById,
 );
 
-export const recordsByIdSelector = createSelector(
-  substateSelector,
-  substate => substate.recordsById
-);
+export const findCollection = createFindCollectionSelector(getCollections);
 
-export const allRecordIdsSelector = createSelector(
-  recordsByIdSelector,
-  recordsById => Object.keys(recordsById)
-);
+export const findRecord = createFindRecordSelector(getRecordsById);
 
-export const allRecordsSelector = createSelector(
-  recordsByIdSelector,
-  recordsById => Object.values(recordsById)
-);
-
-export const findRecord = createSelector(
-  recordsByIdSelector,
-  (state, id) => id,
-  (recordsById, id) => recordsById[id]
-);
+export const getAllRecordIds = createAllRecordIdsSelector(getRecordsById);
 
 export const getRemainingCollectionIds = memoize((recordsById, collectionIds) => (
   collectionIds.filter(id => !recordsById[id].complete)
@@ -45,7 +33,7 @@ export const getCompletedCollectionIds = memoize((recordsById, recordIds) => (
 ));
 
 export const getFilteredCollectionIds = createSelector(
-  recordsByIdSelector,
+  getRecordsById,
   (state, collectionIds) => collectionIds,
   (state, collectionIds, activeFilter) => activeFilter,
   (recordsById, collectionIds, activeFilter) => {
@@ -63,6 +51,6 @@ export const getFilteredCollectionIds = createSelector(
   }
 );
 
-export const recordIdsByProjectIdDeriver = memoize((recordIds, recordsById, projectId) => (
+export const getRecordIdsByProject = memoize((recordsById, recordIds, projectId) => (
   recordIds.filter(id => recordsById[id].projectId === projectId)
 ));

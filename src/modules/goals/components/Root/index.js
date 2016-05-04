@@ -60,13 +60,13 @@ import { createStructuredActions } from 'utils';
 import { fetchCollection } from 'modules/goals/actions';
 import { selectors as routerSelectors } from 'modules/router';
 
-const activeFilterSelector = (state, props) => props.route.filter;
-const projectIdSelector = (state, props) => props.params.projectId;
+const getActiveFilter = (state, props) => props.route.filter;
+const getProjectId = (state, props) => props.params.projectId;
 
 export default connect(
   createStructuredSelector({
-    activeFilter: activeFilterSelector,
-    projectId: projectIdSelector,
+    activeFilter: getActiveFilter,
+    projectId: getProjectId,
     query: routerSelectors.querySelector,
   }),
   createStructuredActions({ fetchCollection })

@@ -3,7 +3,7 @@ import cssModules from 'react-css-modules';
 import Icon from 'react-svgcon';
 
 import styles from './styles.styl';
-import plus from 'assets/icons/plus.svg';
+import plusIcon from 'assets/icons/plus.svg';
 import Input from './Input';
 
 @cssModules(styles)
@@ -39,7 +39,7 @@ export class GoalsCreator extends Component {
     return (
       <div styleName="content">
         <section styleName="add--icon">
-          <Icon path={plus} color="#1EB5F9" width="1em" />
+          <Icon path={plusIcon} color="#1EB5F9" width="1em" />
         </section>
         <section styleName="prompt">
           {this.placeholder}

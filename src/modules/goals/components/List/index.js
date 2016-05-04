@@ -7,13 +7,13 @@ import GoalItem from '../Item';
 @cssModules(styles)
 export class GoalsList extends Component {
   static propTypes = {
-    goalIds: PropTypes.array.isRequired,
+    ids: PropTypes.array.isRequired,
   };
 
   render() {
     return (
       <div styleName="list">
-        {this.props.goalIds.map(id => <GoalItem key={id} id={id} />)}
+        {this.props.ids.map(id => <GoalItem key={id} id={id} />)}
       </div>
     );
   }
@@ -33,7 +33,7 @@ export default connect(
     const filteredCollectionIds = getFilteredCollectionIds(state, collectionIds, activeFilter);
 
     return {
-      goalIds: filteredCollectionIds,
+      ids: filteredCollectionIds,
     };
   }
 )(GoalsList);

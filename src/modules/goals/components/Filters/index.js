@@ -11,7 +11,7 @@ export class GoalsFilters extends Component {
   static propTypes = {
     remainingGoalsCount: PropTypes.number.isRequired,
     projectId: PropTypes.string.isRequired,
-    activeFilter: PropTypes.string.isRequired,
+    activeFilter: PropTypes.oneOf(Object.values(filters)),
   };
 
   render() {
@@ -63,23 +63,23 @@ export class GoalsFilters extends Component {
 import { connect } from 'react-redux';
 import { createSelector, createStructuredSelector } from 'reselect';
 import {
-  recordsByIdSelector,
-  allRecordIdsSelector,
-  recordIdsByProjectIdDeriver,
+  getRecordsById,
+  getAllRecordIds,
+  getRecordIdsByProject,
   getRemainingCollectionIds,
 } from 'modules/goals/selectors';
 
-const projectIdSelector = (state, props) => props.projectId;
-const remainingGoalsCountSelector = createSelector(
-  recordsByIdSelector,
-  allRecordIdsSelector,
-  projectIdSelector,
+const getProjectId = (state, props) => props.projectId;
+const getRemainingGoalsCount = createSelector(
+  getRecordsById,
+  getAllRecordIds,
+  getProjectId,
   (recordsById, recordIds, projectId) => getRemainingCollectionIds(
     recordsById,
-    recordIdsByProjectIdDeriver(recordIds, recordsById, projectId)
+    getRecordIdsByProject(recordsById, recordIds, projectId)
   ).length
 );
 
 export default connect(
-  createStructuredSelector({ remainingGoalsCount: remainingGoalsCountSelector })
+  createStructuredSelector({ remainingGoalsCount: getRemainingGoalsCount })
 )(GoalsFilters);
