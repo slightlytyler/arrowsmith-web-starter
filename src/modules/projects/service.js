@@ -1,38 +1,16 @@
-import { stringify } from 'querystring';
-import { buildResourceUrl } from 'utils/request';
+import { client } from 'api';
 import { NAME } from './constants';
 
-const endpoint = buildResourceUrl(NAME);
+const endpoint = client.buildResourceUrl(NAME);
 
-export const createRecord = name => ({
-  method: 'POST',
-  endpoint,
-  body: { name },
-});
+export const createRecord = name => client.createRecord(endpoint, { name });
 
-export const updateRecord = (id, payload) => ({
-  method: 'PATCH',
-  endpoint: `${endpoint}/${id}`,
-  body: payload,
-});
+export const updateRecord = (id, payload) => client.updateRecord(`${endpoint}/${id}`, payload);
 
-export const replaceRecord = (id, payload) => ({
-  method: 'PUT',
-  endpoint: `${endpoint}/${id}`,
-  body: payload,
-});
+export const replaceRecord = (id, payload) => client.replaceRecord(`${endpoint}/${id}`, payload);
 
-export const deleteRecord = id => ({
-  method: 'DELETE',
-  endpoint: `${endpoint}/${id}`,
-});
+export const deleteRecord = id => client.deleteRecord(`${endpoint}/${id}`);
 
-export const fetchRecord = id => ({
-  method: 'GET',
-  endpoint: `${endpoint}/${id}}`,
-});
+export const fetchRecord = id => client.fetchRecord(`${endpoint}/${id}`);
 
-export const fetchCollection = query => ({
-  method: 'GET',
-  endpoint: `${endpoint}/find/owner?${stringify(query)}`,
-});
+export const fetchCollection = query => client.fetchCollection(`${endpoint}/find/owner`, query);
