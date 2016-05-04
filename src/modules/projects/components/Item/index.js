@@ -26,8 +26,8 @@ export class ProjectsItem extends Component {
 
   edit = () => this.setState({ editing: true });
 
-  update = () => {
-    this.props.actions.updateRecord(this.props.id, { name: this.refs.input.value });
+  update = name => {
+    this.props.actions.updateRecord(this.props.id, { name });
     this.setState({ editing: false });
   };
 

@@ -17,11 +17,11 @@ export default class ProjectsItemInput extends Component {
 
   handleKeyDown = e => {
     if (keycode(e.which) === 'enter') {
-      this.props.actions.update();
+      this.props.actions.update(e.target.value);
     }
   };
 
-  handleBlur = () => this.props.actions.update();
+  handleBlur = e => this.props.actions.update(e.target.value);
 
   handleFocus = e => {
     const { target } = e;
@@ -32,7 +32,6 @@ export default class ProjectsItemInput extends Component {
     return (
       <div styleName="item--update">
         <input
-          ref="input"
           styleName="input"
           defaultValue={this.props.name}
           onKeyDown={this.handleKeyDown}
