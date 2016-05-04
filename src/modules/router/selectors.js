@@ -6,3 +6,8 @@ export const querySelector = createSelector(
   substateSelector,
   substate => substate.query
 );
+
+export const pathnameSelector = createSelector(
+  substateSelector,
+  substate => substate.pathname
+);

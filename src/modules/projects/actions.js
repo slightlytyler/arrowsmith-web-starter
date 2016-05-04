@@ -132,10 +132,10 @@ export const replaceRecord = (id, payload) => async dispatch => {
   }
 };
 
-export const deleteRecord = id => async dispatch => {
+export const deleteRecord = (id, active) => async dispatch => {
   const transactionId = generateId();
 
-  dispatch(viewIndex());
+  if (active) dispatch(viewIndex());
 
   const response = await dispatch(
     createApiAction(

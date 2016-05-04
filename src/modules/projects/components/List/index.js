@@ -7,13 +7,13 @@ import ProjectItem from '../Item';
 @cssModules(styles)
 export class ProjectsList extends Component {
   static propTypes = {
-    projectIds: PropTypes.array.isRequired,
+    ids: PropTypes.array.isRequired,
   };
 
   render() {
     return (
       <div styleName="list">
-        {this.props.projectIds.map(id => <ProjectItem key={id} id={id} />)}
+        {this.props.ids.map(id => <ProjectItem key={id} id={id} />)}
       </div>
     );
   }
@@ -24,5 +24,5 @@ import { createStructuredSelector } from 'reselect';
 import { getAllRecordIds } from 'modules/projects/selectors';
 
 export default connect(
-  createStructuredSelector({ projectIds: getAllRecordIds })
+  createStructuredSelector({ ids: getAllRecordIds })
 )(ProjectsList);
