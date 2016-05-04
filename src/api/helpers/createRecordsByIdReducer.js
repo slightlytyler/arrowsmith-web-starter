@@ -20,9 +20,6 @@ export default actionTypes => (state = {}, { type, payload, meta }) => {
     case actionTypes.FETCH_RECORD_SUCCESS:
       return assoc(state, payload.id, payload);
 
-    case actionTypes.DELETE_RECORD_SUCCESS:
-      return dissoc(state, payload.id);
-
     case actionTypes.FETCH_COLLECTION_SUCCESS:
       return { ...state, ...createRecordsById(payload.data) };
 

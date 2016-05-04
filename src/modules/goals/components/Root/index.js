@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import cssModules from 'react-css-modules';
+import { isEqual } from 'lodash';
 
 import styles from './styles.styl';
 import { filters } from 'modules/goals/constants';
@@ -26,7 +27,10 @@ export class GoalsRoot extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (this.props.projectId !== nextProps.projectId || this.props.query !== nextProps.query) {
+    const diffProjectId = this.props.projectId !== nextProps.projectId;
+    const diffQuery = !isEqual(this.props.query, nextProps.query);
+
+    if (diffProjectId || diffQuery) {
       this.props.actions.fetchCollection({
         projectId: nextProps.projectId,
         ...nextProps.query,
