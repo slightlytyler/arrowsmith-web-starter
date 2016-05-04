@@ -12,18 +12,25 @@ export class GoalsRoot extends Component {
   static propTypes = {
     activeFilter: PropTypes.oneOf(Object.values(filters)).isRequired,
     projectId: PropTypes.string.isRequired,
+    query: PropTypes.object,
     actions: PropTypes.shape({
-      fetchRecords: PropTypes.func.isRequired,
+      fetchCollection: PropTypes.func.isRequired,
     }),
   };
 
   componentWillMount() {
-    this.props.actions.fetchRecords(this.props.projectId);
+    this.props.actions.fetchCollection({
+      projectId: this.props.projectId,
+      ...this.props.query,
+    });
   }
 
   componentWillReceiveProps(nextProps) {
-    if (this.props.projectId !== nextProps.projectId) {
-      this.props.actions.fetchRecords(nextProps.projectId);
+    if (this.props.projectId !== nextProps.projectId || this.props.query !== nextProps.query) {
+      this.props.actions.fetchCollection({
+        projectId: nextProps.projectId,
+        query: nextProps.query,
+      });
     }
   }
 
@@ -46,7 +53,8 @@ export class GoalsRoot extends Component {
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { createStructuredActions } from 'utils';
-import { fetch as fetchRecords } from 'modules/goals/actions';
+import { fetchCollection } from 'modules/goals/actions';
+import { selectors as routerSelectors } from 'modules/router';
 
 const activeFilterSelector = (state, props) => props.route.filter;
 const projectIdSelector = (state, props) => props.params.projectId;
@@ -55,6 +63,7 @@ export default connect(
   createStructuredSelector({
     activeFilter: activeFilterSelector,
     projectId: projectIdSelector,
+    query: routerSelectors.querySelector,
   }),
-  createStructuredActions({ fetchRecords })
+  createStructuredActions({ fetchCollection })
 )(GoalsRoot);

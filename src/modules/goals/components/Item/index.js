@@ -4,7 +4,7 @@ import Icon from 'react-svgcon';
 
 import styles from './styles.styl';
 import checkIcon from 'assets/icons/check.svg';
-import destroyIcon from 'assets/icons/delete.svg';
+import deleteIcon from 'assets/icons/delete.svg';
 import Input from './Input';
 
 @cssModules(styles)
@@ -14,9 +14,9 @@ export class GoalsItem extends Component {
     text: PropTypes.string.isRequired,
     complete: PropTypes.bool.isRequired,
     actions: PropTypes.shape({
-      update: PropTypes.func.isRequired,
-      destroy: PropTypes.func.isRequired,
-      toggle: PropTypes.func.isRequired,
+      updateRecord: PropTypes.func.isRequired,
+      deleteRecord: PropTypes.func.isRequired,
+      toggleRecord: PropTypes.func.isRequired,
     }),
   };
 
@@ -28,16 +28,16 @@ export class GoalsItem extends Component {
 
   save = text => {
     if (text) {
-      this.props.actions.update({ text });
+      this.props.actions.updateRecord({ text });
       this.setState({ editing: false });
     } else {
-      this.props.actions.destroy();
+      this.props.actions.deleteRecord();
     }
   }
 
-  destroy = () => this.props.actions.destroy();
+  delete = () => this.props.actions.deleteRecord();
 
-  toggle = () => this.props.actions.toggle();
+  toggle = () => this.props.actions.toggleRecord();
 
   renderContent() {
     return (
@@ -62,8 +62,8 @@ export class GoalsItem extends Component {
         <div>
           {this.props.text}
         </div>
-        <div styleName="destroy" onClick={this.destroy}>
-          <Icon path={destroyIcon} color="currentColor" width="1em" />
+        <div styleName="delete" onClick={this.delete}>
+          <Icon path={deleteIcon} color="currentColor" width="1em" />
         </div>
       </div>
     );
@@ -92,9 +92,9 @@ export class GoalsItem extends Component {
 import { connect } from 'react-redux';
 import { createStructuredActions } from 'utils';
 import { findRecord } from 'modules/goals/selectors';
-import { update, destroy, toggle } from 'modules/goals/actions';
+import { updateRecord, deleteRecord, toggleRecord } from 'modules/goals/actions';
 
 export default connect(
-  findRecord,
-  createStructuredActions({ update, destroy, toggle }, 'id')
+  (state, props) => ({ ...findRecord(state, props.id) }),
+  createStructuredActions({ updateRecord, deleteRecord, toggleRecord }, 'id')
 )(GoalsItem);

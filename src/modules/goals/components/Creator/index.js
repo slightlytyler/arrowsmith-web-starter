@@ -11,7 +11,7 @@ export class GoalsCreator extends Component {
   static propTypes = {
     projectId: PropTypes.string.isRequired,
     actions: PropTypes.shape({
-      create: PropTypes.func.isRequired,
+      createRecord: PropTypes.func.isRequired,
     }),
   };
 
@@ -29,7 +29,7 @@ export class GoalsCreator extends Component {
 
   create = text => {
     if (text) {
-      this.props.actions.create(this.props.projectId, text);
+      this.props.actions.createRecord(this.props.projectId, text);
     }
 
     this.setState({ active: false });
@@ -66,10 +66,10 @@ export class GoalsCreator extends Component {
 }
 
 import { connect } from 'react-redux';
-import { create } from 'modules/goals/actions';
+import { createRecord } from 'modules/goals/actions';
 import { createStructuredActions } from 'utils';
 
 export default connect(
   undefined,
-  createStructuredActions({ create })
+  createStructuredActions({ createRecord })
 )(GoalsCreator);

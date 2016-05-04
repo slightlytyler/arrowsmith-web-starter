@@ -1,14 +1,38 @@
-import request from 'utils/request';
+import { stringify } from 'querystring';
+import { buildResourceUrl } from 'utils/request';
 import { NAME } from './constants';
 
-const endpoint = request.createEndpoint(NAME);
+const endpoint = buildResourceUrl(NAME);
 
-export const create = (projectId, text) => endpoint.createRecord({
-  text,
-  projectId,
-  complete: false,
+export const createRecord = (projectId, text) => ({
+  method: 'POST',
+  endpoint,
+  body: { projectId, text, complete: false },
 });
-export const update = (id, payload) => endpoint.updateRecord(id, payload);
-export const destroy = id => endpoint.destroyRecord(id);
-export const get = id => endpoint.getRecord(id);
-export const fetch = async projectId => endpoint.fetchRecords({ projectId });
+
+export const updateRecord = (id, payload) => ({
+  method: 'PATCH',
+  endpoint: `${endpoint}/${id}`,
+  body: payload,
+});
+
+export const replaceRecord = (id, payload) => ({
+  method: 'PUT',
+  endpoint: `${endpoint}/${id}`,
+  body: payload,
+});
+
+export const deleteRecord = id => ({
+  method: 'DELETE',
+  endpoint: `${endpoint}/${id}`,
+});
+
+export const fetchRecord = id => ({
+  method: 'GET',
+  endpoint: `${endpoint}/${id}}`,
+});
+
+export const fetchCollection = query => ({
+  method: 'GET',
+  endpoint: `${endpoint}/find/owner?${stringify(query)}`,
+});

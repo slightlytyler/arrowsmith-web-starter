@@ -127,20 +127,20 @@ import { createStructuredActions } from 'utils';
 import { findRecord } from 'modules/projects/selectors';
 import { updateRecord, deleteRecord, viewRecord } from 'modules/projects/actions';
 import {
-  recordIdsSelector as goalIdsSelector,
   recordsByIdSelector as goalsByIdSelector,
+  allRecordIdsSelector as allGoalIdsSelector,
   recordIdsByProjectIdDeriver as goalIdsByProjectIdDeriver,
-  remainingRecordIdsDeriver as remainingGoalIdsDeriver,
+  getRemainingCollectionIds as getRemainingGoalIds,
 } from 'modules/goals/selectors';
 
 const projectIdSelector = (state, props) => props.id;
 const remainingGoalsCountSelector = createSelector(
-  goalIdsSelector,
   goalsByIdSelector,
+  allGoalIdsSelector,
   projectIdSelector,
-  (goalIds, goalsById, projectId) => remainingGoalIdsDeriver(
-    goalIdsByProjectIdDeriver(goalIds, goalsById, projectId),
-    goalsById
+  (goalsById, goalIds, projectId) => getRemainingGoalIds(
+    goalsById,
+    goalIdsByProjectIdDeriver(goalIds, goalsById, projectId)
   ).length
 );
 

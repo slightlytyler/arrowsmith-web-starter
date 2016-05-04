@@ -20,28 +20,20 @@ export class GoalsList extends Component {
 }
 
 import { connect } from 'react-redux';
-import { createSelector, createStructuredSelector } from 'reselect';
-import {
-  recordIdsSelector,
-  recordsByIdSelector,
-  recordIdsByProjectIdDeriver,
-  filteredRecordIdsDeriver,
-} from 'modules/goals/selectors';
+import { findCollection, getFilteredCollectionIds } from 'modules/goals/selectors';
 
-const projectIdSelector = (state, props) => props.projectId;
-const activeFilterSelector = (state, props) => props.activeFilter;
-const goalsSelector = createSelector(
-  recordIdsSelector,
-  recordsByIdSelector,
-  projectIdSelector,
-  activeFilterSelector,
-  (recordIds, recordsById, projectId, activeFilter) => filteredRecordIdsDeriver(
-    recordIdsByProjectIdDeriver(recordIds, recordsById, projectId),
-    recordsById,
-    activeFilter
-  )
-);
+const getProjectId = props => props.projectId;
+const getActiveFilter = props => props.activeFilter;
 
 export default connect(
-  createStructuredSelector({ goalIds: goalsSelector })
+  (state, props) => {
+    const collection = findCollection(state, { projectId: getProjectId(props) });
+    const collectionIds = collection ? collection.ids : [];
+    const activeFilter = getActiveFilter(props);
+    const filteredCollectionIds = getFilteredCollectionIds(state, collectionIds, activeFilter);
+
+    return {
+      goalIds: filteredCollectionIds,
+    };
+  }
 )(GoalsList);

@@ -63,20 +63,20 @@ export class GoalsFilters extends Component {
 import { connect } from 'react-redux';
 import { createSelector, createStructuredSelector } from 'reselect';
 import {
-  recordIdsSelector,
   recordsByIdSelector,
+  allRecordIdsSelector,
   recordIdsByProjectIdDeriver,
-  remainingRecordIdsDeriver,
+  getRemainingCollectionIds,
 } from 'modules/goals/selectors';
 
 const projectIdSelector = (state, props) => props.projectId;
 const remainingGoalsCountSelector = createSelector(
-  recordIdsSelector,
   recordsByIdSelector,
+  allRecordIdsSelector,
   projectIdSelector,
-  (recordIds, recordsById, projectId) => remainingRecordIdsDeriver(
-    recordIdsByProjectIdDeriver(recordIds, recordsById, projectId),
-    recordsById
+  (recordsById, recordIds, projectId) => getRemainingCollectionIds(
+    recordsById,
+    recordIdsByProjectIdDeriver(recordIds, recordsById, projectId)
   ).length
 );
 
