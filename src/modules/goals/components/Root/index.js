@@ -29,7 +29,7 @@ export class GoalsRoot extends Component {
     if (this.props.projectId !== nextProps.projectId || this.props.query !== nextProps.query) {
       this.props.actions.fetchCollection({
         projectId: nextProps.projectId,
-        query: nextProps.query,
+        ...nextProps.query,
       });
     }
   }
