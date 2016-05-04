@@ -36,8 +36,8 @@ export class Editor extends Component {
 }
 
 import { connect } from 'react-redux';
-import { allRecordIdsSelector } from 'modules/projects/selectors';
+import { getAllRecordIds } from 'modules/projects/selectors';
 
 export default connect(
-  state => ({ hasProjects: allRecordIdsSelector(state).length > 0 })
+  state => ({ hasProjects: getAllRecordIds(state).length > 0 })
 )(Editor);

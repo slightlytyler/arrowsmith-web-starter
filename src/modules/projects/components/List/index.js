@@ -21,8 +21,8 @@ export class ProjectsList extends Component {
 
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
-import { allRecordIdsSelector } from 'modules/projects/selectors';
+import { getAllRecordIds } from 'modules/projects/selectors';
 
 export default connect(
-  createStructuredSelector({ projectIds: allRecordIdsSelector })
+  createStructuredSelector({ projectIds: getAllRecordIds })
 )(ProjectsList);

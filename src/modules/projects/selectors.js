@@ -1,37 +1,25 @@
 import { createSelector } from 'reselect';
-import { isEqual } from 'lodash';
+import {
+  createFindCollectionSelector,
+  createAllRecordIdsSelector,
+  createFindRecordSelector,
+} from 'api/helpers';
 import { NAME } from './constants';
 
-export const substateSelector = state => state[NAME];
+export const getSubstate = state => state[NAME];
 
-export const collectionsSelector = createSelector(
-  substateSelector,
+export const getCollections = createSelector(
+  getSubstate,
   substate => substate.collections
 );
 
-export const findCollection = createSelector(
-  collectionsSelector,
-  (state, query) => query,
-  (collections, query) => collections.find(c => isEqual(c.query, query)),
-);
-
-export const recordsByIdSelector = createSelector(
-  substateSelector,
+export const getRecordsById = createSelector(
+  getSubstate,
   substate => substate.recordsById,
 );
 
-export const allRecordIdsSelector = createSelector(
-  recordsByIdSelector,
-  recordsById => Object.keys(recordsById)
-);
+export const findCollection = createFindCollectionSelector(getCollections);
 
-export const allRecordsSelector = createSelector(
-  recordsByIdSelector,
-  recordsById => Object.values(recordsById)
-);
+export const findRecord = createFindRecordSelector(getRecordsById);
 
-export const findRecord = createSelector(
-  recordsByIdSelector,
-  (state, id) => id,
-  (recordsById, id) => recordsById[id],
-);
+export const getAllRecordIds = createAllRecordIdsSelector(getRecordsById);
