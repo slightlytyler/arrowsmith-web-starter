@@ -1,8 +1,11 @@
 import stripe from 'stripe';
-import { mapKeys, snakeCase, camelCase } from 'lodash';
-import request from 'utils/request';
+import { mapKeys, snakeCase } from 'lodash';
+import { client } from 'api';
+import { NAME } from './constants';
 
-export const create = async (userId, card) => {
+const endpoint = userId => client.buildApiUrl('stripe', `customers/${userId}/${NAME}`);
+
+export const createRecord = async (userId, card) => {
   const token = await new Promise((resolve, reject) =>
     stripe.card.createToken(
       mapKeys(card, (value, key) => snakeCase(key)
@@ -13,22 +16,9 @@ export const create = async (userId, card) => {
     })
   );
 
-  return request.post('stripe', `customers/${userId}/cards`, { token });
+  return client.createRecord(endpoint(userId), { token });
 };
 
-export const update = async (userId, payload) => {
-  const response = await request.put('stripe', `customers/${userId}/cards`, payload);
-  return response.data;
-};
+export const updateRecord = (userId, payload) => client.replaceRecord(endpoint(userId), payload);
 
-export const get = async userId => {
-  const response = await request.get(
-    'stripe',
-    `customers/${userId}/cards`
-  );
-  const record = mapKeys(response.data, (value, key) => camelCase(key));
-  record.id = record.cardId;
-  delete record.cardId;
-
-  return record;
-};
+export const fetchRecord = userId => client.fetchRecord(endpoint(userId));

@@ -1,19 +1,12 @@
 import { createSelector } from 'reselect';
+import { createAllRecordIdsSelector } from 'api/helpers';
+import { NAME } from './constants';
 
-export const substateSelector = state => state.cards;
+export const getSubState = state => state[NAME];
 
-export const recordIdsSelector = createSelector(
-  substateSelector,
-  cards => cards.recordIds
-);
-
-export const recordsByIdSelector = createSelector(
-  substateSelector,
+export const getRecordsById = createSelector(
+  getSubState,
   cards => cards.recordsById
 );
 
-export const findRecord = createSelector(
-  recordsByIdSelector,
-  (state, id) => id,
-  (recordsById, id) => recordsById[id],
-);
+export const getAllRecordsById = createAllRecordIdsSelector(getRecordsById);

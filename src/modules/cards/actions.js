@@ -1,9 +1,36 @@
-import { createAction } from 'redux-actions';
+import { mapKeys, camelCase } from 'lodash';
+import { createApiAction } from 'api/helpers';
 import * as actionTypes from './actionTypes';
 import * as service from './service';
+import { selectors as userSelectors } from 'modules/user';
 
-export const create = createAction(actionTypes.CREATE, service.create);
-export const update = createAction(actionTypes.UPDATE, service.update);
+export const createRecord = (userId, card) => createApiAction(
+  actionTypes.api.createRecord,
+  service.createRecord
+)(userId, card);
 
-const _get = createAction(actionTypes.GET, service.get);
-export const get = () => (dispatch, getState) => dispatch(_get(getState().user.id));
+export const updateRecord = payload => (dispatch, getState) => dispatch(
+  createApiAction(
+    actionTypes.api.updateRecord,
+    service.updateRecord
+  )(userSelectors.getId(getState()), payload)
+);
+
+export const fetchRecord = () => (dispatch, getState) => dispatch(
+  createApiAction(
+    actionTypes.api.fetchRecord,
+    service.fetchRecord,
+    {
+      success: {
+        payload: async (action, state, res) => {
+          let response = await res.json();
+          response = mapKeys(response, (value, key) => camelCase(key));
+          response.id = response.cardId;
+          delete response.cardId;
+
+          return response;
+        },
+      },
+    }
+  )(userSelectors.getId(getState()))
+);

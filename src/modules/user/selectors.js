@@ -6,6 +6,7 @@ export const idSelector = createSelector(
   substateSelector,
   user => user.id
 );
+export const getId = idSelector;
 export const emailSelector = createSelector(
   substateSelector,
   user => user.email

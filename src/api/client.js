@@ -1,6 +1,6 @@
 import { stringify } from 'querystring';
 
-export { buildResourceUrl } from 'utils/request';
+export { buildApiUrl, buildResourceUrl } from 'utils/request';
 
 export const createRecord = (endpoint, body) => ({
   method: 'POST',
@@ -32,5 +32,5 @@ export const fetchRecord = endpoint => ({
 
 export const fetchCollection = (endpoint, query) => ({
   method: 'GET',
-  endpoint: `${endpoint}?${stringify(query)}`,
+  endpoint: query ? `${endpoint}?${stringify(query)}` : endpoint,
 });
