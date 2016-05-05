@@ -1,13 +1,28 @@
-import { mapKeys, camelCase } from 'lodash';
+import stripe from 'stripe';
+import { mapKeys, camelCase, snakeCase } from 'lodash';
 import { createApiAction } from 'api/helpers';
 import * as actionTypes from './actionTypes';
 import * as service from './service';
 import { selectors as userSelectors } from 'modules/user';
 
-export const createRecord = (userId, card) => createApiAction(
-  actionTypes.api.createRecord,
-  service.createRecord
-)(userId, card);
+export const createRecord = (userId, card) => async dispatch => {
+  const token = await new Promise((resolve, reject) =>
+    stripe.card.createToken(
+      mapKeys(card, (value, key) => snakeCase(key)
+    ),
+    (status, response) => {
+      if (response.error) reject(response.error.message);
+      else resolve(response.id);
+    })
+  );
+
+  return dispatch(
+    createApiAction(
+      actionTypes.api.createRecord,
+      service.createRecord
+    )(userId, token)
+  );
+};
 
 export const updateRecord = payload => (dispatch, getState) => dispatch(
   createApiAction(

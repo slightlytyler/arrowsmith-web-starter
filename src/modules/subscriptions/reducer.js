@@ -1,8 +1,7 @@
 import { combineReducers } from 'redux';
-import { recordIds, recordsById } from 'reducers/generators';
+import { createRecordsByIdReducer } from 'api/helpers';
 import * as actionTypes from './actionTypes';
 
 export default combineReducers({
-  recordIds: recordIds(actionTypes),
-  recordsById: recordsById(actionTypes),
+  recordsById: createRecordsByIdReducer(actionTypes.api),
 });
