@@ -5,7 +5,7 @@ export class NotificationsRoot extends Component {
   static propTypes = {
     notifications: PropTypes.array.isRequired,
     actions: PropTypes.shape({
-      pull: PropTypes.func.isRequired,
+      pop: PropTypes.func.isRequired,
     }),
   };
 
@@ -21,7 +21,7 @@ export class NotificationsRoot extends Component {
     if (notifications.length) {
       notifications.forEach(notification => {
         this.addNotification(notification);
-        this.props.actions.pull(notification.uid);
+        this.props.actions.pop(notification.uid);
       });
     }
   }
@@ -38,11 +38,11 @@ export class NotificationsRoot extends Component {
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { createStructuredActions } from 'utils';
-import { pull } from 'modules/notifications/actions';
+import { pop } from 'modules/notifications/actions';
 
 const notificationsSelector = state => state.notifications;
 
 export default connect(
   createStructuredSelector({ notifications: notificationsSelector }),
-  createStructuredActions({ pull })
+  createStructuredActions({ pop })
 )(NotificationsRoot);

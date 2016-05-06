@@ -6,7 +6,7 @@ export const push = notification => ({
   payload: { ...notification, uid: generateId() },
 });
 
-export const pull = uid => ({
-  type: actionTypes.PULL,
+export const pop = uid => ({
+  type: actionTypes.POP,
   payload: { uid },
 });

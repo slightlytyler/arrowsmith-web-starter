@@ -5,7 +5,7 @@ export default (state = [], { type, payload }) => {
     case actionTypes.PUSH:
       return [...state, payload];
 
-    case actionTypes.PULL:
+    case actionTypes.POP:
       return state.filter(n => n.uid !== payload.uid);
 
     default:
