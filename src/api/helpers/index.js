@@ -1,5 +1,5 @@
 export createApiActionTypes from './createApiActionTypes';
-export createApiAction from './createApiAction';
+export createApiActionSet from './createApiActionSet';
 export createCollectionsReducer from './createCollectionsReducer';
 export createRecordsByIdReducer from './createRecordsByIdReducer';
 export createFindCollectionSelector from './createFindCollectionSelector';
