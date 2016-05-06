@@ -9,6 +9,10 @@ export default moduleActionTypes => (state = {}, { type, payload }) => {
   switch (type) {
     case actionTypes.createRecord.pending:
     case actionTypes.replaceRecord.pending:
+    case actionTypes.createRecord.success:
+    case actionTypes.updateRecord.success:
+    case actionTypes.replaceRecord.success:
+    case actionTypes.fetchRecord.success:
       return assoc(state, payload.id, payload);
 
     case actionTypes.updateRecord.pending:
@@ -16,12 +20,6 @@ export default moduleActionTypes => (state = {}, { type, payload }) => {
 
     case actionTypes.deleteRecord.pending:
       return dissoc(state, payload.id);
-
-    case actionTypes.createRecord.success:
-    case actionTypes.updateRecord.success:
-    case actionTypes.replaceRecord.success:
-    case actionTypes.fetchRecord.success:
-      return assoc(state, payload.id, payload);
 
     case actionTypes.fetchCollection.success:
       return { ...state, ...createRecordsById(payload.ids) };

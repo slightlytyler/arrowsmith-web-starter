@@ -5,9 +5,10 @@ import * as service from './service';
 import { findRecord } from './selectors';
 import { actions as notificationActions } from 'modules/notifications';
 
-export const createRecord = (projectId, text) => async dispatch => {
+export const createRecord = (projectId, text) => async (dispatch, getState) => {
   const transactionId = generateId();
   const record = { projectId, text, complete: false };
+  const currentQuery = getState().goals.currentQuery;
 
   dispatch({
     type: actionTypes.createRecord.pending,
@@ -17,6 +18,7 @@ export const createRecord = (projectId, text) => async dispatch => {
     },
     meta: {
       optimistic: { type: BEGIN, id: transactionId },
+      currentQuery,
     },
   });
 
@@ -28,6 +30,7 @@ export const createRecord = (projectId, text) => async dispatch => {
       payload,
       meta: {
         optimistic: { type: REVERT, id: transactionId },
+        currentQuery,
       },
     });
   } catch (error) {

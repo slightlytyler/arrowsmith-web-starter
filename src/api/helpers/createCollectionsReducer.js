@@ -7,10 +7,32 @@ const currentColletionIndex = (collections, query) => (
 );
 
 // Create reducer for handling collections of remote records
-export default moduleActionTypes => (state = [], { type, payload }) => {
+export default moduleActionTypes => (state = [], { type, payload, meta }) => {
   const actionTypes = { ...actionTypesShape, ...moduleActionTypes };
 
   switch (type) {
+    case actionTypes.createRecord.pending:
+    case actionTypes.createRecord.success: {
+      const index = currentColletionIndex(state, meta.currentQuery);
+
+      if (index !== -1) {
+        const currentCollection = state[index];
+
+        return assoc(state, index, {
+          ...currentCollection,
+          ids: [...currentCollection.ids, payload.id],
+        });
+      }
+
+      return state;
+    }
+
+    case actionTypes.deleteRecord.pending: {
+      return state.map(collection =>
+        assoc(collection, 'ids', without(collection.ids, payload.id))
+      );
+    }
+
     case actionTypes.fetchCollection.pending: {
       const index = currentColletionIndex(state, payload.query);
 
@@ -36,12 +58,6 @@ export default moduleActionTypes => (state = [], { type, payload }) => {
         loading: false,
         ids: payload.ids.map(record => record.id),
       });
-    }
-
-    case actionTypes.deleteRecord.pending: {
-      return state.map(collection =>
-        assoc(collection, 'ids', without(collection.ids, payload.id))
-      );
     }
 
     default:
