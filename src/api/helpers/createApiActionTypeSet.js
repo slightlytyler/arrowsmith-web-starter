@@ -4,5 +4,5 @@ const statuses = ['pending', 'success', 'failure'];
 
 export default (NAME, type) => zipObject(
   statuses,
-  statuses.map(status => `${NAME}/${type}/${status.toUpperCase}`)
+  statuses.map(status => `${NAME}/${type}/${status.toUpperCase()}`)
 );

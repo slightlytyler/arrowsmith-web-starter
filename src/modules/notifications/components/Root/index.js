@@ -38,11 +38,10 @@ export class NotificationsRoot extends Component {
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { createStructuredActions } from 'utils';
+import { getSubstate } from 'modules/notifications/selectors';
 import { pop } from 'modules/notifications/actions';
 
-const notificationsSelector = state => state.notifications;
-
 export default connect(
-  createStructuredSelector({ notifications: notificationsSelector }),
+  createStructuredSelector({ notifications: getSubstate }),
   createStructuredActions({ pop })
 )(NotificationsRoot);
