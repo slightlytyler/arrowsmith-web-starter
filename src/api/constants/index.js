@@ -1,0 +1,1 @@
+export actionTypesShape from './actionTypesShape';

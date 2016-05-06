@@ -98,7 +98,7 @@ export const helpers = {
   },
 };
 
-export const createEndpoint = endpoint => ({
+export const createService = endpoint => ({
   createRecord: payload => helpers.createRecord(endpoint, payload),
   updateRecord: (id, payload) => helpers.updateRecord(endpoint, id, payload),
   deleteRecord: id => helpers.deleteRecord(endpoint, id),
@@ -106,4 +106,4 @@ export const createEndpoint = endpoint => ({
   fetchCollection: query => helpers.fetchCollection(endpoint, query),
 });
 
-export default { ...request, ...helpers, createEndpoint, registerToken, unregisterToken };
+export default { ...request, ...helpers, createService, registerToken, unregisterToken };

@@ -1,12 +1,12 @@
-import { createEndpoint } from 'utils/request';
+import { createService } from 'utils/request';
 import { NAME } from './constants';
 
-const endpoint = createEndpoint(NAME);
+const service = createService(NAME);
 
-export const createRecord = payload => endpoint.createRecord(payload);
+export const createRecord = payload => service.createRecord(payload);
 
-export const updateRecord = (id, payload) => endpoint.updateRecord(id, payload);
+export const updateRecord = (id, payload) => service.updateRecord(id, payload);
 
-export const deleteRecord = id => endpoint.deleteRecord(id);
+export const deleteRecord = id => service.deleteRecord(id);
 
-export const fetchCollection = query => endpoint.fetchCollection(query);
+export const fetchCollection = query => service.fetchCollection(query);

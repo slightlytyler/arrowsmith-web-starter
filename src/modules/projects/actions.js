@@ -33,6 +33,8 @@ export const createRecord = name => async dispatch => {
         optimistic: { type: REVERT, id: transactionId },
       },
     });
+
+    dispatch(viewRecord(payload.id));
   } catch (error) {
     dispatch({
       type: actionTypes.createRecord.failure,
@@ -96,6 +98,8 @@ export const deleteRecord = (id, active) => async dispatch => {
       optimistic: { type: BEGIN, id: transactionId },
     },
   });
+
+  if (active) dispatch(viewIndex());
 
   try {
     const payload = await service.deleteRecord(id);

@@ -1,14 +1,17 @@
 import { findIndex, isEqual, without } from 'lodash';
 import { assoc } from 'react-update-in';
+import { actionTypesShape } from '../constants';
 
 const currentColletionIndex = (collections, query) => (
   findIndex(collections, c => isEqual(c.query, query))
 );
 
 // Create reducer for handling collections of remote records
-export default actionTypes => (state = [], { type, payload, meta }) => {
+export default moduleActionTypes => (state = [], { type, payload }) => {
+  const actionTypes = { ...actionTypesShape, ...moduleActionTypes };
+
   switch (type) {
-    case actionTypes.FETCH_COLLECTION_REQUEST: {
+    case actionTypes.fetchCollection.pending: {
       const index = currentColletionIndex(state, payload.query);
 
       if (index !== -1) {
@@ -25,19 +28,19 @@ export default actionTypes => (state = [], { type, payload, meta }) => {
       }];
     }
 
-    case actionTypes.FETCH_COLLECTION_SUCCESS: {
+    case actionTypes.fetchCollection.success: {
       const index = currentColletionIndex(state, payload.query);
 
       return assoc(state, index, {
         ...state[index],
         loading: false,
-        ids: payload.data.map(record => record.id),
+        ids: payload.ids.map(record => record.id),
       });
     }
 
-    case actionTypes.DELETE_RECORD_REQUEST: {
+    case actionTypes.deleteRecord.pending: {
       return state.map(collection =>
-        assoc(collection, 'ids', without(collection.ids, meta.optimistic.payload.id))
+        assoc(collection, 'ids', without(collection.ids, payload.id))
       );
     }
 
