@@ -11,12 +11,13 @@ export const viewIndex = () => pushRoute('/projects');
 
 export const createRecord = name => async dispatch => {
   const transactionId = generateId();
+  const record = { name };
 
   dispatch({
     type: actionTypes.createRecord.pending,
     payload: {
       id: transactionId,
-      name,
+      ...record,
     },
     meta: {
       optimistic: { type: BEGIN, id: transactionId },
@@ -24,7 +25,7 @@ export const createRecord = name => async dispatch => {
   });
 
   try {
-    const payload = await service.createRecord({ name });
+    const payload = await service.createRecord(record);
 
     dispatch({
       type: actionTypes.createRecord.success,
@@ -51,19 +52,19 @@ export const createRecord = name => async dispatch => {
   }
 };
 
-export const updateRecord = (id, data) => async dispatch => {
+export const updateRecord = (id, attrs) => async dispatch => {
   const transactionId = generateId();
 
   dispatch({
     type: actionTypes.updateRecord.pending,
-    payload: { id, ...data },
+    payload: { id, ...attrs },
     meta: {
       optimistic: { type: BEGIN, id: transactionId },
     },
   });
 
   try {
-    const payload = await service.updateRecord(id, data);
+    const payload = await service.updateRecord(id, attrs);
 
     dispatch({
       type: actionTypes.updateRecord.success,

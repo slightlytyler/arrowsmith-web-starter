@@ -7,14 +7,13 @@ import { actions as notificationActions } from 'modules/notifications';
 
 export const createRecord = (projectId, text) => async dispatch => {
   const transactionId = generateId();
+  const record = { projectId, text, complete: false };
 
   dispatch({
     type: actionTypes.createRecord.pending,
     payload: {
       id: transactionId,
-      projectId,
-      text,
-      complete: false,
+      ...record,
     },
     meta: {
       optimistic: { type: BEGIN, id: transactionId },
@@ -22,11 +21,7 @@ export const createRecord = (projectId, text) => async dispatch => {
   });
 
   try {
-    const payload = await service.createRecord({
-      projectId,
-      text,
-      complete: false,
-    });
+    const payload = await service.createRecord(record);
 
     dispatch({
       type: actionTypes.createRecord.success,
@@ -51,19 +46,19 @@ export const createRecord = (projectId, text) => async dispatch => {
   }
 };
 
-export const updateRecord = (id, data) => async dispatch => {
+export const updateRecord = (id, attrs) => async dispatch => {
   const transactionId = generateId();
 
   dispatch({
     type: actionTypes.updateRecord.pending,
-    payload: { id, ...data },
+    payload: { id, ...attrs },
     meta: {
       optimistic: { type: BEGIN, id: transactionId },
     },
   });
 
   try {
-    const payload = await service.updateRecord(id, data);
+    const payload = await service.updateRecord(id, attrs);
 
     dispatch({
       type: actionTypes.updateRecord.success,
