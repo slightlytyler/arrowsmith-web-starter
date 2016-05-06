@@ -1,7 +1,4 @@
-import { createApiActionTypes } from 'api/helpers';
 import { NAME } from './constants';
-
-export const api = createApiActionTypes(NAME);
 
 export const createRecord = {
   pending: `${NAME}/CREATE_RECORD/PENDING`,

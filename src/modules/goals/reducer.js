@@ -3,6 +3,6 @@ import { createCollectionsReducer, createRecordsByIdReducer } from 'api/helpers'
 import * as actionTypes from './actionTypes';
 
 export default combineReducers({
-  collections: createCollectionsReducer(actionTypes.api),
-  recordsById: createRecordsByIdReducer(actionTypes.api),
+  collections: createCollectionsReducer(actionTypes),
+  recordsById: createRecordsByIdReducer(actionTypes),
 });
