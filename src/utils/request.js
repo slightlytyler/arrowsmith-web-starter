@@ -84,15 +84,15 @@ export const helpers = {
     const response = await request.patch('cobject', `${endpoint}/${id}`, payload);
     return deserialize(response.data);
   },
-  destroyRecord: async (endpoint, id) => {
+  deleteRecord: async (endpoint, id) => {
     const response = await request.delete('cobject', `${endpoint}/${id}`);
     return deserialize(response.data);
   },
-  getRecord: async (endpoint, id) => {
+  fetchRecord: async (endpoint, id) => {
     const response = await request.get('cobject', `${endpoint}/${id}`);
     return deserialize(response.data);
   },
-  fetchRecords: async (endpoint, query) => {
+  fetchCollection: async (endpoint, query) => {
     const response = await request.get('cobject', `${endpoint}/find/owner`, query);
     return deserialize(response.data.data);
   },
@@ -101,9 +101,9 @@ export const helpers = {
 export const createEndpoint = endpoint => ({
   createRecord: payload => helpers.createRecord(endpoint, payload),
   updateRecord: (id, payload) => helpers.updateRecord(endpoint, id, payload),
-  destroyRecord: id => helpers.destroyRecord(endpoint, id),
-  getRecord: id => helpers.getRecord(endpoint, id),
-  fetchRecords: query => helpers.fetchRecords(endpoint, query),
+  deleteRecord: id => helpers.deleteRecord(endpoint, id),
+  fetchRecord: id => helpers.fetchRecord(endpoint, id),
+  fetchCollection: query => helpers.fetchCollection(endpoint, query),
 });
 
 export default { ...request, ...helpers, createEndpoint, registerToken, unregisterToken };

@@ -1,7 +1,6 @@
 import { push as pushRoute } from 'react-router-redux';
 import { BEGIN, COMMIT, REVERT } from 'redux-optimist';
 import generateId from 'shortid';
-import { createApiAction } from 'api/helpers';
 import * as actionTypes from './actionTypes';
 import * as service from './service';
 import { actions as notificationActions } from 'modules/notifications';
@@ -13,120 +12,75 @@ export const viewIndex = () => pushRoute('/projects');
 export const createRecord = name => async dispatch => {
   const transactionId = generateId();
 
-  const response = await dispatch(
-    createApiAction(
-      actionTypes.api.createRecord,
-      service.createRecord,
-      {
-        request: {
-          meta: {
-            optimistic: {
-              type: BEGIN,
-              id: transactionId,
-              payload: {
-                id: transactionId,
-                name,
-              },
-            },
-          },
-        },
-        success: {
-          meta: {
-            optimistic: { type: REVERT, id: transactionId },
-          },
-        },
-        failure: {
-          meta: {
-            optimistic: { type: REVERT, id: transactionId },
-          },
-        },
-      }
-    )(name)
-  );
+  dispatch({
+    type: actionTypes.createRecord.pending,
+    payload: {
+      id: transactionId,
+      name,
+    },
+    meta: {
+      optimistic: { type: BEGIN, id: transactionId },
+    },
+  });
 
-  if (response.error) {
+  try {
+    const payload = await service.createRecord({ name });
+
+    dispatch({
+      type: actionTypes.createRecord.success,
+      payload,
+      meta: {
+        optimistic: { type: REVERT, id: transactionId },
+      },
+    });
+  } catch (error) {
+    dispatch({
+      type: actionTypes.createRecord.failure,
+      payload: { error },
+      meta: {
+        optimistic: { type: REVERT, id: transactionId },
+      },
+    });
+
     dispatch(notificationActions.push({
-      message: `Could not create project. ${response.payload.name}`,
-      level: 'error',
-    }));
-  } else {
-    dispatch(viewRecord(response.payload.id));
-  }
-};
-
-export const updateRecord = (id, payload) => async dispatch => {
-  const transactionId = generateId();
-
-  const response = await dispatch(
-    createApiAction(
-      actionTypes.api.updateRecord,
-      service.updateRecord,
-      {
-        request: {
-          meta: {
-            optimistic: {
-              type: BEGIN,
-              id: transactionId,
-              payload: { id, ...payload },
-            },
-          },
-        },
-        success: {
-          meta: {
-            optimistic: { type: REVERT, id: transactionId },
-          },
-        },
-        failure: {
-          meta: {
-            optimistic: { type: REVERT, id: transactionId },
-          },
-        },
-      }
-    )(id, payload)
-  );
-
-  if (response.error) {
-    dispatch(notificationActions.push({
-      message: `Could not update project. ${response.payload.name}`,
+      message: `Could not create project. ${error.data.error.message}`,
       level: 'error',
     }));
   }
 };
 
-export const replaceRecord = (id, payload) => async dispatch => {
+export const updateRecord = (id, data) => async dispatch => {
   const transactionId = generateId();
 
-  const response = await dispatch(
-    createApiAction(
-      actionTypes.api.replaceRecord,
-      service.replaceRecord,
-      {
-        request: {
-          meta: {
-            optimistic: {
-              type: BEGIN,
-              id: transactionId,
-              payload: { id, ...payload },
-            },
-          },
-        },
-        success: {
-          meta: {
-            optimistic: { type: REVERT, id: transactionId },
-          },
-        },
-        failure: {
-          meta: {
-            optimistic: { type: REVERT, id: transactionId },
-          },
-        },
-      }
-    )(id, payload)
-  );
+  dispatch({
+    type: actionTypes.updateRecord.pending,
+    payload: { id, ...data },
+    meta: {
+      optimistic: { type: BEGIN, id: transactionId },
+    },
+  });
 
-  if (response.error) {
+  try {
+    const payload = await service.updateRecord(id, data);
+
+    dispatch({
+      type: actionTypes.updateRecord.success,
+      payload,
+      meta: {
+        optimistic: { type: REVERT, id: transactionId },
+      },
+    });
+  } catch (error) {
+    dispatch({
+      type: actionTypes.updateRecord.failure,
+      payload: { error },
+      meta: {
+        optimistic: { type: REVERT, id: transactionId },
+      },
+    });
+
     dispatch(notificationActions.push({
-      message: `Could not replace project. ${response.payload.name}`,
+      message: `Could not update project. ${error.data.error.message}`,
       level: 'error',
     }));
   }
@@ -135,80 +89,61 @@ export const replaceRecord = (id, payload) => async dispatch => {
 export const deleteRecord = (id, active) => async dispatch => {
   const transactionId = generateId();
 
-  if (active) dispatch(viewIndex());
+  dispatch({
+    type: actionTypes.deleteRecord.pending,
+    payload: { id },
+    meta: {
+      optimistic: { type: BEGIN, id: transactionId },
+    },
+  });
 
-  const response = await dispatch(
-    createApiAction(
-      actionTypes.api.deleteRecord,
-      service.deleteRecord,
-      {
-        request: {
-          meta: {
-            optimistic: {
-              type: BEGIN,
-              id: transactionId,
-              payload: { id },
-            },
-          },
-        },
-        success: {
-          meta: {
-            optimistic: { type: COMMIT, id: transactionId },
-          },
-        },
-        failure: {
-          meta: {
-            optimistic: { type: REVERT, id: transactionId },
-          },
-        },
-      }
-    )(id)
-  );
+  try {
+    const payload = await service.deleteRecord(id);
 
-  if (response.error) {
+    dispatch({
+      type: actionTypes.deleteRecord.success,
+      payload,
+      meta: {
+        optimistic: { type: COMMIT, id: transactionId },
+      },
+    });
+  } catch (error) {
+    dispatch({
+      type: actionTypes.deleteRecord.failure,
+      payload: { error },
+      meta: {
+        optimistic: { type: REVERT, id: transactionId },
+      },
+    });
+
     dispatch(notificationActions.push({
-      message: `Could not delete project. ${response.payload.name}`,
+      message: `Could not delete project. ${error.data.error.message}`,
       level: 'error',
     }));
   }
 };
 
-export const fetchRecord = id => async dispatch => {
-  const response = await dispatch(
-    createApiAction(
-      actionTypes.api.fetchRecord,
-      service.fetchRecord,
-    )(id)
-  );
+export const fetchCollection = (query = { per_page: 10000 }) => async dispatch => {
+  dispatch({
+    type: actionTypes.fetchCollection.pending,
+    payload: { query },
+  });
 
-  if (response.error) {
+  try {
+    const payload = await service.fetchCollection(query);
+
+    dispatch({
+      type: actionTypes.fetchCollection.success,
+      payload: { query, ids: payload },
+    });
+  } catch (error) {
+    dispatch({
+      type: actionTypes.fetchCollection.failure,
+      payload: { query },
+    });
+
     dispatch(notificationActions.push({
-      message: `Could not fetch project. ${response.payload.name}`,
-      level: 'error',
-    }));
-  }
-};
-
-export const fetchCollection = query => async dispatch => {
-  const response = await dispatch(
-    createApiAction(
-      actionTypes.api.fetchCollection,
-      service.fetchCollection,
-      {
-        request: { payload: { query } },
-        success: {
-          payload: (action, state, res) => (
-            res.json().then(json => Object.assign({}, json, { query }))
-          ),
-        },
-        failure: { payload: { query } },
-      }
-    )(query)
-  );
-
-  if (response.error) {
-    dispatch(notificationActions.push({
-      message: `Could not fetch project collection. ${response.payload.name}`,
+      message: `Could not fetch project collection. ${error.data.error.message}`,
       level: 'error',
     }));
   }

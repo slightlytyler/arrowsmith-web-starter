@@ -1,16 +1,12 @@
-import { client } from 'api';
+import { createEndpoint } from 'utils/request';
 import { NAME } from './constants';
 
-const endpoint = client.buildResourceUrl(NAME);
+const endpoint = createEndpoint(NAME);
 
-export const createRecord = name => client.createRecord(endpoint, { name });
+export const createRecord = payload => endpoint.createRecord(payload);
 
-export const updateRecord = (id, payload) => client.updateRecord(`${endpoint}/${id}`, payload);
+export const updateRecord = (id, payload) => endpoint.updateRecord(id, payload);
 
-export const replaceRecord = (id, payload) => client.replaceRecord(`${endpoint}/${id}`, payload);
+export const deleteRecord = id => endpoint.deleteRecord(id);
 
-export const deleteRecord = id => client.deleteRecord(`${endpoint}/${id}`);
-
-export const fetchRecord = id => client.fetchRecord(`${endpoint}/${id}`);
-
-export const fetchCollection = query => client.fetchCollection(`${endpoint}/find/owner`, query);
+export const fetchCollection = query => endpoint.fetchCollection(query);
