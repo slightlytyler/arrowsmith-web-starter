@@ -1,9 +1,58 @@
-import { createAction } from 'redux-actions';
 import * as actionTypes from './actionTypes';
 import * as service from './service';
 
-export const create = createAction(actionTypes.CREATE, service.create);
-export const update = createAction(actionTypes.UPDATE, service.update);
+export const createRecord = (userId, card) => async dispatch => {
+  dispatch({ type: actionTypes.createRecord.pending });
 
-const _get = createAction(actionTypes.GET, service.get);
-export const get = () => (dispatch, getState) => dispatch(_get(getState().user.id));
+  try {
+    const payload = await service.createRecord(userId, card);
+
+    dispatch({
+      type: actionTypes.createRecord.success,
+      payload,
+    });
+  } catch (error) {
+    dispatch({
+      type: actionTypes.createRecord.failure,
+      payload: { error },
+    });
+  }
+};
+
+export const updateRecord = (userId, card) => async dispatch => {
+  dispatch({ type: actionTypes.updateRecord.pending });
+
+  try {
+    const payload = await service.updateRecord(userId, card);
+
+    dispatch({
+      type: actionTypes.updateRecord.success,
+      payload,
+    });
+  } catch (error) {
+    dispatch({
+      type: actionTypes.updateRecord.failure,
+      payload: { error },
+    });
+  }
+};
+
+export const fetchRecord = () => async (dispatch, getState) => {
+  const userId = getState().user.id;
+
+  dispatch({ type: actionTypes.fetchRecord.pending });
+
+  try {
+    const payload = await service.fetchRecord(userId);
+
+    dispatch({
+      type: actionTypes.fetchRecord.success,
+      payload,
+    });
+  } catch (error) {
+    dispatch({
+      type: actionTypes.fetchRecord.failure,
+      payload: { error },
+    });
+  }
+};
