@@ -1,21 +1,21 @@
 import request, { registerToken, unregisterToken } from 'utils/request';
 
-export const create = async payload => {
+export const createRecord = async payload => {
   const response = await request.post('user', 'users', payload);
   return response.data;
 };
 
-export const update = async (id, payload) => {
+export const updateRecord = async (id, payload) => {
   const response = await request.put('user', `users/${id}`, payload);
   return response.data;
 };
 
-export const destroy = async id => {
+export const deleteRecord = async id => {
   const response = await request.delete('user', `users/${id}`);
   return response.data;
 };
 
-export const get = async () => {
+export const fetchRecord = async () => {
   const response = await request.get('user', 'getstatus');
   return response.data.user;
 };
@@ -35,7 +35,7 @@ export const unauthorize = async () => {
   // waiting on api changes
   // await request.unauthorize();
   unregisterToken();
-  return true;
+  return Promise.resolve();
 };
 
 export const createCustomer = async userId => {

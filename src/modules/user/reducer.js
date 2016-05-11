@@ -1,34 +1,17 @@
-import { handleActions } from 'redux-actions';
-import { mutations } from 'utils';
 import * as actionTypes from './actionTypes';
 
-const set = (state, { payload }) => payload;
-const update = (state, { payload }) => Object.assign({}, state, payload);
-const drop = () => ({});
+export default (state = {}, { type, payload }) => {
+  switch (type) {
+    case actionTypes.createRecord.success:
+    case actionTypes.updateRecord.success:
+    case actionTypes.fetchRecord.success:
+    case actionTypes.authorize.success:
+      return Object.assign({}, state, payload);
 
-export default handleActions({
-  [actionTypes.CREATE]: {
-    next: set,
-    throw: mutations.handleError,
-  },
-  [actionTypes.UPDATE]: {
-    next: update,
-    throw: mutations.handleError,
-  },
-  [actionTypes.DELETE]: {
-    next: drop,
-    throw: mutations.handleError,
-  },
-  [actionTypes.GET]: {
-    next: update,
-    throw: mutations.handleError,
-  },
-  [actionTypes.AUTHORIZE]: {
-    next: set,
-    throw: mutations.handleError,
-  },
-  [actionTypes.UNAUTHORIZE]: {
-    next: drop,
-    throw: mutations.handleError,
-  },
-}, {});
+    case actionTypes.unauthorize.success:
+      return {};
+
+    default:
+      return state;
+  }
+};

@@ -16,7 +16,7 @@ export const createRecord = (plan, card, address) => async (dispatch, getState) 
       payload,
     });
 
-    await dispatch(userActions.get());
+    await dispatch(userActions.fetchRecord());
 
     dispatch(pushRoute('/projects'));
   } catch (error) {

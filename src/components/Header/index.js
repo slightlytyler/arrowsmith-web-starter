@@ -126,11 +126,11 @@ import { createStructuredActions } from 'utils';
 import { selectors as userSelectors, actions as userActions } from 'modules/user';
 
 const isLoggedInSelector = createSelector(
-  userSelectors.idSelector,
+  userSelectors.getId,
   id => !!id
 );
 const hasSubscriptionSelector = createSelector(
-  userSelectors.subscriptionIdSelector,
+  userSelectors.getSubscriptionId,
   subscriptionId => !!subscriptionId
 );
 
@@ -138,8 +138,8 @@ export default connect(
   createStructuredSelector({
     userIsLoggedIn: isLoggedInSelector,
     userHasSubscription: hasSubscriptionSelector,
-    userName: userSelectors.nameSelector,
-    userAvatarUrl: userSelectors.avatarSelector,
+    userName: userSelectors.getName,
+    userAvatarUrl: userSelectors.getAvatar,
   }),
   createStructuredActions({ logout: userActions.logout })
 )(Header);

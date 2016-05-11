@@ -16,13 +16,20 @@ const engine = filter(
   ['user'],
 );
 
-const { actionTypes: userActionTypes } = modules.user;
+const userActionTypes = Object.values(modules.user.actionTypes).reduce((acc, actionType) => {
+  if (typeof actionType === 'object') {
+    Object.values(actionType).forEach(t => acc.push(t));
+    return acc;
+  }
+  return acc.push(actionType);
+}, []);
+
 const storageMiddleware = storage.createMiddleware(
   engine,
   [LOCATION_CHANGE],
   [
     CLEAR_STORE,
-    ...Object.values(userActionTypes),
+    ...userActionTypes,
   ],
 );
 
