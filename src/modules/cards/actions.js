@@ -38,11 +38,10 @@ export const updateRecord = (userId, card) => async dispatch => {
 };
 
 export const fetchRecord = () => async (dispatch, getState) => {
-  const userId = getState().user.id;
-
   dispatch({ type: actionTypes.fetchRecord.pending });
 
   try {
+    const userId = getState().user.id;
     const payload = await service.fetchRecord(userId);
 
     dispatch({

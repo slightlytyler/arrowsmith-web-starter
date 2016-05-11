@@ -2,7 +2,7 @@ import request from 'utils/request';
 import { service as userService } from 'modules/user';
 import { service as cardsService } from 'modules/cards';
 
-export const create = async (userId, planId, card, address) => {
+export const createRecord = async (userId, planId, card, address) => {
   await userService.createCustomer(userId);
   await cardsService.createRecord(userId, card);
 
@@ -17,28 +17,20 @@ export const create = async (userId, planId, card, address) => {
   return subscription;
 };
 
-export const update = async (id, payload) => {
+export const updateRecord = async (id, payload) => {
   const response = await request.patch('stripe', `subscriptions/${id}`, payload);
   return response.data;
 };
 
-export const destroy = async id => {
+export const deleteRecord = async id => {
   const response = await request.delete('stripe', `subscriptions/${id}`);
   return response.data;
 };
 
-export const get = async (subscriptionId, userId) => {
+export const fetchRecord = async (subscriptionId, userId) => {
   const response = await request.get(
     'stripe',
     `customers/${userId}/subscriptions/${subscriptionId}`
-  );
-  return response.data;
-};
-
-export const fetch = async userId => {
-  const response = await request.get(
-    'stripe',
-    `customers/${userId}/subscriptions`
   );
   return response.data;
 };

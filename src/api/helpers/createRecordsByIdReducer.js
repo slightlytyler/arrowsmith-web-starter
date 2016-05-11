@@ -8,18 +8,26 @@ export default moduleActionTypes => (state = {}, { type, payload }) => {
 
   switch (type) {
     case actionTypes.createRecord.pending:
-    case actionTypes.replaceRecord.pending:
+    case actionTypes.replaceRecord.pending: {
+      if (payload) return assoc(state, payload.id, payload);
+      return state;
+    }
+
     case actionTypes.createRecord.success:
     case actionTypes.updateRecord.success:
     case actionTypes.replaceRecord.success:
     case actionTypes.fetchRecord.success:
       return assoc(state, payload.id, payload);
 
-    case actionTypes.updateRecord.pending:
-      return updateIn(state, [payload.id], merge, payload);
+    case actionTypes.updateRecord.pending: {
+      if (payload) return updateIn(state, [payload.id], merge, payload);
+      return state;
+    }
 
-    case actionTypes.deleteRecord.pending:
-      return dissoc(state, payload.id);
+    case actionTypes.deleteRecord.pending: {
+      if (payload) return dissoc(state, payload.id);
+      return state;
+    }
 
     case actionTypes.fetchCollection.success:
       return { ...state, ...createRecordsById(payload.ids) };
