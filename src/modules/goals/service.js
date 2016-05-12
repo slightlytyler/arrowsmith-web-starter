@@ -1,4 +1,4 @@
-import { createService } from 'utils/request';
+import createService from 'api/service';
 import { NAME } from './constants';
 
 const service = createService(NAME);

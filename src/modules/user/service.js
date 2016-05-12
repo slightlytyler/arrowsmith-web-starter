@@ -1,27 +1,27 @@
-import request, { registerToken, unregisterToken } from 'utils/request';
+import client, { registerToken, unregisterToken } from 'api/client';
 
 export const createRecord = async payload => {
-  const response = await request.post('user', 'users', payload);
+  const response = await client.post('user', 'users', payload);
   return response.data;
 };
 
 export const updateRecord = async (id, payload) => {
-  const response = await request.put('user', `users/${id}`, payload);
+  const response = await client.put('user', `users/${id}`, payload);
   return response.data;
 };
 
 export const deleteRecord = async id => {
-  const response = await request.delete('user', `users/${id}`);
+  const response = await client.delete('user', `users/${id}`);
   return response.data;
 };
 
 export const fetchRecord = async () => {
-  const response = await request.get('user', 'getstatus');
+  const response = await client.get('user', 'getstatus');
   return response.data.user;
 };
 
 export const authorize = async (email, password) => {
-  const response = await request.authorize({ email, password });
+  const response = await client.authorize({ email, password });
   const user = response.data;
   user.token = response.headers['x-stamplay-jwt'];
 
@@ -33,12 +33,11 @@ export const authorize = async (email, password) => {
 export const unauthorize = async () => {
   // stamplay forces redirect after unauthorize,
   // waiting on api changes
-  // await request.unauthorize();
+  // await client.unauthorize();
   unregisterToken();
-  return Promise.resolve();
 };
 
 export const createCustomer = async userId => {
-  const response = await request.post('stripe', 'customers', { userId });
+  const response = await client.post('stripe', 'customers', { userId });
   return response.data;
 };

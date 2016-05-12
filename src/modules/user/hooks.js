@@ -1,6 +1,6 @@
 import { fetchRecord } from './actions';
 import { getId, getToken } from './selectors';
-import { request } from 'utils';
+import client from 'api/client';
 
 export const registerToken = (dispatch, getState) => {
   const state = getState();
@@ -8,7 +8,7 @@ export const registerToken = (dispatch, getState) => {
 
   if (id) {
     const token = getToken(state);
-    if (token) request.registerToken(token);
+    if (token) client.registerToken(token);
     dispatch(fetchRecord());
   }
 };

@@ -1,4 +1,4 @@
-import { createService } from 'utils/request';
+import createService from 'api/service';
 import { service as userService } from 'modules/user';
 import { service as cardsService } from 'modules/cards';
 
