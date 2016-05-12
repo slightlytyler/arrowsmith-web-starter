@@ -1,15 +1,16 @@
-import { push as pushRoute } from 'react-router-redux';
+import { stripePlans } from 'config';
 import * as actionTypes from './actionTypes';
 import * as service from './service';
-import { actions as userActions } from 'modules/user';
+import { actions as userActions, selectors as userSelectors } from 'modules/user';
+import { push as pushRoute } from 'react-router-redux';
 
 export const createRecord = (plan, card, address) => async (dispatch, getState) => {
   dispatch({ type: actionTypes.createRecord.pending });
 
   try {
-    const planId = `GOALS_${plan.toUpperCase()}`;
-    const { user } = getState();
-    const payload = await service.createRecord(user.id, planId, card, address);
+    const userId = userSelectors.getId(getState());
+    const planId = stripePlans[plan];
+    const payload = await service.createRecord(userId, planId, card, address);
 
     dispatch({
       type: actionTypes.createRecord.success,

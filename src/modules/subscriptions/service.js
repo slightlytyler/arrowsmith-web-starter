@@ -1,36 +1,27 @@
-import request from 'utils/request';
+import { createService } from 'utils/request';
 import { service as userService } from 'modules/user';
 import { service as cardsService } from 'modules/cards';
+
+const endpoint = userId => `customers/${userId}/subscriptions`;
+const service = createService(['stripe', endpoint]);
 
 export const createRecord = async (userId, planId, card, address) => {
   await userService.createCustomer(userId);
   await cardsService.createRecord(userId, card);
 
-  const { data: subscription } = await request.post(
-    'stripe',
-    `customers/${userId}/subscriptions`,
-    { planId }
-  );
+  const subscription = await service(userId).createRecord({ planId });
 
   await userService.updateRecord(userId, { address, subscriptionId: subscription.id });
 
   return subscription;
 };
 
-export const updateRecord = async (id, payload) => {
-  const response = await request.patch('stripe', `subscriptions/${id}`, payload);
-  return response.data;
-};
+export const updateRecord = (subscriptionId, userId, payload) => (
+  service(userId).updateRecord(subscriptionId, payload)
+);
 
-export const deleteRecord = async id => {
-  const response = await request.delete('stripe', `subscriptions/${id}`);
-  return response.data;
-};
+export const deleteRecord = (subscriptionId, userId) => (
+  service(userId).deleteRecord(subscriptionId)
+);
 
-export const fetchRecord = async (subscriptionId, userId) => {
-  const response = await request.get(
-    'stripe',
-    `customers/${userId}/subscriptions/${subscriptionId}`
-  );
-  return response.data;
-};
+export const fetchRecord = (subscriptionId, userId) => service(userId).fetchRecord(subscriptionId);

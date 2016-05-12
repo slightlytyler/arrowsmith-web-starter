@@ -1,24 +1,6 @@
 import * as actionTypes from './actionTypes';
 import * as service from './service';
 
-export const createRecord = (userId, card) => async dispatch => {
-  dispatch({ type: actionTypes.createRecord.pending });
-
-  try {
-    const payload = await service.createRecord(userId, card);
-
-    dispatch({
-      type: actionTypes.createRecord.success,
-      payload,
-    });
-  } catch (error) {
-    dispatch({
-      type: actionTypes.createRecord.failure,
-      payload: { error },
-    });
-  }
-};
-
 export const updateRecord = (userId, card) => async dispatch => {
   dispatch({ type: actionTypes.updateRecord.pending });
 

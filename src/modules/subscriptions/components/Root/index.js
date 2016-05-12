@@ -68,7 +68,7 @@ import { selectors as userSelectors } from 'modules/user';
 
 export default connect(
   state => {
-    const id = userSelectors.subscriptionIdSelector(state);
+    const id = userSelectors.getSubscriptionId(state);
     const subscription = findRecord(state, id);
 
     if (subscription) {

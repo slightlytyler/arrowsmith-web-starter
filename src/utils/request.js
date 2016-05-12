@@ -76,34 +76,55 @@ export const deserialize = payload => {
 
 // Request helpers
 export const helpers = {
-  createRecord: async (endpoint, payload) => {
-    const response = await request.post('cobject', endpoint, payload);
+  createRecord: async ([resource, endpoint], payload) => {
+    const response = await request.post(resource, endpoint, payload);
     return deserialize(response.data);
   },
-  updateRecord: async (endpoint, id, payload) => {
-    const response = await request.patch('cobject', `${endpoint}/${id}`, payload);
+  updateRecord: async ([resource, endpoint], id, payload) => {
+    const response = await request.patch(resource, `${endpoint}/${id}`, payload);
     return deserialize(response.data);
   },
-  deleteRecord: async (endpoint, id) => {
-    const response = await request.delete('cobject', `${endpoint}/${id}`);
+  deleteRecord: async ([resource, endpoint], id) => {
+    const response = await request.delete(resource, `${endpoint}/${id}`);
     return deserialize(response.data);
   },
-  fetchRecord: async (endpoint, id) => {
-    const response = await request.get('cobject', `${endpoint}/${id}`);
+  fetchRecord: async ([resource, endpoint], id) => {
+    const response = await request.get(resource, `${endpoint}/${id}`);
     return deserialize(response.data);
   },
-  fetchCollection: async (endpoint, query) => {
-    const response = await request.get('cobject', `${endpoint}/find/owner`, query);
+  fetchCollection: async ([resource, endpoint], query) => {
+    const response = await request.get(resource, `${endpoint}/find/owner`, query);
     return deserialize(response.data.data);
   },
 };
 
-export const createService = endpoint => ({
-  createRecord: payload => helpers.createRecord(endpoint, payload),
-  updateRecord: (id, payload) => helpers.updateRecord(endpoint, id, payload),
-  deleteRecord: id => helpers.deleteRecord(endpoint, id),
-  fetchRecord: id => helpers.fetchRecord(endpoint, id),
-  fetchCollection: query => helpers.fetchCollection(endpoint, query),
-});
+export const createService = config => {
+  const resource = Array.isArray(config) ? config[0] : 'cobject';
+  const endpoint = Array.isArray(config) ? config[1] : config;
+
+  if (typeof endpoint === 'function') {
+    return endpointArgs => {
+      const options = [resource, endpoint(endpointArgs)];
+
+      return {
+        createRecord: payload => helpers.createRecord(options, payload),
+        updateRecord: (id, payload) => helpers.updateRecord(options, id, payload),
+        deleteRecord: id => helpers.deleteRecord(options, id),
+        fetchRecord: id => helpers.fetchRecord(options, id),
+        fetchCollection: query => helpers.fetchCollection(options, query),
+      };
+    };
+  }
+
+  const options = [resource, endpoint];
+
+  return {
+    createRecord: payload => helpers.createRecord(options, payload),
+    updateRecord: (id, payload) => helpers.updateRecord(options, id, payload),
+    deleteRecord: id => helpers.deleteRecord(options, id),
+    fetchRecord: id => helpers.fetchRecord(options, id),
+    fetchCollection: query => helpers.fetchCollection(options, query),
+  };
+};
 
 export default { ...request, ...helpers, createService, registerToken, unregisterToken };
