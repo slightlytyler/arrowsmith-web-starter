@@ -13,8 +13,7 @@ export const createRecord = async (userId, planId, card, address) => {
 
   await userService.updateRecord(userId, { address, subscriptionId: subscription.id });
 
-  return subscription;
-};
+export const deleteRecord = (userId, id) => client.deleteRecord(`${endpoint(userId)}/${id}`);
 
 export const updateRecord = (subscriptionId, userId, payload) => (
   service(userId).updateRecord(subscriptionId, payload)
