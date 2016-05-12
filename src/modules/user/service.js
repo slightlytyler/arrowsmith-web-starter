@@ -1,4 +1,4 @@
-import client, { registerToken, unregisterToken } from 'api/client';
+import client from 'api/client';
 
 export const createRecord = async payload => {
   const response = await client.post('user', 'users', payload);
@@ -25,7 +25,7 @@ export const authorize = async (email, password) => {
   const user = response.data;
   user.token = response.headers['x-stamplay-jwt'];
 
-  registerToken(user.token);
+  client.registerToken(user.token);
 
   return user;
 };
@@ -34,7 +34,7 @@ export const unauthorize = async () => {
   // stamplay forces redirect after unauthorize,
   // waiting on api changes
   // await client.unauthorize();
-  unregisterToken();
+  client.unregisterToken();
 };
 
 export const createCustomer = async userId => {

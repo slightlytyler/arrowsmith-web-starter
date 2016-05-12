@@ -69,7 +69,7 @@ import { selectors as routerSelectors } from 'modules/router';
 export default connect(
   (state, props) => ({
     ...findRecord(state, props.id),
-    active: routerSelectors.pathnameSelector(state).indexOf(`/projects/${props.id}`) === 0,
+    active: routerSelectors.getPathname(state).indexOf(`/projects/${props.id}`) === 0,
   }),
   createStructuredActions({ updateRecord, deleteRecord, viewRecord })
 )(ProjectsItem);

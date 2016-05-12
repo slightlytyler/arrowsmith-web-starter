@@ -1,6 +1,6 @@
-import { push as pushRoute } from 'react-router-redux';
 import { CLEAR_STORE } from 'constants/actionTypes';
 import { authorize, unauthorize } from './actionTypes';
+import { push as pushRoute } from 'react-router-redux';
 
 export const handleAuth = store => next => action => {
   const result = next(action);

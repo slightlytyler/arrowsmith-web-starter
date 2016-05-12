@@ -1,13 +1,13 @@
 import { createSelector } from 'reselect';
 
-export const substateSelector = state => state.router.locationBeforeTransitions;
+export const getSubstate = state => state.router.locationBeforeTransitions;
 
-export const querySelector = createSelector(
-  substateSelector,
+export const getQuery = createSelector(
+  getSubstate,
   substate => substate.query
 );
 
-export const pathnameSelector = createSelector(
-  substateSelector,
+export const getPathname = createSelector(
+  getSubstate,
   substate => substate.pathname
 );

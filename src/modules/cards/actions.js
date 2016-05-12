@@ -1,5 +1,6 @@
 import * as actionTypes from './actionTypes';
 import * as service from './service';
+import { selectors as userSelectors } from 'modules/user';
 
 export const updateRecord = (userId, card) => async dispatch => {
   dispatch({ type: actionTypes.updateRecord.pending });
@@ -23,8 +24,7 @@ export const fetchRecord = () => async (dispatch, getState) => {
   dispatch({ type: actionTypes.fetchRecord.pending });
 
   try {
-    const userId = getState().user.id;
-    const payload = await service.fetchRecord(userId);
+    const payload = await service.fetchRecord(userSelectors.getId(getState()));
 
     dispatch({
       type: actionTypes.fetchRecord.success,

@@ -1,20 +1,20 @@
 import { createSelector } from 'reselect';
 import { NAME } from './constants';
 
-export const substateSelector = state => state[NAME];
+export const getSubstate = state => state[NAME];
 
-export const recordsByIdSelector = createSelector(
-  substateSelector,
+export const getRecordsById = createSelector(
+  getSubstate,
   substate => substate.recordsById
 );
 
 export const recordIdsSelector = createSelector(
-  recordsByIdSelector,
+  getRecordsById,
   recordsById => Object.keys(recordsById)
 );
 
 export const findRecord = createSelector(
-  recordsByIdSelector,
+  getRecordsById,
   (state, id) => id,
   (recordsById, id) => recordsById[id]
 );

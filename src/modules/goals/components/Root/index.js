@@ -67,7 +67,7 @@ export default connect(
   createStructuredSelector({
     activeFilter: getActiveFilter,
     projectId: getProjectId,
-    query: routerSelectors.querySelector,
+    query: routerSelectors.getQuery,
   }),
   createStructuredActions({ fetchCollection })
 )(GoalsRoot);
