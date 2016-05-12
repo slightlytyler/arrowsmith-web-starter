@@ -104,7 +104,7 @@ export class SubscriptionsCheckout extends Component {
 
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
-import { createStructuredActions } from 'utils';
+import { createStructuredActions } from 'helpers';
 import { createRecord } from 'modules/subscriptions/actions';
 
 const planSelector = (state, props) => props.location.query.plan;

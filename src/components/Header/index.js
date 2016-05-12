@@ -122,7 +122,7 @@ export class Header extends Component {
 
 import { connect } from 'react-redux';
 import { createStructuredSelector, createSelector } from 'reselect';
-import { createStructuredActions } from 'utils';
+import { createStructuredActions } from 'helpers';
 import { selectors as userSelectors, actions as userActions } from 'modules/user';
 
 const isLoggedInSelector = createSelector(

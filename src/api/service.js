@@ -2,14 +2,14 @@ import { mapValues } from 'lodash';
 import client from './client';
 
 // Serializing / Deserializing
-export const isRelationshipId = key => key !== 'id' && key !== '_id' && key.substr(-2) === 'Id';
+const isRelationshipId = key => key !== 'id' && key !== '_id' && key.substr(-2) === 'Id';
 
 const deserializeRecord = record => mapValues(record, (value, key) => {
   if (isRelationshipId(key) && Array.isArray(value)) return value[0];
   return value;
 });
 
-export const deserialize = payload => {
+const deserialize = payload => {
   if (Array.isArray(payload)) return payload.map(deserializeRecord);
   return deserializeRecord(payload);
 };

@@ -61,7 +61,7 @@ export class ProjectsItem extends Component {
 }
 
 import { connect } from 'react-redux';
-import { createStructuredActions } from 'utils';
+import { createStructuredActions } from 'helpers';
 import { findRecord } from 'modules/projects/selectors';
 import { updateRecord, deleteRecord, viewRecord } from 'modules/projects/actions';
 import { selectors as routerSelectors } from 'modules/router';

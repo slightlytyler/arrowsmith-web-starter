@@ -42,7 +42,7 @@ export class Login extends Component {
 }
 
 import { connect } from 'react-redux';
-import { createStructuredActions } from 'utils';
+import { createStructuredActions } from 'helpers';
 import { login } from 'modules/user/actions';
 
 export default connect(

@@ -36,7 +36,7 @@ export class ProjectsCreator extends Component {
 }
 
 import { connect } from 'react-redux';
-import { createStructuredActions } from 'utils';
+import { createStructuredActions } from 'helpers';
 import { createRecord } from 'modules/projects/actions';
 
 export default connect(

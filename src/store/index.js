@@ -5,7 +5,7 @@ import * as storage from 'redux-storage';
 import { root as rootReducer } from 'reducers';
 import createEngine from 'redux-storage-engine-localstorage';
 import filter from 'redux-storage-decorator-filter';
-import { getModuleAtoms } from 'utils';
+import { getModuleAtoms } from 'helpers';
 import { LOCAL_STORAGE_KEY } from 'config';
 import { CLEAR_STORE, LOAD_COMPLETE } from 'constants/actionTypes';
 import { LOCATION_CHANGE } from 'react-router-redux';

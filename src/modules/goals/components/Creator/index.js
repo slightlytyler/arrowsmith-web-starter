@@ -67,7 +67,7 @@ export class GoalsCreator extends Component {
 
 import { connect } from 'react-redux';
 import { createRecord } from 'modules/goals/actions';
-import { createStructuredActions } from 'utils';
+import { createStructuredActions } from 'helpers';
 
 export default connect(
   undefined,

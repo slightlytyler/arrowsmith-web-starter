@@ -1,5 +1,5 @@
 import { handleActions } from 'redux-actions';
-import { mutations } from 'utils';
+import { mutations } from 'helpers';
 
 export default (actionTypes, additionalCases = {}) => handleActions({
   [actionTypes.CREATE]: {

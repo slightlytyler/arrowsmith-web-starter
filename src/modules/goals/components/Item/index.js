@@ -90,7 +90,7 @@ export class GoalsItem extends Component {
 }
 
 import { connect } from 'react-redux';
-import { createStructuredActions } from 'utils';
+import { createStructuredActions } from 'helpers';
 import { findRecord } from 'modules/goals/selectors';
 import { updateRecord, deleteRecord, toggleRecord } from 'modules/goals/actions';
 

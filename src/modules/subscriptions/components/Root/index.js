@@ -61,7 +61,7 @@ export class SubscriptionsRoot extends Component {
 }
 
 import { connect } from 'react-redux';
-import { createStructuredActions } from 'utils';
+import { createStructuredActions } from 'helpers';
 import { findRecord } from 'modules/subscriptions/selectors';
 import { fetchRecord } from 'modules/subscriptions/actions';
 import { selectors as userSelectors } from 'modules/user';

@@ -68,7 +68,7 @@ export class SignUp extends Component {
 }
 
 import { connect } from 'react-redux';
-import { createStructuredActions } from 'utils';
+import { createStructuredActions } from 'helpers';
 import { signUp } from 'modules/user/actions';
 
 export default connect(

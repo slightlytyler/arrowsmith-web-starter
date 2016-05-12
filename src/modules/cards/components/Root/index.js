@@ -29,7 +29,7 @@ export class CardsRoot extends Component {
 }
 
 import { connect } from 'react-redux';
-import { createStructuredActions } from 'utils';
+import { createStructuredActions } from 'helpers';
 import { recordIdsSelector } from 'modules/cards/selectors';
 import { fetchRecord } from 'modules/cards/actions';
 

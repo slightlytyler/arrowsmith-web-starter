@@ -1,5 +1,5 @@
 import { updateIn, assoc, dissoc, merge } from 'react-update-in';
-import { createRecordsById } from 'utils';
+import { createRecordsById } from 'helpers';
 import { actionTypesShape } from '../constants';
 
 // Create reducer for handling records dictionary

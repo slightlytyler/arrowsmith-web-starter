@@ -56,7 +56,7 @@ export class GoalsRoot extends Component {
 
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
-import { createStructuredActions } from 'utils';
+import { createStructuredActions } from 'helpers';
 import { fetchCollection } from 'modules/goals/actions';
 import { selectors as routerSelectors } from 'modules/router';
 
