@@ -1,3 +1,3 @@
-export const API_URL = 'private-d9e32-patientzero.apiary-mock.com';
-export const JWT_KEY = 'Patient-Zero-JWT';
-export const LOCAL_STORAGE_KEY = 'patient-zero';
+export const API_URL = 'api.com';
+export const JWT_KEY = 'Your-JWT';
+export const LOCAL_STORAGE_KEY = 'arrowsmith-web-starter';

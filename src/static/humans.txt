@@ -5,5 +5,3 @@
     <Tyle Martinez> -- <Author> -- <slightlytyler@gmail.com>
 
 # THANKS
-
-    <IBM Watson Health>

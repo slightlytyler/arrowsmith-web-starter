@@ -9,13 +9,10 @@ export const fetchRecord = async () => {
 
 const getJWTFromResponse = response => response.headers[kebabCase(JWT_KEY)];
 
-const createUserFromResponse = response => {
-  console.log('fix this hardcoded token');
-  return Object.assign({
-    ...response.data,
-    token: getJWTFromResponse(response),
-  }, { token: 'adasdasd' });
-};
+const createUserFromResponse = response => ({
+  ...response.data,
+  token: getJWTFromResponse(response),
+});
 
 export const login = async credentials => {
   const response = await client.post('auth/login', credentials);

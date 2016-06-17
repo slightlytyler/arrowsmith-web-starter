@@ -1,16 +1,10 @@
 /* eslint-disable react/prop-types */
 /* eslint no-unused-vars: [2, { "argsIgnorePattern": "dispatch|getState" }] */
 import React from 'react';
-import { Route, IndexRoute, IndexRedirect } from 'react-router';
+import { Route, IndexRoute } from 'react-router';
 
-import { Page } from 'components';
+import { Page, Home } from 'components';
 import { Login, SignUp } from 'modules/user/components';
-import {
-  Root as AppointmentsRoot,
-  Creator as AppointmentsCreator,
-  Editor as AppointmentsEditor,
-  Viewer as AppointmentsViewer,
-} from 'modules/appointments/components';
 
 export default ({ dispatch, getState }) => {
   const authenticateRoute = (nextState, replace) => {
@@ -23,17 +17,9 @@ export default ({ dispatch, getState }) => {
 
   return (
     <Route path="/" component={Page}>
-      <IndexRedirect to="appointments" />
+      <IndexRoute component={Home} onEnter={authenticateRoute} />
       <Route path="login" component={Login} />
       <Route path="sign-up" component={SignUp} />
-      <Route path="appointments" onEnter={authenticateRoute}>
-        <IndexRoute component={AppointmentsRoot} />
-        <Route path="new" component={AppointmentsCreator} />
-        <Route path=":id">
-          <IndexRoute component={AppointmentsViewer} />
-          <Route path="edit" component={AppointmentsEditor} />
-        </Route>
-      </Route>
     </Route>
   );
 };

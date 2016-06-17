@@ -28,7 +28,7 @@ export class Login extends Component {
     return (
       <div className="auth">
         <header className="header">
-          <section className="primary">Patient Zero</section>
+          <section className="primary">Arrowsmith</section>
           <section className="secondary">Login</section>
         </header>
 
