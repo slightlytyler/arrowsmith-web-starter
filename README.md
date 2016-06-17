@@ -1,11 +1,10 @@
-# Patient Zero client
-Written in React + Redux.
+# Arrowsmith Web Starter
+Rapid application prototyping for the web.
 
 ## Development
 
-From the `client` directory
-
 ```
+git clone git@github.com:slightlytyler/arrowsmith-web-starter.git
 npm install
 npm run dev
 ```
@@ -17,8 +16,6 @@ Navigate to `localhost:3000` in your browser.
 [Install](https://github.com/zalmoxisus/redux-devtools-extension) the dev tools and launch them from your browser.
 
 ## Deployment
-
-After setting up your credentials
 
 ```
 npm run deploy

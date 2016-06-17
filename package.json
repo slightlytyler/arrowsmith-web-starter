@@ -1,7 +1,7 @@
 {
-  "name": "patient-zero-client",
+  "name": "arrowsmith-web-starter",
   "version": "1.0.0",
-  "description": "Client app for the Patient Zero example project.",
+  "description": "Rapid application prototyping for the web.",
   "main": "index.js",
   "scripts": {
     "dev": "webpack-dev-server --inline --hot",
@@ -20,19 +20,20 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.phytel.com/Architecture/patient-zero.git"
+    "url": "https://github.com/slightlytyler/arrowsmith-web-starter.git"
   },
   "keywords": [
     "React",
     "Redux",
-    "Webpack"
+    "Webpack",
+    "React Portland UI",
+    "Starter"
   ],
   "author": "Tyler Martinez",
   "license": "MIT",
   "dependencies": {
     "axios": "^0.11.1",
     "classnames": "^2.2.5",
-    "moment": "^2.13.0",
     "path": "^0.12.7",
     "react": "^15.1.0",
     "react-dom": "^15.1.0",
