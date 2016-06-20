@@ -63,7 +63,7 @@ const config = {
       },
       {
         test: /\.styl$/,
-        loader: ExtractTextPlugin.extract('style', 'css!postcss!stylus-relative-loader?resolve url'),
+        loader: ExtractTextPlugin.extract('style', 'css!postcss!stylus-relative?resolve url'),
       },
       {
         test: /\.otf$/,
