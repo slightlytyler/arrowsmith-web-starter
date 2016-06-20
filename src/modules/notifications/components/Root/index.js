@@ -13,18 +13,23 @@ export class NotificationsRoot extends Component {
     const { addNotification, removeNotification } = this.refs.notificationSystem;
     this.addNotification = addNotification;
     this.removeNotification = removeNotification;
+
+    const { notifications } = this.props;
+
+    if (notifications.length) this.shiftNotifications(notifications);
   }
 
   componentWillReceiveProps(nextProps) {
+    console.log(nextProps);
     const { notifications } = nextProps;
 
-    if (notifications.length) {
-      notifications.forEach(notification => {
-        this.addNotification(notification);
-        this.props.actions.shift(notification.uid);
-      });
-    }
+    if (notifications.length) this.shiftNotifications(notifications);
   }
+
+  shiftNotifications = notifications => notifications.forEach(notification => {
+    this.addNotification(notification);
+    this.props.actions.shift(notification.uid);
+  });
 
   render() {
     return (
