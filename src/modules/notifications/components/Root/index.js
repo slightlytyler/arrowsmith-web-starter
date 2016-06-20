@@ -20,7 +20,6 @@ export class NotificationsRoot extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log(nextProps);
     const { notifications } = nextProps;
 
     if (notifications.length) this.shiftNotifications(notifications);
