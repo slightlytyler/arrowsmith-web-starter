@@ -14,6 +14,9 @@ const __node_modules = path.join(__dirname, 'node_modules');
 
 const env = process.env.NODE_ENV || 'development';
 const globals = {
+  'process.env': {
+    'NODE_ENV': JSON.stringify(env),
+  },
   __NODE_ENV__: JSON.stringify(env),
   __DEV__: env === 'development',
   __PROD__: env === 'production',
