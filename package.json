@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "webpack-dev-server --inline --hot",
+    "prebuild": "npm run test && npm run clean",
     "build": "webpack",
     "clean": "rimraf dist",
     "deploy": "better-npm-run deploy",
