@@ -4,13 +4,14 @@
   "description": "Rapid application prototyping for the web.",
   "main": "index.js",
   "scripts": {
-    "dev": "webpack-dev-server --inline --hot",
-    "build": "webpack",
+    "dev": "webpack-dev-server --config config/webpack/dev.js --inline --hot",
+    "prebuild": "npm run test && npm run clean",
+    "build": "webpack --config config/webpack/dev.js",
     "clean": "rimraf dist",
     "deploy": "better-npm-run deploy",
-    "lint": "eslint src --ignore-pattern **/test.js",
+    "lint": "eslint src --config config/eslint/.dev.rc --ignore-pattern **/test.js",
     "pretest": "npm run lint",
-    "test": "karma start karma.config.js",
+    "test": "karma start config/test/karma.config.js",
     "test:watch": "npm run test -- --auto-watch --no-single-run"
   },
   "betterScripts": {
