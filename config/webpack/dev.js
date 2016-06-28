@@ -7,12 +7,13 @@ const LodashModuleReplacementPlugin = require('lodash-webpack-plugin');
 const autoprefixer = require('autoprefixer');
 const argv = require('yargs').argv;
 
-const __src = path.join(__dirname, 'src');
+const __root = path.join(__dirname, '../../');
+const __src = path.join(__root, 'src');
 const __assets = path.join(__src, 'assets');
 const __icons = path.join(__assets, 'icons');
 const __static = path.join(__src, 'static');
-const __dist = path.join(__dirname, 'dist');
-const __node_modules = path.join(__dirname, 'node_modules');
+const __dist = path.join(__root, 'dist');
+const __node_modules = path.join(__root, 'node_modules');
 
 const env = process.env.NODE_ENV || 'development';
 const globals = {
@@ -104,6 +105,9 @@ const config = {
     },
   },
   resolveLoader: { fallback: __node_modules },
+  eslint: {
+    configFile: path.join(__root, 'config/eslint/.dev.rc')
+  },
   postcss: () => [autoprefixer],
 };
 
