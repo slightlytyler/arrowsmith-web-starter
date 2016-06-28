@@ -47,7 +47,7 @@ const config = {
     }),
     new ExtractTextPlugin('styles.css'),
     new CopyWebpackPlugin(
-      [{ from: __static }]
+      [{ from: __static, ignore: '.DS_Store' }]
     ),
   ],
   module: {
