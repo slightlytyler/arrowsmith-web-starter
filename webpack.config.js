@@ -8,6 +8,8 @@ const autoprefixer = require('autoprefixer');
 const argv = require('yargs').argv;
 
 const __src = path.join(__dirname, 'src');
+const __assets = path.join(__src, 'assets');
+const __icons = path.join(__assets, 'icons');
 const __static = path.join(__src, 'static');
 const __dist = path.join(__dirname, 'dist');
 const __node_modules = path.join(__dirname, 'node_modules');
@@ -74,7 +76,13 @@ const config = {
       },
       {
         test: /\.svg$/,
+        loader: 'raw',
+        incude: __icons,
+      },
+      {
+        test: /\.svg|\.png$/,
         loader: 'url',
+        exclude: __icons,
       },
     ],
   },
@@ -83,11 +91,11 @@ const config = {
     alias: {
       src: __src,
       api: path.join(__src, 'api'),
-      assets: path.join(__src, 'assets'),
+      assets: __assets,
       components: path.join(__src, 'components'),
       config: path.join(__src, 'config'),
       helpers: path.join(__src, 'helpers'),
-      icons: path.join(__src, 'assets/icons'),
+      icons: __icons,
       modules: path.join(__src, 'modules'),
       reducers: path.join(__src, 'reducers'),
       routes: path.join(__src, 'routes'),
