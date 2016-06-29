@@ -1,5 +1,8 @@
+import { createActionType } from 'helpers/actionTypes';
 import NAME from './NAME';
 
-export const PUSH = `${NAME}/PUSH`;
+const actionType = createActionType(NAME);
 
-export const SHIFT = `${NAME}/SHIFT`;
+export const PUSH = actionType('PUSH');
+
+export const SHIFT = actionType('SHIFT');

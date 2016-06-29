@@ -67,9 +67,9 @@ function* signUp({ payload: attrs }) {
 
 export default function* sagas() {
   yield [
-    takeLatest(actionTypes.fetchRecord.pending, fetchRecord),
-    takeLatest(actionTypes.login.pending, login),
-    takeLatest(actionTypes.logout.pending, logout),
-    takeLatest(actionTypes.signUp.pending, signUp),
+    takeLatest(actionTypes.FETCH_RECORD.pending, fetchRecord),
+    takeLatest(actionTypes.LOGIN.pending, login),
+    takeLatest(actionTypes.LOGOUT.pending, logout),
+    takeLatest(actionTypes.SIGN_UP.pending, signUp),
   ];
 }

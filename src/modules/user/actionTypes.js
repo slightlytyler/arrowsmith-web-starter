@@ -1,10 +1,12 @@
-import { createAsyncActionTypeSet } from 'helpers/actionTypes';
+import { createAsyncActionTypes } from 'helpers/actionTypes';
 import NAME from './NAME';
 
-export const fetchRecord = createAsyncActionTypeSet(NAME, 'FETCH_RECORD');
+const asyncActionTypes = createAsyncActionTypes(NAME);
 
-export const login = createAsyncActionTypeSet(NAME, 'LOGIN');
+export const FETCH_RECORD = asyncActionTypes('FETCH_RECORD');
 
-export const logout = createAsyncActionTypeSet(NAME, 'LOGOUT');
+export const LOGIN = asyncActionTypes('LOGIN');
 
-export const signUp = createAsyncActionTypeSet(NAME, 'SIGN_UP');
+export const LOGOUT = asyncActionTypes('LOGOUT');
+
+export const SIGN_UP = asyncActionTypes('SIGN_UP');

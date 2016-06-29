@@ -1,12 +1,12 @@
 import generateId from 'shortid';
+import { createAction } from 'helpers/actions';
 import * as actionTypes from './actionTypes';
 
-export const push = notification => ({
-  type: actionTypes.PUSH,
-  payload: { ...notification, uid: generateId() },
-});
+const action = createAction(actionTypes);
 
-export const shift = uid => ({
-  type: actionTypes.SHIFT,
-  payload: { uid },
-});
+export const push = action('PUSH', notification => ({
+  ...notification,
+  uid: generateId(),
+}));
+
+export const shift = action('SHIFT', uid => ({ uid }));

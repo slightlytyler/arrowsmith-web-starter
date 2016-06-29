@@ -8,12 +8,10 @@ describe('user actions', () => {
   asyncTest('fetchRecord');
   asyncTest('login');
   asyncTest('logout', {
-    success: () => (
-      it('returns a success action at success', () => {
-        const action = actions.logout.success();
-        action.should.have.property('type', actionTypes.logout.success);
-      })
-    ),
+    success: () => it('returns a success action at success', () => {
+      const action = actions.logout.success();
+      action.should.have.property('type', actionTypes.LOGOUT.success);
+    }),
   });
   asyncTest('signUp');
 });
