@@ -4,29 +4,34 @@ import { constantCase } from 'helpers/string';
 const createDefaultTests = (actions, actionTypes, key) => ({
   default: () => {
     it('returns a pending action by default', () => {
-      const payload = {};
-      const action = actions[key](payload);
+      const arg = {};
+      const action = actions[key];
       const actionType = actionTypes[constantCase(key)];
 
-      action.should.have.property('type', actionType.pending);
-      action.should.have.property('payload', payload);
+      action(arg).should.deep.equal({
+        type: actionType.pending,
+        payload: arg,
+      });
     });
   },
   success: () => it('returns a success action at success', () => {
     const payload = {};
-    const action = actions[key].success(payload);
+    const action = actions[key].success;
     const actionType = actionTypes[constantCase(key)];
-
-    action.should.have.property('type', actionType.success);
-    action.should.have.property('payload', payload);
+    action(payload).should.deep.equal({
+      type: actionType.success,
+      payload,
+    });
   }),
   failure: () => it('returns a failure action at failure', () => {
     const error = new Error();
-    const action = actions[key].failure(error);
+    const action = actions[key].failure;
     const actionType = actionTypes[constantCase(key)];
 
-    action.should.have.property('type', actionType.failure);
-    action.should.have.deep.property('payload.error', error);
+    action(error).should.deep.equal({
+      type: actionType.failure,
+      payload: { error },
+    });
   }),
 });
 

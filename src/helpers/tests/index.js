@@ -1,2 +1,2 @@
-export testAction from './testAction';
-export testAsyncAction from './testAsyncAction';
+export createActionTest from './createActionTest';
+export createAsyncActionTest from './createAsyncActionTest';

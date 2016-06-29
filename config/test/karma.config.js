@@ -15,6 +15,9 @@ module.exports = config => config.set({
     }
   },
   reporters: ['mocha'],
+  mochaReporter: {
+    showDiff: true
+  },
   specReporter: {
     suppressPassed: true
   },

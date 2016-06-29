@@ -1,20 +1,27 @@
 import { curry } from 'lodash';
 
-export default curry((actionTypes, key) => {
-  const action = payload => ({
-    type: actionTypes[key].pending,
+const createDefaultActions = actionTypesSet => ({
+  default: arg => ({
+    type: actionTypesSet.pending,
+    payload: arg,
+  }),
+  success: payload => ({
+    type: actionTypesSet.success,
     payload,
-  });
-
-  action.success = payload => ({
-    type: actionTypes[key].success,
-    payload,
-  });
-
-  action.failure = error => ({
-    type: actionTypes[key].failure,
+  }),
+  failure: error => ({
+    type: actionTypesSet.failure,
     payload: { error },
-  });
+  }),
+});
+
+export default curry((actionTypes, key, customActions = {}) => {
+  const defaultActions = createDefaultActions(actionTypes[key]);
+  const actions = Object.assign({}, defaultActions, customActions);
+
+  const action = actions.default;
+  action.success = actions.success;
+  action.failure = actions.failure;
 
   return action;
 });

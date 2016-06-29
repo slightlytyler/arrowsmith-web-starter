@@ -1,10 +1,10 @@
 import * as actionTypes from './actionTypes';
 import * as actions from './actions';
-import { testAction } from 'helpers/tests';
+import { createActionTest } from 'helpers/tests';
 
-const test = testAction(actions, actionTypes);
+const actionTest = createActionTest(actions, actionTypes);
 
 describe('notifications actions', () => {
-  test('push');
-  test('shift');
+  actionTest('push');
+  actionTest('shift');
 });

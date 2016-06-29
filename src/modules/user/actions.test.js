@@ -1,17 +1,35 @@
 import * as actionTypes from './actionTypes';
 import * as actions from './actions';
-import { testAsyncAction } from 'helpers/tests';
+import { createAsyncActionTest } from 'helpers/tests';
 
-const asyncTest = testAsyncAction(actions, actionTypes);
+const asyncActionTest = createAsyncActionTest(actions, actionTypes);
 
 describe('user actions', () => {
-  asyncTest('fetchRecord');
-  asyncTest('login');
-  asyncTest('logout', {
-    success: () => it('returns a success action at success', () => {
-      const action = actions.logout.success();
-      action.should.have.property('type', actionTypes.LOGOUT.success);
+  asyncActionTest('fetchRecord', {
+    default: () => it('returns a pending action by default', () => {
+      const action = actions.fetchRecord;
+      const actionType = actionTypes.FETCH_RECORD;
+
+      action().should.deep.equal({ type: actionType.pending });
     }),
   });
-  asyncTest('signUp');
+
+  asyncActionTest('login');
+
+  asyncActionTest('logout', {
+    default: () => it('returns a pending action by default', () => {
+      const action = actions.logout;
+      const actionType = actionTypes.LOGOUT;
+
+      action().should.deep.equal({ type: actionType.pending });
+    }),
+    success: () => it('returns a success action at success', () => {
+      const action = actions.logout.success;
+      const actionType = actionTypes.LOGOUT;
+
+      action().should.deep.equal({ type: actionType.success });
+    }),
+  });
+
+  asyncActionTest('signUp');
 });
