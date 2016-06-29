@@ -9,7 +9,7 @@
     "build": "webpack --config config/webpack/dev.js",
     "clean": "rimraf dist",
     "deploy": "better-npm-run deploy",
-    "lint": "eslint src --config config/eslint/.dev.rc --ignore-pattern **/test.js",
+    "lint": "eslint src --config config/eslint/.dev.rc --ignore-pattern **/*test.js",
     "pretest": "npm run lint",
     "test": "karma start config/test/karma.config.js",
     "test:watch": "npm run test -- --auto-watch --no-single-run"
