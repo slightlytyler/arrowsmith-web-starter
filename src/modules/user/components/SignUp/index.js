@@ -1,6 +1,11 @@
 import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
 import {
+  Page,
+  SmallContainer,
+  Box,
+  VerticalBox,
+  Panel,
   Form,
   Field,
   Input,
@@ -9,18 +14,6 @@ import {
 } from 'react-portland-ui';
 import yup from 'yup';
 
-const formSchema = yup.object({
-  name: yup.string().required('is required'),
-  email: yup.string().required('is required'),
-  password: yup.string().required('is required'),
-});
-
-const formDefaults = {
-  name: '',
-  email: '',
-  password: '',
-};
-
 export class SignUp extends Component {
   static propTypes = {
     actions: PropTypes.shape({
@@ -28,14 +21,18 @@ export class SignUp extends Component {
     }),
   };
 
+  formSchema = yup.object({
+    name: yup.string().required('is required'),
+    email: yup.string().required('is required'),
+    password: yup.string().required('is required'),
+  });
+
   handleValidSubmit = user => this.props.actions.signUp(user);
 
   renderForm = () => (
     <Form
-      schema={formSchema}
-      defaultValue={formDefaults}
+      schema={this.formSchema}
       onSubmit={this.props.actions.signUp}
-      panel
       fluid
     >
       <Field
@@ -70,16 +67,26 @@ export class SignUp extends Component {
 
   render() {
     return (
-      <div className="auth">
-        <header className="header">
-          <section className="primary">Arrowsmith</section>
-          <section className="secondary">Sign Up</section>
-        </header>
-        {this.renderForm()}
-        <Link to="/login" className="alternate">
-          Already have an account? <span className="bold">Login.</span>
-        </Link>
-      </div>
+      <Page>
+        <Box center fit>
+          <SmallContainer marginBottom="10%">
+            <VerticalBox className="auth" alignItems="center" fit>
+              <header className="header">
+                <section className="primary">Arrowsmith</section>
+                <section className="secondary">Sign Up</section>
+              </header>
+
+              <Panel className="panel" fluid>
+                {this.renderForm()}
+              </Panel>
+
+              <Link to="/login" className="alternate">
+                Already have an account? <span className="bold">Login.</span>
+              </Link>
+            </VerticalBox>
+          </SmallContainer>
+        </Box>
+      </Page>
     );
   }
 }

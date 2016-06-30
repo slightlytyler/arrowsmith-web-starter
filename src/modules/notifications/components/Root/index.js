@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import NotificationSystem from 'react-notification-system';
+import { Notifications } from 'react-portland-ui';
 
 export class NotificationsRoot extends Component {
   static propTypes = {
@@ -9,21 +9,19 @@ export class NotificationsRoot extends Component {
     }),
   };
 
-  componentDidMount() {
-    const { addNotification, removeNotification } = this.refs.notificationSystem;
+  componentWillReceiveProps(nextProps) {
+    const { notifications } = nextProps;
+    if (notifications.length) this.shiftNotifications(notifications);
+  }
+
+  handleMount = ({ addNotification, removeNotification }) => {
     this.addNotification = addNotification;
     this.removeNotification = removeNotification;
 
     const { notifications } = this.props;
 
     if (notifications.length) this.shiftNotifications(notifications);
-  }
-
-  componentWillReceiveProps(nextProps) {
-    const { notifications } = nextProps;
-
-    if (notifications.length) this.shiftNotifications(notifications);
-  }
+  };
 
   shiftNotifications = notifications => notifications.forEach(notification => {
     this.addNotification(notification);
@@ -32,9 +30,7 @@ export class NotificationsRoot extends Component {
 
   render() {
     return (
-      <div>
-        <NotificationSystem ref="notificationSystem" />
-      </div>
+      <Notifications onMount={this.handleMount} />
     );
   }
 }
