@@ -121,8 +121,10 @@ if (globals.__DEV__) {
 
 if (globals.__PROD__) {
   config.plugins = config.plugins.concat([
+    new LodashModuleReplacementPlugin({
+      'collections': true,
+    }),
     new webpack.optimize.DedupePlugin(),
-    new LodashModuleReplacementPlugin(),
     new webpack.optimize.OccurenceOrderPlugin(),
     new webpack.optimize.UglifyJsPlugin({
       compress: {
